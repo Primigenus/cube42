@@ -10,13 +10,17 @@ body {
   min-height: 100%;
 }
 
+h1 {
+  text-align: center;
+}
+
 #login-buttons {
   position: fixed;
   top: 20px; right: 200px;
 }
 
 #container {
-  margin-top: 100px;
+  margin-top: 40px;
   min-height: 100%;
   -webkit-perspective: 1000px;
 }
@@ -124,3 +128,10 @@ body {
   margin-right: 2px;
   text-align: center;
 }
+
+#controls {
+  width: 600px;
+  margin: 30px auto;
+  color: #666;
+}
+#controls strong { color: #888;}
