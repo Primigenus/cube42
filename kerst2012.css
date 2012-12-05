@@ -108,7 +108,7 @@ body {
 
 .photon-shader {
   pointer-events: none;
-  -webkit-transition: linear all .3s;
+  -webkit-transition: linear all 1s;
 }
 
 #total {
