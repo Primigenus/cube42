@@ -43,8 +43,32 @@ if (Meteor.isClient) {
     $("#total").html(str);
   }
   
-  function setSolution()
+  var centerCube = 1 + 3 + 9;
+  function resetCube()
   {
+    // turn all cubes on
+    $(".cube").each(function(i, el) {
+      $(el).toggleClass("clicked", i == centerCube);
+    })
+  }
+  
+  function makePuzzle(difficulty)
+  {
+    resetCube()
+    
+    // get a random list of cubes with length difficulty
+    var cubes = [];
+    for (var i = 0; i < 3 * 3 * 3; i++)
+      if (i != centerCube)
+        cubes.push(i);
+    while (cubes.length > difficulty)
+      cubes.splice(~~(Math.random() * cubes.length), 1);
+    
+    // and turn those off
+    for (var i = 0; i < cubes.length; i++)
+      $($(".cube")[cubes[i]]).toggleClass("clicked");
+    
+    // write a solution on the visible faces
     var faces = getFaces();
     var solutions = {
       9 : [[1,2,3,4,5,6,7,7,7], [1,2,3,4,5,6,7,8,6]],
@@ -63,6 +87,9 @@ if (Meteor.isClient) {
         face[i].text(sol.splice(p, 1)[0]);
       }
     }
+
+    resetCube();
+    calcFaces();
   }
 
   Meteor.startup(function() {
@@ -74,17 +101,7 @@ if (Meteor.isClient) {
       $(el).text(1+ ~~(Math.random() * 9));
     });
 
-    $(".cube").each(function(i, el) {
-      if (Math.random() < 0.3 || i == 1 + 3 + 9)
-        $(el).toggleClass("clicked");
-    })
-
-    calcFaces();
-    setSolution();
-
-    $(".cube").each(function(i, el) {
-      $(el).toggleClass("clicked", i == 1 + 3 + 9);
-    })
+    makePuzzle(3);
     
     var faceGroup = new Photon.FaceGroup($("#master-cube")[0], $("figure"), .6, .2, true);
     faceGroup.render(light, true);
