@@ -1,0 +1,126 @@
+/* CSS declarations go here */
+html {
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  background-color: #010;
+  color: #efefef;
+  min-height: 100%;
+}
+
+#login-buttons {
+  position: fixed;
+  top: 20px; right: 200px;
+}
+
+#container {
+  margin-top: 100px;
+  min-height: 100%;
+  -webkit-perspective: 1000px;
+}
+
+#master-cube {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto 40px;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 1s;
+  -webkit-transform-origin: center center -300px;
+}
+
+.cube {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform: translateZ(-100px);
+  -webkit-transition: -webkit-transform 1s;
+  -webkit-transform-origin: center center;
+}
+#top .cube {}
+#middle .cube { -webkit-transform: translateZ(-300px); }
+#bottom .cube { -webkit-transform: translateZ(-500px); }
+
+.cube figure {
+  margin: 0;
+  width: 196px;
+  height: 196px;
+  display: block;
+  position: absolute;
+  border: 2px solid black;
+  line-height: 196px;
+  font-size: 120px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  -webkit-transition: -webkit-transform, background .2s;
+}
+.cube:hover {
+  cursor: pointer;
+}
+
+.cube.clicked {
+  opacity: .1;
+}
+.cube.clicked:hover {
+  opacity: .3;
+}
+.cube.clicked figure {
+  color: transparent;
+  background: hsla(  50, 50%, 50%, 1   ) !important;
+}
+.cube.clicked:hover figure {
+  background: hsla(  50, 80%, 80%, 1   ) !important;
+}
+
+#top .cube:hover { -webkit-transform: translateZ(-70px); }
+#middle .cube:hover { -webkit-transform: translateY(30px) translateZ(-300px); }
+#bottom .cube:hover { -webkit-transform: translateY(30px) translateZ(-500px); }
+
+.front  { background: -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) ); }
+.back  { background: -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1) ); }
+.right  { background: -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1) ); }
+.left  { background: -webkit-radial-gradient(center, hsla(180, 30%, 50%, 1), hsla(180, 30%, 50%, 1) 40%, hsla(180, 50%, 50%, 1) ); }
+.top  { background: -webkit-radial-gradient(center, hsla(240, 30%, 50%, 1), hsla(240, 30%, 50%, 1) 40%, hsla(240, 50%, 50%, 1) ); }
+.bottom  { background: -webkit-radial-gradient(center, hsla(300, 30%, 50%, 1), hsla(300, 30%, 50%, 1) 40%, hsla(300, 50%, 50%, 1) ); }
+
+.cube .front  { -webkit-transform: rotateY(   0deg ) translateZ( 100px ); z-index: 300;}
+.cube .back   { -webkit-transform: rotateX( 180deg ) translateZ( 100px ); z-index: 100;}
+.cube .right  { -webkit-transform: rotateY(  90deg ) translateZ( 100px ); z-index: 200;}
+.cube .left   { -webkit-transform: rotateY( -90deg ) translateZ( 100px ); z-index: 100;}
+.cube .top    { -webkit-transform: rotateX(  90deg ) translateZ( 100px ); z-index: 200;}
+.cube .bottom { -webkit-transform: rotateX( -90deg ) translateZ( 100px ); z-index: 100;}
+
+.cube:nth-child(1) { left: 0; z-index: 100;}
+.cube:nth-child(2n) { left: 200px; z-index: 105;}
+.cube:nth-child(3n) { left: 400px; z-index: 95;}
+
+.cube:nth-child(4) { left: 0; top: 200px; z-index: 200;}
+.cube:nth-child(5) { top: 200px; left: 200px; z-index: 205;}
+.cube:nth-child(6) { top: 200px; z-index: 195;}
+
+.cube:nth-child(7) { left: 0; top: 400px; z-index: 100;}
+.cube:nth-child(8) { top: 400px; z-index: 105;}
+.cube:nth-child(9) { top: 400px; z-index: 95;}
+
+.photon-shader {
+  pointer-events: none;
+  -webkit-transition: linear all .3s;
+}
+
+#total {
+  text-align: center;
+}
+
+.face {
+  font-size: 36px;
+  font-weight: bold;
+  display: inline-block;
+  width: 97px; height: 100px;
+  line-height: 100px;
+  margin-right: 2px;
+  text-align: center;
+}

@@ -1,0 +1,68 @@
+<head>
+  <title>kerst2012</title>
+</head>
+
+<body>
+  <h1>Kerst 2012</h1>
+
+  {{#if currentUser}}
+    <p>Hello {{> currentUser}}!</p>
+  {{/if}}
+
+  {{loginButtons}}
+
+  {{> body}}
+</body>
+
+<template name="body">
+  <section id="container">
+    <div id="master-cube">
+      <div class="layer" id="top">
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+      </div>
+      <div class="layer" id="middle">
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+      </div>
+      <div class="layer" id="bottom">
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+        {{> cube}}
+      </div>
+    </div>
+    <div id="total">
+    </div>
+  </section>
+</template>
+
+<template name="cube">
+  <div class="cube">
+    <figure class="front"></figure>
+    <figure class="back"></figure>
+    <figure class="right"></figure>
+    <figure class="left"></figure>
+    <figure class="top"></figure>
+    <figure class="bottom"></figure>
+  </div>
+</template>
