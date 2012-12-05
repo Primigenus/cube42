@@ -1,6 +1,5 @@
 function addCube(arr, x, y, z, type) {
-  var text = getCube(x, y, z, type).text();
-  arr.push(text*1 || 0);
+  arr.push(getCube(x, y, z, type));
 }
 
 function calcFront() {

@@ -29,14 +29,40 @@ if (Meteor.isClient) {
     return getCube(x, y, z, "cube").hasClass("clicked");
   }
 
+  function getFaces() {
+    return {front: calcFront(), back: calcBack(), left: calcLeft(), right: calcRight(), top: calcTop(), bottom: calcBottom()};
+  }
+
   function calcFaces() {
-    var results = {front: calcFront(), back: calcBack(), left: calcLeft(), right: calcRight(), top: calcTop(), bottom: calcBottom()};
+    var results = getFaces();
     var str = "";
     for (var face in results) {
       //str = str.substr(0, str.length - 3) + " = " + _.reduce(results[face], function(x,y) {return x+y;}, 0) + "<br/>";
-      str += "<span class='face "+face+"'>" + _.reduce(results[face], function(x,y) { return x+y;}, 0) + "</span>";
+      str += "<span class='face "+face+"'>" + _.reduce(results[face], function(x,y) { return x + 1*y.text();}, 0) + "</span>";
     }
     $("#total").html(str);
+  }
+  
+  function setSolution()
+  {
+    var faces = getFaces();
+    var solutions = {
+      9 : [[1,2,3,4,5,6,7,7,7], [1,2,3,4,5,6,7,8,6]],
+      8 : [[1,2,4,5,6,7,8,9], [1,3,3,5,6,7,8,9]],
+      7 : [[3,4,5,6,7,8,9], [3,1,8,6,7,8,9]],
+      6 : [[5,6,7,7,8,9]]
+    };
+    for (var id in faces)
+    {
+      var face = faces[id];
+      var sols = solutions[face.length];
+      var sol = sols[~~(Math.random() * sols.length)].concat([]);
+      for (var i = 0; i < face.length; i++)
+      {
+        var p = ~~(Math.random() * sol.length);
+        face[i].text(sol.splice(p, 1)[0]);
+      }
+    }
   }
 
   Meteor.startup(function() {
@@ -49,12 +75,17 @@ if (Meteor.isClient) {
     });
 
     $(".cube").each(function(i, el) {
-      if (Math.random() < 0.3)
+      if (Math.random() < 0.3 || i == 1 + 3 + 9)
         $(el).toggleClass("clicked");
     })
 
     calcFaces();
+    setSolution();
 
+    $(".cube").each(function(i, el) {
+      $(el).toggleClass("clicked", i == 1 + 3 + 9);
+    })
+    
     var faceGroup = new Photon.FaceGroup($("#master-cube")[0], $("figure"), .6, .2, true);
     faceGroup.render(light, true);
 /*
