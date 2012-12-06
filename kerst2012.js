@@ -70,27 +70,43 @@ if (Meteor.isClient) {
     for (var i = 0; i < onCubes.length; i++)
       shuffles[i] = mkShuffled(1, 9);
     
-    findSolution(0);
+    var t0 = 1*new Date();
+    try
+    {
+      findSolution(0);
+    }
+    catch(e)
+    {
+      // took too long, retry
+      return makePuzzle(difficulty);
+    }
     
     resetCube();
     calcFaces();
     
+    return;
+    
     function findSolution(depth)
     {
+      if (new Date() - t0 > 300)
+        throw "too slow";
       if (!isStillPossible())
         return false;
       if (depth == onCubes.length)
-        return true;
+        return true; // Found a valid puzzle!
       var cubeid = onCubes[depth];
       var shuffled = shuffles[depth];
       for (var i = 0; i < 9; i++)
       {
+        // Try a value
         updateState(cubeid, shuffled[i]);
         if (findSolution(depth + 1))
         {
+          // It worked, set it.
           setCubeValue($($(".cube")[cubeid]), shuffled[i]);
           return true;
         }
+        // Undo it
         resetState(cubeid, shuffled[i])
       }
       return false;
@@ -122,9 +138,9 @@ if (Meteor.isClient) {
       {
         var sum = state[id].sum;
         var emptyCount = state[id].emptyCount;
-        if (sum + emptyCount > 42)
+        if (sum + emptyCount * (emptyCount + 1) / 3 > 42)
           return false;
-        if (sum + 9 * emptyCount < 42)
+        if (sum + 10 * emptyCount - emptyCount * (emptyCount + 1) / 3 < 42)
           return false;
       }
       return true;
@@ -151,10 +167,7 @@ if (Meteor.isClient) {
     
     $(".cube").each(function(i, el) {
       $(el).attr("nr", i);
-    });
-
-    $("figure").each(function(i, el) {
-      $(el).text(1+ ~~(Math.random() * 9));
+      setCubeValue($(el), 1+ ~~(Math.random() * 9))
     });
 
     makePuzzle(3);
