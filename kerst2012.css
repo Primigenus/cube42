@@ -58,9 +58,10 @@ h1 {
   width: 200px;
   height: 200px;
   position: absolute;
+  -webkit-user-select: none;
   -webkit-transform-style: preserve-3d;
   -webkit-transform: translateZ(-100px);
-  -webkit-transition: -webkit-transform 1s;
+  -webkit-transition: -webkit-transform, opacity 1s;
   -webkit-transform-origin: center center;
 }
 #top .cube {}
@@ -84,6 +85,7 @@ h1 {
 }
 .cube:hover {
   cursor: pointer;
+  opacity: .3;
 }
 
 .cube.clicked {
@@ -97,10 +99,6 @@ h1 {
 }
 .cube.clicked:hover figure {
 }
-
-#top .cube:hover { -webkit-transform: translateZ(-70px); }
-#middle .cube:hover { -webkit-transform: translateY(30px) translateZ(-300px); }
-#bottom .cube:hover { -webkit-transform: translateY(30px) translateZ(-500px); }
 
 .front  { background: -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) ); }
 .back  { background: -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1) ); }

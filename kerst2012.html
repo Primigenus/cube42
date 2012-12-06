@@ -23,11 +23,9 @@
 </template>
 
 <template name="body">
-  {{#if isLoading}}
-    {{> loading}}
-  {{/if}}
+  {{> loading}}
   <section id="container">
-    <div id="level">Level {{currentLevel}}</div>
+    <div id="level">Level 1</div>
     <div id="master-cube">
       <div class="layer" id="top">
         {{> cube}}

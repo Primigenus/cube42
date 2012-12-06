@@ -6,7 +6,7 @@ if (Meteor.isClient) {
     var toh;
 
     //Session.set("loading", false);
-    //Session.set("level", level);
+    Session.set("level", level);
 
     // add cubes
     $(".cube").each(function(i, el) {
@@ -34,30 +34,28 @@ if (Meteor.isClient) {
       else if (e.which == 40) // down
         currentMatrix = "rotate3d(1, 0, 0, -90deg) " + currentMatrix;
 
-      $("#master-cube").css("-webkit-transform", currentMatrix);
+      if (e.which == 37 || e.which == 39 || e.which == 38 || e.which == 40) {
+        $("#master-cube").css("-webkit-transform", currentMatrix);
 
-      toh = Meteor.setTimeout(function() {
-        currentMatrix = $("#master-cube").css("-webkit-transform");
-        if (currentMatrix == "none")
-          currentMatrix = "";
-      }, 1050);
+        toh = Meteor.setTimeout(function() {
+          currentMatrix = $("#master-cube").css("-webkit-transform");
+          if (currentMatrix == "none")
+            currentMatrix = "";
+        }, 1050);
+      }
+
     });
   });
 
   Template.body.events({
     'click .cube': function(evt) {
       $(evt.target).parent().toggleClass("clicked");
-      calcFaces();
+      calcFaces($(evt.target).text());
     }
   });
 
   Template.body.isLoading = function() {
-    return Session.equals('loading', true);
-  }
-
-  Template.body.currentLevel = function() {
-    return level;
-    //return Session.get('level') * 1;
+    //return Session.equals('loading', true);
   }
 
   function getCube(x, y, z, type) {
@@ -86,10 +84,11 @@ if (Meteor.isClient) {
 
     if (count42 == 6)
     {
-      var level = Session.get('level') * 1;
+      //var level = Session.get('level') * 1;
       level++;
-      Session.set("level", level);
+      //Session.set("level", level);
       alert("Gelukt! Op naar level " + level);
+      $("#level").text("Level " + level);
       makePuzzle(level);
     }
   }
@@ -100,11 +99,12 @@ if (Meteor.isClient) {
     // turn all cubes on
     $(".cube").each(function(i, el) {
       $(el).toggleClass("clicked", i == centerCube);
-    })
+    });
+    $("#master-cube").css("-webkit-transform", "");
   }
 
   function removeLoading() {
-    Session.set("loading", false);
+    $("#loading").hide();
   }
 
   function makePuzzle(difficulty)
@@ -153,7 +153,6 @@ if (Meteor.isClient) {
     removeLoading();
     resetCube();
     calcFaces();
-    console.log($("#container").html());
     return;
 
     function findSolution(depth)
