@@ -5,7 +5,7 @@ html {
 
 body {
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  background-color: #010;
+  background-color: #000;
   color: #efefef;
   min-height: 100%;
 }
@@ -75,10 +75,8 @@ h1 {
 }
 .cube.clicked figure {
   color: transparent;
-  background: hsla(  50, 50%, 50%, 1   ) !important;
 }
 .cube.clicked:hover figure {
-  background: hsla(  50, 80%, 80%, 1   ) !important;
 }
 
 #top .cube:hover { -webkit-transform: translateZ(-70px); }
