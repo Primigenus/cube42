@@ -1,4 +1,6 @@
 if (Meteor.isClient) {
+  
+  var level = 1;
 
   Template.body.events({
     'click .cube': function(evt) {
@@ -23,11 +25,21 @@ if (Meteor.isClient) {
   function calcFaces() {
     var results = getFaces();
     var str = "";
+    var count42 = 0;
     for (var face in results) {
-      //str = str.substr(0, str.length - 3) + " = " + _.reduce(results[face], function(x,y) {return x+y;}, 0) + "<br/>";
-      str += "<span class='face "+face+"'>" + _.reduce(results[face], function(x,y) { return x + 1*y.text();}, 0) + "</span>";
+      var total = _.reduce(results[face], function(x,y) { return x + 1*y.text();}, 0);
+      if (total == 42)
+        count42++;
+      str += "<span class='face "+face+"'>" + total + "</span>";
     }
     $("#total").html(str);
+    
+    if (count42 == 6)
+    {
+      level++;
+      alert("Gelukt! Op naar level " + level);
+      makePuzzle(level);
+    }
   }
 
   var centerCube = 1 + 3 + 9;
@@ -167,10 +179,10 @@ if (Meteor.isClient) {
 
     $(".cube").each(function(i, el) {
       $(el).attr("nr", i);
-      setCubeValue($(el), 1+ ~~(Math.random() * 9))
+      setCubeValue($(el), 1+ ~~(Math.random() * 9));
     });
 
-    makePuzzle(3);
+    makePuzzle(level);
 
     $(document).mousemove(function(e) {
       $("#container").css("-webkit-perspective", Math.max(300, e.clientX) + "px");
