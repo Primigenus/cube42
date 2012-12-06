@@ -29,7 +29,7 @@ if (Meteor.isClient) {
     }
     $("#total").html(str);
   }
-  
+
   var centerCube = 1 + 3 + 9;
   function resetCube()
   {
@@ -38,14 +38,14 @@ if (Meteor.isClient) {
       $(el).toggleClass("clicked", i == centerCube);
     })
   }
-  
+
   function makePuzzle(difficulty)
   {
     resetCube()
-    
+
     var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
     var offCubes = onCubes.splice(0, difficulty);
-    
+
     // and turn those off
     for (var i = 0; i < offCubes.length; i++)
       $($(".cube")[offCubes[i]]).toggleClass("clicked");
@@ -64,12 +64,12 @@ if (Meteor.isClient) {
         cubeEffects[cubeid].push(id);
       }
     }
-     
+
     // set others to zero
     var shuffles = [];
     for (var i = 0; i < onCubes.length; i++)
       shuffles[i] = mkShuffled(1, 9);
-    
+
     var t0 = 1*new Date();
     try
     {
@@ -80,12 +80,12 @@ if (Meteor.isClient) {
       // took too long, retry
       return makePuzzle(difficulty);
     }
-    
+
     resetCube();
     calcFaces();
-    
+
     return;
-    
+
     function findSolution(depth)
     {
       if (new Date() - t0 > 300)
@@ -111,7 +111,7 @@ if (Meteor.isClient) {
       }
       return false;
     }
-    
+
     function updateState(cubeid, value)
     {
       for (var i = 0; i < cubeEffects[cubeid].length; i++)
@@ -121,7 +121,7 @@ if (Meteor.isClient) {
         s.emptyCount--;
       }
     }
-    
+
     function resetState(cubeid, value)
     {
       for (var i = 0; i < cubeEffects[cubeid].length; i++)
@@ -131,7 +131,7 @@ if (Meteor.isClient) {
         s.emptyCount++;
       }
     }
-    
+
     function isStillPossible()
     {
       for (var id in state)
@@ -146,7 +146,7 @@ if (Meteor.isClient) {
       return true;
     }
   }
-  
+
   function setCubeValue($cube, value)
   {
     $cube.children().each(function (i, el) { $(el).text(value); });
@@ -164,7 +164,7 @@ if (Meteor.isClient) {
   Meteor.startup(function() {
     var currentMatrix = "";
     var toh;
-    
+
     $(".cube").each(function(i, el) {
       $(el).attr("nr", i);
       setCubeValue($(el), 1+ ~~(Math.random() * 9))
@@ -184,13 +184,13 @@ if (Meteor.isClient) {
       clearTimeout(toh);
 
       if (e.which == 37) // left
-        currentMatrix = "rotate3d(0, 1, 0, 90deg) " + currentMatrix;
-      else if (e.which == 39) // right
         currentMatrix = "rotate3d(0, 1, 0, -90deg) " + currentMatrix;
+      else if (e.which == 39) // right
+        currentMatrix = "rotate3d(0, 1, 0, 90deg) " + currentMatrix;
       else if (e.which == 38) // up
-        currentMatrix = "rotate3d(1, 0, 0, -90deg) " + currentMatrix;
-      else if (e.which == 40) // down
         currentMatrix = "rotate3d(1, 0, 0, 90deg) " + currentMatrix;
+      else if (e.which == 40) // down
+        currentMatrix = "rotate3d(1, 0, 0, -90deg) " + currentMatrix;
 
       $("#master-cube").css("-webkit-transform", currentMatrix);
 
