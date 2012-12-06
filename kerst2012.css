@@ -10,8 +10,18 @@ body {
   min-height: 100%;
 }
 
-h1 {
+h1, #level {
   text-align: center;
+  font-size: 24px;
+  width: 576px;
+  padding: 10px;
+  background-color: #957;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.4);
+  margin: 0 auto 40px auto;
+}
+h1 {
+  background-color: #759;
+  margin: 0 auto 2px auto;
 }
 
 #login-buttons {
@@ -19,8 +29,17 @@ h1 {
   top: 20px; right: 200px;
 }
 
+#loading {
+  position: absolute;
+  top: 10px; right: 10px;
+  z-index: 99;
+  background-color: #E6E629;
+  color: #000;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
 #container {
-  margin-top: 40px;
   min-height: 100%;
   -webkit-perspective: 1000px;
 }

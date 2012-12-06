@@ -1,14 +1,64 @@
 if (Meteor.isClient) {
-  
   var level = 1;
+
+  Meteor.startup(function() {
+    var currentMatrix = "";
+    var toh;
+
+    //Session.set("loading", false);
+    //Session.set("level", level);
+
+    // add cubes
+    $(".cube").each(function(i, el) {
+      $(el).attr("data-nr", i);
+      setCubeValue($(el), 1+ ~~(Math.random() * 9));
+    });
+
+    makePuzzle(level);
+
+    // animate cube onload to show that it's 3d
+    $("#master-cube").css("-webkit-transform", "rotate3d(0, 1, 0, -360deg) " + currentMatrix);
+    Meteor.setTimeout(function() {
+      $("#master-cube").css("-webkit-transform", "rotate3d(0, 1, 0, 0deg) " + currentMatrix);
+    }, 1000);
+
+    $(document).keyup(function(e) {
+      Meteor.clearTimeout(toh);
+
+      if (e.which == 37) // left
+        currentMatrix = "rotate3d(0, 1, 0, -90deg) " + currentMatrix;
+      else if (e.which == 39) // right
+        currentMatrix = "rotate3d(0, 1, 0, 90deg) " + currentMatrix;
+      else if (e.which == 38) // up
+        currentMatrix = "rotate3d(1, 0, 0, 90deg) " + currentMatrix;
+      else if (e.which == 40) // down
+        currentMatrix = "rotate3d(1, 0, 0, -90deg) " + currentMatrix;
+
+      $("#master-cube").css("-webkit-transform", currentMatrix);
+
+      toh = Meteor.setTimeout(function() {
+        currentMatrix = $("#master-cube").css("-webkit-transform");
+        if (currentMatrix == "none")
+          currentMatrix = "";
+      }, 1050);
+    });
+  });
 
   Template.body.events({
     'click .cube': function(evt) {
-      // template data, if any, is available in 'this'
       $(evt.target).parent().toggleClass("clicked");
       calcFaces();
     }
   });
+
+  Template.body.isLoading = function() {
+    return Session.equals('loading', true);
+  }
+
+  Template.body.currentLevel = function() {
+    return level;
+    //return Session.get('level') * 1;
+  }
 
   function getCube(x, y, z, type) {
     return $($("." + type)[x + 3*y + 9*z]);
@@ -33,10 +83,12 @@ if (Meteor.isClient) {
       str += "<span class='face "+face+"'>" + total + "</span>";
     }
     $("#total").html(str);
-    
+
     if (count42 == 6)
     {
+      var level = Session.get('level') * 1;
       level++;
+      Session.set("level", level);
       alert("Gelukt! Op naar level " + level);
       makePuzzle(level);
     }
@@ -51,9 +103,14 @@ if (Meteor.isClient) {
     })
   }
 
+  function removeLoading() {
+    Session.set("loading", false);
+  }
+
   function makePuzzle(difficulty)
   {
-    resetCube()
+    console.log("Make puzzle", difficulty, "...");
+    resetCube();
 
     var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
     var offCubes = onCubes.splice(0, difficulty);
@@ -71,7 +128,7 @@ if (Meteor.isClient) {
       state[id] = { sum: 0, emptyCount: face.length };
       for (var i = 0; i < face.length; i++)
       {
-        var cubeid = face[i].parent().attr("nr");
+        var cubeid = face[i].parent().attr("data-nr");
         cubeEffects[cubeid] = cubeEffects[cubeid] || [];
         cubeEffects[cubeid].push(id);
       }
@@ -93,9 +150,10 @@ if (Meteor.isClient) {
       return makePuzzle(difficulty);
     }
 
+    removeLoading();
     resetCube();
     calcFaces();
-
+    console.log($("#container").html());
     return;
 
     function findSolution(depth)
@@ -161,7 +219,9 @@ if (Meteor.isClient) {
 
   function setCubeValue($cube, value)
   {
-    $cube.children().each(function (i, el) { $(el).text(value); });
+    $cube.children().each(function (i, el) {
+      $(el).text(value);
+    });
   }
 
   function mkShuffled(min, max, skip)
@@ -172,47 +232,6 @@ if (Meteor.isClient) {
         a.splice(~~(Math.random() * (a.length + 1)), 0, i);
     return a;
   }
-
-  Meteor.startup(function() {
-    var currentMatrix = "";
-    var toh;
-
-    $(".cube").each(function(i, el) {
-      $(el).attr("nr", i);
-      setCubeValue($(el), 1+ ~~(Math.random() * 9));
-    });
-
-    makePuzzle(level);
-
-    $(document).mousemove(function(e) {
-      $("#container").css("-webkit-perspective", Math.max(300, e.clientX) + "px");
-      //$("#master-cube").css("-webkit-transform", "translateZ(" + ~~(-e.clientY/10) + "px) rotateY(" + ~~(e.clientY/3) + "deg)");
-    });
-
-    $(document).keyup(function(e) {
-      var key = e.which;
-      var rotation = "";
-
-      clearTimeout(toh);
-
-      if (e.which == 37) // left
-        currentMatrix = "rotate3d(0, 1, 0, -90deg) " + currentMatrix;
-      else if (e.which == 39) // right
-        currentMatrix = "rotate3d(0, 1, 0, 90deg) " + currentMatrix;
-      else if (e.which == 38) // up
-        currentMatrix = "rotate3d(1, 0, 0, 90deg) " + currentMatrix;
-      else if (e.which == 40) // down
-        currentMatrix = "rotate3d(1, 0, 0, -90deg) " + currentMatrix;
-
-      $("#master-cube").css("-webkit-transform", currentMatrix);
-
-      toh = setTimeout(function() {
-        currentMatrix = $("#master-cube").css("-webkit-transform");
-        if (currentMatrix == "none")
-        currentMatrix = "";
-      }, 1050);
-    });
-  });
 }
 
 if (Meteor.isServer) {

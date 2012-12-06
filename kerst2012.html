@@ -1,9 +1,15 @@
 <head>
   <title>Rahul's Cube</title>
+  <link href='http://fonts.googleapis.com/css?family=Englebert' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
   <h1>Rahul's Cube</h1>
+
+  <!--<div id="controls">
+    <p>The goal of this game is to reach a total of 42 for each colored face of the big cube. You accomplish this by hiding small cubes and rotating the big cube.</p>
+    <p>Use the <strong>arrow keys</strong> to rotate the big cube around its center. <strong>Click on small cubes</strong> to hide or show them. The numbers you can see at any given time contribute to that face's total score.</p>
+  </div>-->
 
   {{#if currentUser}}
     <p>Hello {{> currentUser}}!</p>
@@ -12,8 +18,16 @@
   {{> body}}
 </body>
 
+<template name="loading">
+  <div id="loading">Loading...</div>
+</template>
+
 <template name="body">
+  {{#if isLoading}}
+    {{> loading}}
+  {{/if}}
   <section id="container">
+    <div id="level">Level {{currentLevel}}</div>
     <div id="master-cube">
       <div class="layer" id="top">
         {{> cube}}
@@ -51,11 +65,7 @@
     </div>
     <div id="total">
     </div>
-    <div id="controls">
-      <p>The goal of this game is to reach a total of 42 for each colored face of the big cube. You accomplish this by hiding small cubes and rotating the big cube.</p>
-      <p>Use the <strong>arrow keys</strong> to rotate the big cube around its center. <strong>Click on small cubes</strong> to hide or show them. The numbers you can see at any given time contribute to that face's total score.</p>
-      <p>Good luck!</p>
-    </div>
+
   </section>
 </template>
 
