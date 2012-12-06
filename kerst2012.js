@@ -17,7 +17,7 @@ if (Meteor.isClient) {
     makePuzzle(level);
 
     // animate cube onload to show that it's 3d
-    $("#master-cube").css("-webkit-transform", "rotate3d(0, 1, 0, -360deg) " + currentMatrix);
+    $("#master-cube").css("-webkit-transform", "rotate3d(0, 1, 0, 360deg) " + currentMatrix);
     Meteor.setTimeout(function() {
       $("#master-cube").css("-webkit-transform", "rotate3d(0, 1, 0, 0deg) " + currentMatrix);
     }, 1000);
@@ -56,6 +56,10 @@ if (Meteor.isClient) {
 
   Template.body.isLoading = function() {
     //return Session.equals('loading', true);
+  }
+
+  Template.body.explanation = function() {
+    if (level == 1) return "Click on a cube to begin."
   }
 
   function getCube(x, y, z, type) {

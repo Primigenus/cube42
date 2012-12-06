@@ -1,5 +1,7 @@
 <head>
+  <meta charset="utf-8">
   <title>Rahul's Cube</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <link href='http://fonts.googleapis.com/css?family=Englebert' rel='stylesheet' type='text/css'>
 </head>
 
@@ -26,6 +28,11 @@
   {{> loading}}
   <section id="container">
     <div id="level">Level 1</div>
+
+    <div id="explanation">
+      {{explanation}}
+    </div>
+
     <div id="master-cube">
       <div class="layer" id="top">
         {{> cube}}
