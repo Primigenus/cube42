@@ -10,18 +10,22 @@ body {
   min-height: 100%;
 }
 
-h1, #level {
+h1, #level, #explanation {
   text-align: center;
   font-size: 24px;
   width: 576px;
   padding: 10px;
-  background-color: #957;
   text-shadow: 0 -1px 0 rgba(0,0,0,.4);
-  margin: 0 auto 40px auto;
+  margin: 0 auto 2px auto;
 }
 h1 {
-  background-color: #759;
-  margin: 0 auto 2px auto;
+  background: -webkit-linear-gradient(top, #222, #333, #222 );
+}
+#level {
+  background: -webkit-linear-gradient(top, #777, #999, #777 );
+}
+#explanation {
+  background: -webkit-linear-gradient(top, #434, #646, #434 );
 }
 
 #login-buttons {
@@ -48,7 +52,7 @@ h1 {
   position: relative;
   width: 600px;
   height: 600px;
-  margin: 0 auto 40px;
+  margin: 0 auto 2px;
   -webkit-transform-style: preserve-3d;
   -webkit-transition: -webkit-transform 1s;
   -webkit-transform-origin: center center -300px;
@@ -139,12 +143,13 @@ h1 {
   font-size: 36px;
   font-weight: bold;
   display: inline-block;
-  width: 97px; height: 100px;
+  width: 96px; height: 100px;
   line-height: 100px;
-  margin-right: 2px;
+  margin-right: 4px;
   text-align: center;
   text-shadow: 0 -1px 1px rgba(0,0,0,.4);
 }
+.face:nth-child(6) { margin: 0;}
 
 #controls {
   width: 600px;
