@@ -1,18 +1,5 @@
 if (Meteor.isClient) {
 
-  window.requestAnimFrame = (function () {
-    return window.requestAnimationFrame
-      || window.webkitRequestAnimationFrame
-      || window.mozRequestAnimationFrame
-      || window.oRequestAnimationFrame
-      || window.msRequestAnimationFrame
-      || function (callback, element) {
-        window.setTimeout(function () {
-          callback(+new Date);
-        }, 10);
-      };
-  })();
-
   Template.body.events({
     'click .cube': function(evt) {
       // template data, if any, is available in 'this'
@@ -56,63 +43,122 @@ if (Meteor.isClient) {
   {
     resetCube()
     
-    // get a random list of cubes with length difficulty
-    var cubes = [];
-    for (var i = 0; i < 3 * 3 * 3; i++)
-      if (i != centerCube)
-        cubes.push(i);
-    while (cubes.length > difficulty)
-      cubes.splice(~~(Math.random() * cubes.length), 1);
+    var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
+    var offCubes = onCubes.splice(0, difficulty);
     
     // and turn those off
-    for (var i = 0; i < cubes.length; i++)
-      $($(".cube")[cubes[i]]).toggleClass("clicked");
-    
-    // write a solution on the visible faces
+    for (var i = 0; i < offCubes.length; i++)
+      $($(".cube")[offCubes[i]]).toggleClass("clicked");
+
     var faces = getFaces();
-    var solutions = {
-      9 : [[1,2,3,4,5,6,7,7,7], [1,2,3,4,5,6,7,8,6]],
-      8 : [[1,2,4,5,6,7,8,9], [1,3,3,5,6,7,8,9]],
-      7 : [[3,4,5,6,7,8,9], [3,1,8,6,7,8,9]],
-      6 : [[5,6,7,7,8,9]]
-    };
+    var state = {};
+    var cubeEffects = {};
     for (var id in faces)
     {
       var face = faces[id];
-      var sols = solutions[face.length];
-      var sol = sols[~~(Math.random() * sols.length)].concat([]);
+      state[id] = { sum: 0, emptyCount: face.length };
       for (var i = 0; i < face.length; i++)
       {
-        var p = ~~(Math.random() * sol.length);
-        face[i].text(sol.splice(p, 1)[0]);
+        var cubeid = face[i].parent().attr("nr");
+        cubeEffects[cubeid] = cubeEffects[cubeid] || [];
+        cubeEffects[cubeid].push(id);
       }
     }
-
+     
+    // set others to zero
+    var shuffles = [];
+    for (var i = 0; i < onCubes.length; i++)
+      shuffles[i] = mkShuffled(1, 9);
+    
+    findSolution(0);
+    
     resetCube();
     calcFaces();
+    
+    function findSolution(depth)
+    {
+      if (!isStillPossible())
+        return false;
+      if (depth == onCubes.length)
+        return true;
+      var cubeid = onCubes[depth];
+      var shuffled = shuffles[depth];
+      for (var i = 0; i < 9; i++)
+      {
+        updateState(cubeid, shuffled[i]);
+        if (findSolution(depth + 1))
+        {
+          setCubeValue($($(".cube")[cubeid]), shuffled[i]);
+          return true;
+        }
+        resetState(cubeid, shuffled[i])
+      }
+      return false;
+    }
+    
+    function updateState(cubeid, value)
+    {
+      for (var i = 0; i < cubeEffects[cubeid].length; i++)
+      {
+        var s = state[cubeEffects[cubeid][i]];
+        s.sum += value;
+        s.emptyCount--;
+      }
+    }
+    
+    function resetState(cubeid, value)
+    {
+      for (var i = 0; i < cubeEffects[cubeid].length; i++)
+      {
+        var s = state[cubeEffects[cubeid][i]];
+        s.sum -= value;
+        s.emptyCount++;
+      }
+    }
+    
+    function isStillPossible()
+    {
+      for (var id in state)
+      {
+        var sum = state[id].sum;
+        var emptyCount = state[id].emptyCount;
+        if (sum + emptyCount > 42)
+          return false;
+        if (sum + 9 * emptyCount < 42)
+          return false;
+      }
+      return true;
+    }
+  }
+  
+  function setCubeValue($cube, value)
+  {
+    $cube.children().each(function (i, el) { $(el).text(value); });
+  }
+
+  function mkShuffled(min, max, skip)
+  {
+    var a = [];
+    for (var i = min; i <= max; i++)
+      if (i != skip)
+        a.splice(~~(Math.random() * (a.length + 1)), 0, i);
+    return a;
   }
 
   Meteor.startup(function() {
-    var light = new Photon.Light(0, 0, 100);
     var currentMatrix = "";
     var toh;
+    
+    $(".cube").each(function(i, el) {
+      $(el).attr("nr", i);
+    });
 
     $("figure").each(function(i, el) {
       $(el).text(1+ ~~(Math.random() * 9));
     });
 
     makePuzzle(3);
-    
-    var faceGroup = new Photon.FaceGroup($("#master-cube")[0], $("figure"), .6, .2, true);
-    faceGroup.render(light, true);
-/*
-    function rotateLight() {
-      light.moveTo(Math.sin(new Date() / 1000) * 300, 0, 100);
-      faceGroup.render(light, true, true, true);
-      requestAnimFrame(rotateLight);
-    }
-    requestAnimFrame(rotateLight);
-*/
+
     $(document).mousemove(function(e) {
       $("#container").css("-webkit-perspective", Math.max(300, e.clientX) + "px");
       //$("#master-cube").css("-webkit-transform", "translateZ(" + ~~(-e.clientY/10) + "px) rotateY(" + ~~(e.clientY/3) + "deg)");
@@ -136,12 +182,9 @@ if (Meteor.isClient) {
       $("#master-cube").css("-webkit-transform", currentMatrix);
 
       toh = setTimeout(function() {
-        if (currentMatrix == "none")
-          currentMatrix = "";
-
         currentMatrix = $("#master-cube").css("-webkit-transform");
-        faceGroup.render(light, true, true, true);
-
+        if (currentMatrix == "none")
+        currentMatrix = "";
       }, 1050);
     });
   });
