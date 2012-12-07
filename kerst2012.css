@@ -130,9 +130,9 @@ h1 {
 .cube:nth-child(8) { top: 400px; z-index: 105;}
 .cube:nth-child(9) { top: 400px; z-index: 95;}
 
-.photon-shader {
-  pointer-events: none;
-  -webkit-transition: linear all 1s;
+.cube figure span {
+  display: block;
+  -webkit-transition: -webkit-transform, .3s;
 }
 
 #total {
