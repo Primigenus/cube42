@@ -6,7 +6,10 @@
 </head>
 
 <body>
-  <h1>Rahul's Cube</h1>
+  <header>
+    <h1>Rahul's Cube - <span id="level">Level 1</span></h1>
+    {{> explanation}}
+  </header>
 
   <!--<div id="controls">
     <p>The goal of this game is to reach a total of 42 for each colored face of the big cube. You accomplish this by hiding small cubes and rotating the big cube.</p>
@@ -24,15 +27,15 @@
   <div id="loading">Loading...</div>
 </template>
 
+<template name="explanation">
+  <div id="explanation">
+    {{message}}
+  </div>
+</template>
+
 <template name="body">
   {{> loading}}
   <section id="container">
-    <div id="level">Level 1</div>
-
-    <div id="explanation">
-      {{explanation}}
-    </div>
-
     <div id="master-cube">
       <div class="layer" id="top">
         {{> cube}}
@@ -70,7 +73,6 @@
     </div>
     <div id="total">
     </div>
-
   </section>
 </template>
 

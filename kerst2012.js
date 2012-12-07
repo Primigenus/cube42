@@ -1,12 +1,20 @@
 if (Meteor.isClient) {
   var level = 1;
   var actions = [];
+  var messages = [
+    "Click the yellow cube to begin.",
+    "Good job! You can toggle cubes on and off.",
+    "The numbers at the bottom show the total of all numbers on a face.",
+    "Your goal is to toggle cubes on and off until each face totals 42."
+  ];
+  var showingFace = "front";
+  var currentMatrix = "";
 
   Meteor.startup(function() {
-    var currentMatrix = "";
     var toh;
 
     //Session.set("loading", false);
+    Session.set("showMessage", 0);
     Session.set("level", level);
 
     // add cubes
@@ -17,19 +25,53 @@ if (Meteor.isClient) {
 
     makePuzzle(level);
 
+    $($(".cube .front")[3]).css("box-shadow", "inset 0 0 30px yellow").find("span").css("color", "yellow");
+
     // animate cube onload to show that it's 3d
-    $("#master-cube").css("-webkit-transition-duration", "2s");
-    $("#master-cube").css("-webkit-transform", "rotate3d(0, 1, 0, 360deg) " + currentMatrix);
+    $("#master-cube").css({
+      "-webkit-transition-duration": "2s",
+      "-webkit-transform": "rotate3d(0, 1, 0, 360deg) " + currentMatrix
+    });
     Meteor.setTimeout(function() {
-      $("#master-cube").css("-webkit-transition-duration", "0s");
-      $("#master-cube").css("-webkit-transform", "rotate3d(0, 1, 0, 0deg) " + currentMatrix);
+      $("#master-cube").css({
+        "-webkit-transition-duration": "0s",
+        "-webkit-transform": "rotate3d(0, 1, 0, 0deg) " + currentMatrix
+      });
       Meteor.setTimeout(function() {
         $("#master-cube").css("-webkit-transition-duration", "1s");
-      }, 1)
+      }, 1);
     }, 3000);
 
     $(document).keyup(function(e) {
       Meteor.clearTimeout(toh);
+
+      var dir = e.which;
+
+      // left
+      /*if (dir == 37 && showingFace == "front") return showFace("right");
+      if (dir == 37 && showingFace == "left") return showFace("front");
+      if (dir == 37 && showingFace == "back") return showFace("left");
+      if (dir == 37 && showingFace == "right") return showFace("back");
+      if (dir == 37 && showingFace == "top") return showFace("left");
+
+      // right
+      if (dir == 39 && showingFace == "front") return showFace("left");
+      if (dir == 39 && showingFace == "left") return showFace("back");
+      if (dir == 39 && showingFace == "back") return showFace("right");
+      if (dir == 39 && showingFace == "right") return showFace("front");
+      if (dir == 39 && showingFace == "top") return showFace("right");
+
+      // up
+      if (dir == 38 && (showingFace == "front" || showingFace == "left" || showingFace == "right")) return showFace("top");
+      if (dir == 38 && showingFace == "back") return showFace("top");
+      if (dir == 38 && showingFace == "bottom") return showFace("back");
+      if (dir == 38 && showingFace == "top") return showFace("front");
+
+      // down
+      if (dir == 40 && (showingFace == "front" || showingFace == "left" || showingFace == "right")) return showFace("bottom");
+      if (dir == 40 && showingFace == "back") return showFace("top");
+      if (dir == 40 && showingFace == "bottom") return showFace("back");
+      if (dir == 40 && showingFace == "top") return showFace("front");*/
 
       if (e.which == 37) {// left
         currentMatrix = "rotate3d(0, 1, 0, -90deg) " + currentMatrix;
@@ -49,8 +91,6 @@ if (Meteor.isClient) {
       }
 
       if (e.which == 37 || e.which == 39 || e.which == 38 || e.which == 40) {
-        fixTextOrientation();
-
         $("#master-cube").css("-webkit-transform", currentMatrix);
 
         toh = Meteor.setTimeout(function() {
@@ -63,48 +103,42 @@ if (Meteor.isClient) {
     });
   });
 
-  function fixTextOrientation() {
-    //$(".cube").css("-webkit-transform", "rotate3d(0,0,0,0) translateZ(100px)");
-    // get first cube in top/middle/bottom
-    // if offset.left < offset.top, it's at bottom left
-    // if offset.left > offset.top, it's at top left
-    fixText("top");
-    fixText("middle");
-    fixText("bottom");
-
-    function fixText(row) {
-      var cube = $($("#" + row + " .cube")[0]);
-      var span = $(cube.find("span")[0]);
-      var offset = cube.offset();
-      var diff = offset.left - offset.top;
-      if (diff < -185) {
-        console.log(span.text(), "is at bottom left, so rotate 90deg");
-        cube.parent().find(".cube span").each(function(i, el){
-          $(el).css("-webkit-transform", "rotateZ(90deg)");
-        });
-      }
-      else if (diff > 565) {
-        console.log(span.text(), "is at top right, so rotate -90deg");
-        cube.parent().find(".cube span").each(function(i, el){
-          $(el).css("-webkit-transform", "rotateZ(-90deg)");
-        });
-      }
-      else if (diff > 380) {
-        console.log(span.text(), "is upright!");
-      }
-      else if (diff > 365) {
-        console.log(span.text(), "is at bottom right, so rotate -180deg");
-        cube.parent().find(".cube span").each(function(i, el){
-          $(el).css("-webkit-transform", "rotateZ(-180deg)");
-        });
-      }
+  function showFace(face) {
+    var transform = "";
+    switch (face) {
+      case "front":
+        transform = "0,0,0,0";
+        break;
+      case "back":
+        transform = "1,0,0,180deg";
+        break;
+      case "left":
+        transform = "0,1,0,90deg";
+        break;
+      case "right":
+        transform = "0,1,0,-90deg";
+        break;
+      case "top":
+        transform = "1,0,0,-90deg";
+        break;
+      case "bottom":
+        transform = "1,0,0,90deg";
+        break;
     }
+    showingFace = face;
+    currentMatrix = "none";
+    $("#master-cube").css("-webkit-transform", "rotate3d(" + transform + ")");
   }
 
   Template.body.events({
     'click .cube': function(evt) {
-      $(evt.target).parent().toggleClass("clicked");
+      if (Session.equals("showMessage", 0))
+        Session.set("showMessage", 1);
+      $(evt.target).parents(".cube").toggleClass("clicked");
       calcFaces($(evt.target).text());
+    },
+    'click .face': function(evt) {
+      showFace(evt.target.className.split(" ")[1]);
     }
   });
 
@@ -112,8 +146,8 @@ if (Meteor.isClient) {
     //return Session.equals('loading', true);
   }
 
-  Template.body.explanation = function() {
-    if (level == 1) return "Click on a cube to begin."
+  Template.explanation.message = function() {
+    return messages[Session.get("showMessage") * 1];
   }
 
   function getCube(x, y, z, type) {
