@@ -41,6 +41,8 @@ if (Meteor.isClient) {
         $("#master-cube").css("-webkit-transition-duration", "1s");
       }, 1);
     }, 3000);
+    
+    Meteor.setInterval(fixOrientation, 500);
 
     $(document).keyup(function(e) {
       Meteor.clearTimeout(toh);
@@ -101,6 +103,34 @@ if (Meteor.isClient) {
       }
 
     });
+    
+    var dragStartData = null;
+    $(document).mousedown(function(evt) { 
+      dragStartData = {
+        x: evt.pageX,
+        y: evt.pageY,
+        matrix: $("#master-cube").css("-webkit-transform"),
+        transition: $("#master-cube").css("-webkit-transition")
+      }; 
+      $("#master-cube").css("-webkit-transition", "none")
+    });
+    $(document).mouseup(function() { 
+      $("#master-cube").css("-webkit-transition", dragStartData.transition);
+      dragStartData = null; 
+    });
+    $(document).mousemove(function(evt) { 
+      if (dragStartData)
+      {
+        if (dragStartData.matrix == "none")
+          dragStartData.matrix = "";
+        var deltaX = evt.pageX - dragStartData.x;
+        var deltaY = evt.pageY - dragStartData.y;
+        var len = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+        $("#master-cube").css("-webkit-transform", 
+          "rotate3D(" + -deltaY + ", " + deltaX + ", 0, " + len/5 + "deg) " + dragStartData.matrix);
+        currentMatrix = $("#master-cube").css("-webkit-transform");
+      }
+    });
   });
 
   function showFace(face) {
@@ -129,13 +159,46 @@ if (Meteor.isClient) {
     currentMatrix = "none";
     $("#master-cube").css("-webkit-transform", "rotate3d(" + transform + ")");
   }
+  
+  function fixOrientation()
+  {
+    var matrix = $("#master-cube").css("-webkit-transform");
+    var m = matrix.match(/^matrix3d\((.*)\)$/);
+    if (!m)
+      return;
+    matrix = m[1].split(", ");
+    
+    var x = 1*matrix[1];
+    var y = 1*matrix[5];
+    var angle = Math.abs(y) > Math.abs(x) ? y > 0 ? 0 : 180 : x > 0 ? -90 : 90;
+    $(".front span").css("-webkit-transform", "rotate(" + angle + "deg)");
+    angle = Math.abs(y) > Math.abs(x) ? y > 0 ? 0 : 180 : x > 0 ? 90 : -90;
+    $(".back span").css("-webkit-transform", "rotate(" + angle + "deg)");
+
+    var x = 1*matrix[4];
+    var y = 1*matrix[5];
+    var angle = Math.abs(y) > Math.abs(x) ? y > 0 ? 0 : 180 : x > 0 ? 90 : -90;
+    $(".left span").css("-webkit-transform", "rotate(" + angle + "deg)");
+    $(".right span").css("-webkit-transform", "rotate(" + angle + "deg)");
+
+    var x = 1*matrix[0];
+    var y = 1*matrix[1];    
+    var angle = Math.abs(y) > Math.abs(x) ? y > 0 ? -90 : 90 : x > 0 ? 0 : 180;
+    $(".bottom span").css("-webkit-transform", "rotate(" + angle + "deg)");
+    var angle = Math.abs(y) > Math.abs(x) ? y > 0 ? 90 : -90 : x > 0 ? 0 : 180;
+    $(".top span").css("-webkit-transform", "rotate(" + -angle + "deg)");
+  }
 
   Template.body.events({
     'click .cube': function(evt) {
       if (Session.equals("showMessage", 0))
         Session.set("showMessage", 1);
-      $(evt.target).parents(".cube").toggleClass("clicked");
-      calcFaces($(evt.target).text());
+      $el = $(evt.target).parents(".cube");
+      if (!$el.hasClass("removed"))
+      {
+        $el.toggleClass("clicked");
+        calcFaces($(evt.target).text());
+      }
     },
     'click .face': function(evt) {
       showFace(evt.target.className.split(" ")[1]);
@@ -152,10 +215,6 @@ if (Meteor.isClient) {
 
   function getCube(x, y, z, type) {
     return $($("." + type)[x + 3*y + 9*z]);
-  }
-
-  function isClicked(x, y, z) {
-    return getCube(x, y, z, "cube").hasClass("clicked");
   }
 
   function getFaces() {
@@ -185,126 +244,136 @@ if (Meteor.isClient) {
     }
   }
 
-  var centerCube = 1 + 3 + 9;
-  function resetCube()
-  {
-    // turn all cubes on
-    $(".cube").each(function(i, el) {
-      $(el).toggleClass("clicked", i == centerCube);
-    });
+  function removeLoading() {
+    $("#loading").hide();
     $("#master-cube").css("-webkit-transform", "");
   }
 
-  function removeLoading() {
-    $("#loading").hide();
-  }
-
+  var centerCube = 1 + 3 + 9;
+  var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
+  var offCubes = [centerCube];
   function makePuzzle(difficulty)
   {
+    if (difficulty == 1)
+      $($(".cube")[centerCube]).addClass("clicked");
+    
+    // Really remove the off cubes from the last puzzle
+    for (var i = 0; i < offCubes.length; i++)
+      $($(".cube")[offCubes[i]]).addClass("removed");
+        
     console.log("Make puzzle", difficulty, "...");
-    resetCube();
 
-    var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
-    var offCubes = onCubes.splice(0, difficulty);
+    // Choose new set of cubes to turn off
+    offCubes = onCubes.splice(0, difficulty);
 
     // and turn those off
     for (var i = 0; i < offCubes.length; i++)
       $($(".cube")[offCubes[i]]).toggleClass("clicked");
 
-    var faces = getFaces();
-    var state = {};
-    var cubeEffects = {};
-    for (var id in faces)
+    return tryPuzzle();
+
+
+    function tryPuzzle()
     {
-      var face = faces[id];
-      state[id] = { sum: 0, emptyCount: face.length };
-      for (var i = 0; i < face.length; i++)
+      console.log("try puzzle")
+      var faces = getFaces();
+      var state = {};
+      var cubeEffects = {};
+      for (var id in faces)
       {
-        var cubeid = face[i].parent().attr("data-nr");
-        cubeEffects[cubeid] = cubeEffects[cubeid] || [];
-        cubeEffects[cubeid].push(id);
-      }
-    }
-
-    // set others to zero
-    var shuffles = [];
-    for (var i = 0; i < onCubes.length; i++)
-      shuffles[i] = mkShuffled(1, 9);
-
-    var t0 = 1*new Date();
-    try
-    {
-      findSolution(0);
-    }
-    catch(e)
-    {
-      // took too long, retry
-      return makePuzzle(difficulty);
-    }
-
-    removeLoading();
-    resetCube();
-    calcFaces();
-    return;
-
-    function findSolution(depth)
-    {
-      if (new Date() - t0 > 300)
-        throw "too slow";
-      if (!isStillPossible())
-        return false;
-      if (depth == onCubes.length)
-        return true; // Found a valid puzzle!
-      var cubeid = onCubes[depth];
-      var shuffled = shuffles[depth];
-      for (var i = 0; i < 9; i++)
-      {
-        // Try a value
-        updateState(cubeid, shuffled[i]);
-        if (findSolution(depth + 1))
+        var face = faces[id];
+        state[id] = { sum: 0, emptyCount: face.length };
+        for (var i = 0; i < face.length; i++)
         {
-          // It worked, set it.
-          setCubeValue($($(".cube")[cubeid]), shuffled[i]);
-          return true;
+          var cubeid = face[i].parent().attr("data-nr");
+          cubeEffects[cubeid] = cubeEffects[cubeid] || [];
+          cubeEffects[cubeid].push(id);
         }
-        // Undo it
-        resetState(cubeid, shuffled[i])
       }
-      return false;
-    }
-
-    function updateState(cubeid, value)
-    {
-      for (var i = 0; i < cubeEffects[cubeid].length; i++)
+      
+      // set others to zero
+      var shuffles = [];
+      for (var i = 0; i < onCubes.length; i++)
+        shuffles[i] = mkShuffled(1, 9);
+      
+      var t0 = 1*new Date();
+      try
       {
-        var s = state[cubeEffects[cubeid][i]];
-        s.sum += value;
-        s.emptyCount--;
+        if (!findSolution(0))
+        {
+          alert("Kan geen puzzel maken.")
+          return;
+        }
+        removeLoading();
+        for (var i = 0; i < offCubes.length; i++)
+          $($(".cube")[offCubes[i]]).toggleClass("clicked");
+        calcFaces();
       }
-    }
-
-    function resetState(cubeid, value)
-    {
-      for (var i = 0; i < cubeEffects[cubeid].length; i++)
+      catch(e)
       {
-        var s = state[cubeEffects[cubeid][i]];
-        s.sum -= value;
-        s.emptyCount++;
+        // took too long, retry
+        return setTimeout(tryPuzzle, 1);
       }
-    }
 
-    function isStillPossible()
-    {
-      for (var id in state)
+      function findSolution(depth)
       {
-        var sum = state[id].sum;
-        var emptyCount = state[id].emptyCount;
-        if (sum + emptyCount * (emptyCount + 1) / 3 > 42)
+        if (new Date() - t0 > 300)
+          throw "too slow";
+        if (!isStillPossible(state))
           return false;
-        if (sum + 10 * emptyCount - emptyCount * (emptyCount + 1) / 3 < 42)
-          return false;
+        if (depth == onCubes.length)
+          return true; // Found a valid puzzle!
+        var cubeid = onCubes[depth];
+        var shuffled = shuffles[depth];
+        for (var i = 0; i < 9; i++)
+        {
+          // Try a value
+          updateState(cubeid, shuffled[i]);
+          if (findSolution(depth + 1))
+          {
+            // It worked, set it.
+            setCubeValue($($(".cube")[cubeid]), shuffled[i]);
+            return true;
+          }
+          // Undo it
+          resetState(cubeid, shuffled[i])
+        }
+        return false;
       }
-      return true;
+  
+      function updateState(cubeid, value)
+      {
+        for (var i = 0; i < cubeEffects[cubeid].length; i++)
+        {
+          var s = state[cubeEffects[cubeid][i]];
+          s.sum += value;
+          s.emptyCount--;
+        }
+      }
+  
+      function resetState(cubeid, value)
+      {
+        for (var i = 0; i < cubeEffects[cubeid].length; i++)
+        {
+          var s = state[cubeEffects[cubeid][i]];
+          s.sum -= value;
+          s.emptyCount++;
+        }
+      }
+  
+      function isStillPossible(state)
+      {
+        for (var id in state)
+        {
+          var sum = state[id].sum;
+          var emptyCount = state[id].emptyCount;
+          if (sum + emptyCount * (emptyCount + 1) / 3 > 42)
+            return false;
+          if (sum + 10 * emptyCount - emptyCount * (emptyCount + 1) / 3 < 42)
+            return false;
+        }
+        return true;
+      }
     }
   }
 

@@ -71,13 +71,14 @@ h1 {
 
 .cube figure {
   margin: 0;
-  width: 196px;
-  height: 196px;
+  width: 116px;
+  height: 116px;
   display: block;
+  padding: 40px;
   position: absolute;
   border: 2px solid black;
-  line-height: 196px;
-  font-size: 120px;
+  line-height: 116px;
+  font-size: 116px;
   font-weight: bold;
   text-shadow: 0 -1px 1px rgba(0,0,0,.4);
   color: white;
@@ -101,6 +102,10 @@ h1 {
 .cube.clicked:hover figure {
 }
 
+.cube.removed {
+  opacity: 0 !important;
+}
+
 .front  { background: -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) ); }
 .back  { background: -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1) ); }
 .right  { background: -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1) ); }
@@ -109,7 +114,7 @@ h1 {
 .bottom  { background: -webkit-radial-gradient(center, hsla(300, 30%, 50%, 1), hsla(300, 30%, 50%, 1) 40%, hsla(300, 50%, 50%, 1) ); }
 
 .cube .front  { -webkit-transform: rotateY(   0deg ) translateZ( 100px ); z-index: 300;}
-.cube .back   { -webkit-transform: rotateX( 180deg ) translateZ( 100px ); z-index: 100;}
+.cube .back   { -webkit-transform: rotateY( 180deg ) translateZ( 100px ); z-index: 100;}
 .cube .right  { -webkit-transform: rotateY(  90deg ) translateZ( 100px ); z-index: 200;}
 .cube .left   { -webkit-transform: rotateY( -90deg ) translateZ( 100px ); z-index: 100;}
 .cube .top    { -webkit-transform: rotateX(  90deg ) translateZ( 100px ); z-index: 200;}
@@ -129,7 +134,7 @@ h1 {
 
 .cube figure span {
   display: block;
-  -webkit-transition: -webkit-transform, .3s;
+  -webkit-transition: -webkit-transform, 1s;
 }
 
 #total {

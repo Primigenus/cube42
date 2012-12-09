@@ -1,3 +1,8 @@
+
+function isClicked(x, y, z) {
+  return getCube(x, y, z, "cube").hasClass("clicked");
+}
+
 function addCube(arr, x, y, z, type) {
   arr.push(getCube(x, y, z, type));
 }
