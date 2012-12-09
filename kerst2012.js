@@ -14,7 +14,7 @@ if (Meteor.isClient) {
     var toh;
 
     //Session.set("loading", false);
-    Session.set("showMessage", 0);
+    Session.set("message", 0);
     Session.set("level", level);
 
     // add cubes
@@ -25,7 +25,7 @@ if (Meteor.isClient) {
 
     makePuzzle(level);
 
-    $($(".cube .front")[3]).css("box-shadow", "inset 0 0 30px yellow").find("span").css("color", "yellow");
+    $($(".cube .front")[3]).addClass("highlight");
 
     // animate cube onload to show that it's 3d
     $("#master-cube").css({
@@ -132,9 +132,12 @@ if (Meteor.isClient) {
 
   Template.body.events({
     'click .cube': function(evt) {
-      if (Session.equals("showMessage", 0))
-        Session.set("showMessage", 1);
-      $(evt.target).parents(".cube").toggleClass("clicked");
+      var cube = $(evt.target).parents(".cube");
+      if (cube.attr("data-nr") == "3" && Session.equals("message", 0)) {
+        nextMessage();
+        $(evt.target).parent().removeClass("highlight");
+      }
+      cube.toggleClass("clicked");
       calcFaces($(evt.target).text());
     },
     'click .face': function(evt) {
@@ -142,12 +145,8 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.body.isLoading = function() {
-    //return Session.equals('loading', true);
-  }
-
   Template.explanation.message = function() {
-    return messages[Session.get("showMessage") * 1];
+    return messages[Session.get("message") * 1];
   }
 
   function getCube(x, y, z, type) {
@@ -160,6 +159,12 @@ if (Meteor.isClient) {
 
   function getFaces() {
     return {front: calcFront(), back: calcBack(), left: calcLeft(), right: calcRight(), top: calcTop(), bottom: calcBottom()};
+  }
+
+  function nextMessage() {
+    var msg = Session.get("message")*1;
+    msg++;
+    Session.set("message", msg);
   }
 
   function calcFaces() {
