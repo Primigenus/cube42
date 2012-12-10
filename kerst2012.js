@@ -18,6 +18,8 @@ if (Meteor.isClient)
     Session.set("message", 0);
     Session.set("level", level);
 
+    $("[data-role='lettering']").lettering();
+
     // add cubes
     $(".cube").each(function(i, el) {
       $(el).attr("data-nr", i);
@@ -169,11 +171,6 @@ if (Meteor.isClient)
     }
   });
 
-  Template.explanation.message = function()
-  {
-    return messages[Session.get("message") * 1];
-  }
-
   function nextLevel()
   {
     var msg = Session.get("message")*1;
@@ -204,9 +201,7 @@ if (Meteor.isClient)
       if (total == 42)
         count42++;
       Session.set("total" + face, total);
-      //str += "<span class='face "+face+"'>" + total + "</span>";
     }
-    //$("#total").html(str);
 
     if (count42 == 6)
     {

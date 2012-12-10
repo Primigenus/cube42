@@ -92,10 +92,10 @@ body {
   margin-left: -14px;
 }
 #instructions li:nth-child(1) { left: 150px; top: 50px; }
-#instructions li:nth-child(2) { left: 150px; top: 40px; }
-#instructions li:nth-child(3) { left: 150px; bottom: 90px; }
-#instructions li:nth-child(4) { left: 50px; top: 280px; }
-#instructions li:nth-child(5) { left: 0; bottom: 90px; }
+#instructions li:nth-child(2) { left: 150px; top: 140px; }
+#instructions li:nth-child(3) { left: 150px; top: 540px; }
+#instructions li:nth-child(4) { left: 190px; top: 280px; }
+#instructions li:nth-child(5) { left: 0; top: 540px; }
 #instructions li:nth-child(6) { left: 150px; top: 250px; }
 #instructions li:nth-child(7) { left: 150px; top: 250px; }
 #instructions li:nth-child(8) { left: 150px; top: 250px; }
@@ -103,13 +103,66 @@ body {
 #instructions li:nth-child(10) { left: 150px; top: 250px; }
 
 h1 {
-  margin: 0;
-  font-family: Monda, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  position: relative;
+  margin: 40px auto;
   text-transform: uppercase;
+  width: 600px;
+  zoom: 1.4;
 }
+.the {
+  position: absolute;
+  font-size: 16px;
+  top: -15px;
+  width: 600px;
+  left: 0;
+  text-transform: lowercase;
+  color: #CCC;
+}
+.cube-42 {
+  display: inline-block;
+  width: 82px;
+  height: 82px;
+  font-size: 48px;
+  color: white;
+  background: -webkit-radial-gradient(center, rgba(166, 89, 166, 1), rgba(166, 89, 166, 1) 40%, rgba(191, 64, 191, 1) );
+  line-height: 81px;
+  text-align: center;
+  margin: 0 3px 0 -70px;
+  -webkit-transform: skewY(20deg);
+}
+.title {
+  position: relative;
+  display: inline-block;
+  top: -44px;
+  left: -12px;
+  -webkit-transform: skewY(-20deg);
+}
+.title span {
+  display: inline-block;
+  text-align: center;
+  width: 42px;
+  margin-right: 3px;
+  line-height: 1.1em;
+  color: white;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, .4);
+  position: absolute;
+  font-size: 36px;
+}
+.title .char1 {top: 0; left: 0;}
+.title .char2 {top: 0; left: 45px;}
+.title .char3 {top: 42px; left: 0;}
+.title .char4 {top: 42px; left: 45px;}
+.title .char1 {background: -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) );}
+.title .char2 {background: -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1) );}
+.title .char3 {background: -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1) );}
+.title .char4 {background: -webkit-radial-gradient(center, hsla(180, 30%, 50%, 1), hsla(180, 30%, 50%, 1) 40%, hsla(180, 50%, 50%, 1) );}
+
 h2 {
-  color: #fFa;
-  margin: 0 0 70px 0;
+  color: #999;
+  text-transform: lowercase;
+  font-weight: normal;
+  font-size: 16px;
+  margin: -218px 0 200px 0;
 }
 
 .button {
