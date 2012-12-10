@@ -11,11 +11,6 @@
     {{> explanation}}
   </header>
 
-  <!--<div id="controls">
-    <p>The goal of this game is to reach a total of 42 for each colored face of the big cube. You accomplish this by hiding small cubes and rotating the big cube.</p>
-    <p>Use the <strong>arrow keys</strong> to rotate the big cube around its center. <strong>Click on small cubes</strong> to hide or show them. The numbers you can see at any given time contribute to that face's total score.</p>
-  </div>-->
-
   {{#if currentUser}}
     <p>Hello {{> currentUser}}!</p>
   {{/if}}
@@ -31,9 +26,8 @@
     <div data-role="play" class="button">
       Play
     </div>
-
-    <div data-role="tutorial" class="button">
-      Tutorial
+    <div data-role="instructions" class="button">
+      Instructions
     </div>
 
   </div>
@@ -48,6 +42,20 @@
 <template name="body">
   {{> loading}}
   <section id="container">
+    <div id="instructions">
+      <ol>
+        <li>Rahul's Cube is a large cube consisting of 26 smaller cubes.</li>
+        <li class="with-arrow">Each smaller cube has a number. When looking at one side of the larger cube, the sum of all visible numbers is shown at the bottom...</li>
+        <li class="with-arrow">...here. The goal is to get these numbers to 42.</li>
+        <li>Clicking or touching a small cube hides it, revealing the cube behind it, and...</li>
+        <li class="with-arrow">...altering the total.</li>
+        <li>Spin the cube (by dragging, clicking numbers below or with the arrow keys) and toggle smaller cubes on and off until each number reads 42.</li>
+        <li>In the first level, you only need to toggle one cube.</li>
+        <li>After you successfully complete a level, cubes toggled during the previous level are permanently removed.</li>
+        <li>Each level, you must toggle one more cube! So in level 2, you toggle two cubes and in level 3, three cubes.</li>
+        <li>The game keeps getting harder. Can you clean out all the cubes? Good luck!</li>
+      </ol>
+    </div>
     <div id="master-cube">
       <div class="layer" id="top">
         {{> cube}}

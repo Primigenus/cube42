@@ -1,16 +1,17 @@
-if (Meteor.isClient) {
+if (Meteor.isClient)
+{
   var level = 1;
-  var actions = [];
+  var instruction = 0;
+  var currentMatrix = "";
   var messages = [
-    "Click the yellow cube to begin.",
-    "Good job! You can toggle cubes on and off.",
-    "The numbers at the bottom show the total of all numbers on a face.",
+    "Toggle a single cube to advance to the next level.",
+    "Good job! Now toggle two cubes to make it to level 3.",
+    "Is it getting harder yet? 3 cubes now!",
     "Your goal is to toggle cubes on and off until each face totals 42."
   ];
-  var showingFace = "front";
-  var currentMatrix = "";
 
-  Meteor.startup(function() {
+  Meteor.startup(function()
+  {
     var toh;
 
     //Session.set("loading", false);
@@ -24,23 +25,6 @@ if (Meteor.isClient) {
     });
 
     makePuzzle(level);
-
-    $($(".cube .front")[3]).addClass("highlight");
-
-    // animate cube onload to show that it's 3d
-    $("#master-cube").css({
-      "-webkit-transition-duration": "2s",
-      "-webkit-transform": "rotate3d(0, 1, 0, 360deg) " + currentMatrix
-    });
-    Meteor.setTimeout(function() {
-      $("#master-cube").css({
-        "-webkit-transition-duration": "0s",
-        "-webkit-transform": "rotate3d(0, 1, 0, 0deg) " + currentMatrix
-      });
-      Meteor.setTimeout(function() {
-        $("#master-cube").css("-webkit-transition-duration", "1s");
-      }, 1);
-    }, 3000);
     
     Meteor.setInterval(fixOrientation, 500);
 
@@ -51,19 +35,15 @@ if (Meteor.isClient) {
 
       if (e.which == 37) {// left
         currentMatrix = "rotate3d(0, 1, 0, -90deg) " + currentMatrix;
-        actions.push("left");
       }
       else if (e.which == 39) {// right
         currentMatrix = "rotate3d(0, 1, 0, 90deg) " + currentMatrix;
-        actions.push("right");
       }
       else if (e.which == 38) {// up
         currentMatrix = "rotate3d(1, 0, 0, 90deg) " + currentMatrix;
-        actions.push("up");
       }
       else if (e.which == 40) {// down
         currentMatrix = "rotate3d(1, 0, 0, -90deg) " + currentMatrix;
-        actions.push("down");
       }
 
       if (e.which == 37 || e.which == 39 || e.which == 38 || e.which == 40) {
@@ -107,11 +87,20 @@ if (Meteor.isClient) {
     });
 
     $("[data-role='play']").click(function() {
-      removeLoading();
+      play();
+    });
+    $("[data-role='instructions']").click(function() {
+      showInstructions();
+    });
+
+    $("#instructions,#instructions li").click(function() {
+      instruction++;
+      showInstruction(instruction);
     });
   });
 
-  function showFace(face) {
+  function showFace(face)
+  {
     var transform = "";
     switch (face) {
       case "front":
@@ -133,7 +122,6 @@ if (Meteor.isClient) {
         transform = "1,0,0,90deg";
         break;
     }
-    showingFace = face;
     currentMatrix = "none";
     $("#master-cube").css("-webkit-transform", "rotate3d(" + transform + ")");
   }
@@ -170,10 +158,6 @@ if (Meteor.isClient) {
   Template.body.events({
     'click .cube': function(evt) {
       var $el = $(evt.target).parents(".cube");
-      if ($el.attr("data-nr") == "3" && Session.equals("message", 0)) {
-        nextMessage();
-        $(evt.target).parent().removeClass("highlight");
-      }
       if (!$el.hasClass("removed"))
       {
         $el.toggleClass("clicked");
@@ -185,25 +169,33 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.explanation.message = function() {
+  Template.explanation.message = function()
+  {
     return messages[Session.get("message") * 1];
   }
 
-  function getCube(x, y, z, type) {
+  function nextLevel()
+  {
+    var msg = Session.get("message")*1;
+    msg++;
+    alert(messages[msg]);
+    Session.set("message", msg);
+    $("#level").text("Level " + level);
+    makePuzzle(level);
+  }
+
+  function getCube(x, y, z, type)
+  {
     return $($("." + type)[x + 3*y + 9*z]);
   }
 
-  function getFaces() {
+  function getFaces()
+  {
     return {front: calcFront(), back: calcBack(), left: calcLeft(), right: calcRight(), top: calcTop(), bottom: calcBottom()};
   }
 
-  function nextMessage() {
-    var msg = Session.get("message")*1;
-    msg++;
-    Session.set("message", msg);
-  }
-
-  function calcFaces() {
+  function calcFaces()
+  {
     var results = getFaces();
     var str = "";
     var count42 = 0;
@@ -217,18 +209,46 @@ if (Meteor.isClient) {
 
     if (count42 == 6)
     {
-      //var level = Session.get('level') * 1;
       level++;
-      //Session.set("level", level);
-      alert("Gelukt! Op naar level " + level);
-      $("#level").text("Level " + level);
-      makePuzzle(level);
+      nextLevel(level);
     }
   }
 
-  function removeLoading() {
+  function play()
+  {
     $("#loading").hide();
     $("#master-cube").css("-webkit-transform", "");
+    $(document.body).removeClass('instructions');
+    spinCube();
+  }
+
+  function showInstructions()
+  {
+    play();
+    $(document.body).addClass('instructions');
+    instruction = 0;
+    showInstruction(instruction);
+  }
+
+  function showInstruction(i) {
+    $("#instructions li").hide();
+    var inst = $("#instructions li")[i];
+    if (!inst) {
+      $(document.body).removeClass('instructions');
+      $("#loading").show();
+      return;
+    }
+    var $inst = $(inst);
+    $inst.show();
+
+    switch (i) {
+      case 3: // clicking a cube hides it
+        $($(".cube")[3]).addClass("clicked");
+        break;  
+      case 6:
+        $($(".cube")[3]).removeClass("clicked");
+        break;
+    }
   }
 
   var centerCube = 1 + 3 + 9;
@@ -286,8 +306,6 @@ if (Meteor.isClient) {
           alert("Kan geen puzzel maken.")
           return;
         }
-
-        //removeLoading();
 
         for (var i = 0; i < offCubes.length; i++)
           $($(".cube")[offCubes[i]]).toggleClass("clicked");
@@ -377,10 +395,29 @@ if (Meteor.isClient) {
         a.splice(~~(Math.random() * (a.length + 1)), 0, i);
     return a;
   }
+
+  function spinCube()
+  {
+    $("#master-cube").css({
+      "-webkit-transition-duration": "2s",
+      "-webkit-transform": "rotate3d(0, 1, 0, 360deg) " + currentMatrix
+    });
+    Meteor.setTimeout(function() {
+      $("#master-cube").css({
+        "-webkit-transition-duration": "0s",
+        "-webkit-transform": "rotate3d(0, 1, 0, 0deg) " + currentMatrix
+      });
+      Meteor.setTimeout(function() {
+        $("#master-cube").css("-webkit-transition-duration", "1s");
+      }, 1);
+    }, 3000);
+  }
 }
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
+if (Meteor.isServer)
+{
+  Meteor.startup(function ()
+  {
     // code to run on server at startup
   });
 }
