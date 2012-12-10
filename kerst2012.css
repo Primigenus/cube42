@@ -92,10 +92,10 @@ body {
   margin-left: -14px;
 }
 #instructions li:nth-child(1) { left: 150px; top: 50px; }
-#instructions li:nth-child(2) { left: 150px; top: 140px; }
-#instructions li:nth-child(3) { left: 150px; top: 540px; }
+#instructions li:nth-child(2) { left: 150px; top: 100px; }
+#instructions li:nth-child(3) { left: 150px; top: 500px; }
 #instructions li:nth-child(4) { left: 190px; top: 280px; }
-#instructions li:nth-child(5) { left: 0; top: 540px; }
+#instructions li:nth-child(5) { left: 0; top: 500px; }
 #instructions li:nth-child(6) { left: 150px; top: 250px; }
 #instructions li:nth-child(7) { left: 150px; top: 250px; }
 #instructions li:nth-child(8) { left: 150px; top: 250px; }
@@ -126,6 +126,7 @@ h1 {
   color: white;
   background: -webkit-radial-gradient(center, rgba(166, 89, 166, 1), rgba(166, 89, 166, 1) 40%, rgba(191, 64, 191, 1) );
   line-height: 81px;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, .4);
   text-align: center;
   margin: 0 3px 0 -70px;
   -webkit-transform: skewY(20deg);
@@ -133,7 +134,7 @@ h1 {
 .title {
   position: relative;
   display: inline-block;
-  top: -44px;
+  top: -43px;
   left: -12px;
   -webkit-transform: skewY(-20deg);
 }
