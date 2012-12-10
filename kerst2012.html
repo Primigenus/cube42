@@ -16,10 +16,13 @@
   {{/if}}
 
   {{> body}}
+  {{> totals}}
 </body>
 
 <template name="loading">
   <div id="loading">
+    <img src="/logo.png" alt="" style="height:96px" />
+    
     <h1>Rahul's Cube</h1>
     <h2>A 3d puzzle game</h2>
 
@@ -44,12 +47,12 @@
   <section id="container">
     <div id="instructions">
       <ol>
-        <li>Rahul's Cube is a large cube consisting of 26 smaller cubes.</li>
+        <li>Rahul's Cube is a large cube made of 26 smaller cubes.</li>
         <li class="with-arrow">Each smaller cube has a number. When looking at one side of the larger cube, the sum of all visible numbers is shown at the bottom...</li>
         <li class="with-arrow">...here. The goal is to get these numbers to 42.</li>
         <li>Clicking or touching a small cube hides it, revealing the cube behind it, and...</li>
         <li class="with-arrow">...altering the total.</li>
-        <li>Spin the cube (by dragging, clicking numbers below or with the arrow keys) and toggle smaller cubes on and off until each number reads 42.</li>
+        <li>Look at different sides of the cube by dragging, clicking numbers below or with the arrow keys. Toggle smaller cubes on and off until each number reads 42.</li>
         <li>In the first level, you only need to toggle one cube.</li>
         <li>After you successfully complete a level, cubes toggled during the previous level are permanently removed.</li>
         <li>Each level, you must toggle one more cube! So in level 2, you toggle two cubes and in level 3, three cubes.</li>
@@ -91,9 +94,18 @@
         {{> cube}}
       </div>
     </div>
-    <div id="total">
-    </div>
   </section>
+</template>
+
+<template name="totals">
+  <div id="total">
+    <span class="face front">{{totalfront}}</span><span
+    class="face back">{{totalback}}</span><span
+    class="face left">{{totalleft}}</span><span
+    class="face right">{{totalright}}</span><span
+    class="face top">{{totaltop}}</span><span
+    class="face bottom">{{totalbottom}}</span>
+  </div>
 </template>
 
 <template name="cube">

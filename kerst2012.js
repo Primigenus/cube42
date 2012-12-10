@@ -203,9 +203,10 @@ if (Meteor.isClient)
       var total = _.reduce(results[face], function(x,y) { return x + 1*y.text();}, 0);
       if (total == 42)
         count42++;
-      str += "<span class='face "+face+"'>" + total + "</span>";
+      Session.set("total" + face, total);
+      //str += "<span class='face "+face+"'>" + total + "</span>";
     }
-    $("#total").html(str);
+    //$("#total").html(str);
 
     if (count42 == 6)
     {
@@ -213,6 +214,13 @@ if (Meteor.isClient)
       nextLevel(level);
     }
   }
+
+  Template.totals.totalfront = function() { return Session.get("totalfront"); }
+  Template.totals.totalback = function() { return Session.get("totalback"); }
+  Template.totals.totalleft = function() { return Session.get("totalleft"); }
+  Template.totals.totalright = function() { return Session.get("totalright"); }
+  Template.totals.totaltop = function() { return Session.get("totaltop"); }
+  Template.totals.totalbottom = function() { return Session.get("totalbottom"); }
 
   function play()
   {
@@ -232,6 +240,7 @@ if (Meteor.isClient)
 
   function showInstruction(i) {
     $("#instructions li").hide();
+
     var inst = $("#instructions li")[i];
     if (!inst) {
       $(document.body).removeClass('instructions');
@@ -241,12 +250,17 @@ if (Meteor.isClient)
     var $inst = $(inst);
     $inst.show();
 
+    // specific actions to execute while showing an instruction
     switch (i) {
-      case 3: // clicking a cube hides it
+      case 3:
         $($(".cube")[3]).addClass("clicked");
         break;  
-      case 6:
+      case 5:
         $($(".cube")[3]).removeClass("clicked");
+        showFace("left");
+        Meteor.setTimeout(function() {
+          showFace("front");
+        }, 1800);
         break;
     }
   }
