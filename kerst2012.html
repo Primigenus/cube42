@@ -2,12 +2,12 @@
   <meta charset="utf-8">
   <title>Rahul's Cube</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <link href='http://fonts.googleapis.com/css?family=Englebert' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
   <header>
-    <h1>Rahul's Cube - <span id="level">Level 1</span></h1>
+    <div id="level">Level 1</div>
     {{> explanation}}
   </header>
 
@@ -24,7 +24,19 @@
 </body>
 
 <template name="loading">
-  <div id="loading">Loading...</div>
+  <div id="loading">
+    <h1>Rahul's Cube</h1>
+    <h2>A 3d puzzle game</h2>
+
+    <div data-role="play" class="button">
+      Play
+    </div>
+
+    <div data-role="tutorial" class="button">
+      Tutorial
+    </div>
+
+  </div>
 </template>
 
 <template name="explanation">

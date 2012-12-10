@@ -10,7 +10,7 @@ body {
   min-height: 100%;
 }
 
-h1, #explanation {
+#level, #explanation {
   text-align: center;
   font-size: 24px;
   width: 576px;
@@ -18,7 +18,7 @@ h1, #explanation {
   text-shadow: 0 -1px 0 rgba(0,0,0,.4);
   margin: 0 auto 2px auto;
 }
-h1 {
+#level {
   background: -webkit-linear-gradient(top, #222, #333, #222 );
 }
 #explanation {
@@ -32,13 +32,43 @@ h1 {
 }
 
 #loading {
-  position: absolute;
-  top: 10px; right: 10px;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
   z-index: 99;
-  background-color: #E6E629;
-  color: #000;
-  padding: 2px 4px;
-  border-radius: 3px;
+  background-color: rgba(0,0,0,.8);
+  color: #E6E629;
+  padding-top: 100px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+}
+
+h1 {
+  margin: 0;
+  font-family: Monda, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+h2 {
+  color: #fFa;
+  margin: 0 0 70px 0;
+}
+
+.button {
+  padding: 10px;
+  border-radius: 10px;
+  border: solid 4px #E6E629;
+  margin: 20px auto;
+  width: 250px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.button:hover {
+  border-color: white;
+  color: white;
+}
+.button:active {
+  border-color: #fcc;
+  color: #fcc;
 }
 
 #container {
@@ -88,6 +118,9 @@ h1 {
 .cube:hover, .cube:active {
   cursor: pointer;
   opacity: .3;
+}
+.cube:active .front, .cube:active .back, .cube:active .left, .cube:active .right, .cube:active .top, .cube:active .bottom {
+  box-shadow: inset 0 0 30px rgba(0,0,0,.5);
 }
 
 .cube.clicked {

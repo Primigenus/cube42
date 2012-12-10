@@ -49,32 +49,6 @@ if (Meteor.isClient) {
 
       var dir = e.which;
 
-      // left
-      /*if (dir == 37 && showingFace == "front") return showFace("right");
-      if (dir == 37 && showingFace == "left") return showFace("front");
-      if (dir == 37 && showingFace == "back") return showFace("left");
-      if (dir == 37 && showingFace == "right") return showFace("back");
-      if (dir == 37 && showingFace == "top") return showFace("left");
-
-      // right
-      if (dir == 39 && showingFace == "front") return showFace("left");
-      if (dir == 39 && showingFace == "left") return showFace("back");
-      if (dir == 39 && showingFace == "back") return showFace("right");
-      if (dir == 39 && showingFace == "right") return showFace("front");
-      if (dir == 39 && showingFace == "top") return showFace("right");
-
-      // up
-      if (dir == 38 && (showingFace == "front" || showingFace == "left" || showingFace == "right")) return showFace("top");
-      if (dir == 38 && showingFace == "back") return showFace("top");
-      if (dir == 38 && showingFace == "bottom") return showFace("back");
-      if (dir == 38 && showingFace == "top") return showFace("front");
-
-      // down
-      if (dir == 40 && (showingFace == "front" || showingFace == "left" || showingFace == "right")) return showFace("bottom");
-      if (dir == 40 && showingFace == "back") return showFace("top");
-      if (dir == 40 && showingFace == "bottom") return showFace("back");
-      if (dir == 40 && showingFace == "top") return showFace("front");*/
-
       if (e.which == 37) {// left
         currentMatrix = "rotate3d(0, 1, 0, -90deg) " + currentMatrix;
         actions.push("left");
@@ -130,6 +104,10 @@ if (Meteor.isClient) {
           "rotate3D(" + -deltaY + ", " + deltaX + ", 0, " + len/5 + "deg) " + dragStartData.matrix);
         currentMatrix = $("#master-cube").css("-webkit-transform");
       }
+    });
+
+    $("[data-role='play']").click(function() {
+      removeLoading();
     });
   });
 
@@ -308,9 +286,12 @@ if (Meteor.isClient) {
           alert("Kan geen puzzel maken.")
           return;
         }
-        removeLoading();
+
+        //removeLoading();
+
         for (var i = 0; i < offCubes.length; i++)
           $($(".cube")[offCubes[i]]).toggleClass("clicked");
+
         calcFaces();
       }
       catch(e)
