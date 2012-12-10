@@ -165,9 +165,6 @@ if (Meteor.isClient)
         $el.toggleClass("clicked");
         calcFaces($(evt.target).text());
       }
-    },
-    'click .face': function(evt) {
-      showFace(evt.target.className.split(" ")[1]);
     }
   });
 
@@ -216,6 +213,11 @@ if (Meteor.isClient)
   Template.totals.totalright = function() { return Session.get("totalright"); }
   Template.totals.totaltop = function() { return Session.get("totaltop"); }
   Template.totals.totalbottom = function() { return Session.get("totalbottom"); }
+  Template.totals.events({
+    'click .face': function(evt) {
+      showFace(evt.target.className.split(" ")[1]);
+    }
+  });
 
   function play()
   {
