@@ -243,23 +243,23 @@ h2 {
   text-shadow: 0 -1px 1px rgba(0,0,0,.4);
   color: white;
   text-align: center;
+  cursor: pointer;
   -webkit-transition: -webkit-transform, background .2s;
 }
 .cube:hover, .cube:active {
-  cursor: pointer;
-  opacity: .3;
+  opacity: .1;
 }
 .cube:active .front, .cube:active .back, .cube:active .left, .cube:active .right, .cube:active .top, .cube:active .bottom {
   box-shadow: inset 0 0 30px rgba(0,0,0,.5);
-}
-.cube.clicked:hover, .cube.clicked:active {
-  opacity: .3;
 }
 .cube.clicked figure {
   color: rgba(255,255,255,.1);
   text-shadow: none;
   background: none;
   border-color: rgba(0,0,0,.3);
+}
+.cube.clicked:hover figure, .cube.clicked:active figure {
+  border-color: yellow !important;
 }
 
 .cube.removed {
@@ -317,8 +317,7 @@ h2 {
   line-height: 100px;
   margin-right: 4px;
   text-align: center;
-  text-shadow: 0 -1px 1px rgba(0,0,0,.4);
-  color: white;
+  color: rgba(255,255,255,.5);
   -webkit-transition: color, box-shadow, .3s;
 }
 .face:nth-child(6) { margin: 0;}
@@ -328,6 +327,8 @@ h2 {
 .face:active {
   box-shadow: inset 0 0 30px rgba(0,0,0,.5);
 }
-.face.loading {
-  color: yellow;
+.face.total-42 {
+  color: white;
+  text-shadow: 0 0 10px yellow;
+  -webkit-text-stroke: yellow 1px;
 }
