@@ -92,12 +92,8 @@ if (Meteor.isClient)
       }
     });
 
-    $("[data-role='play']").click(function() {
-      play();
-    });
-    $("[data-role='instructions']").click(function() {
-      showInstructions();
-    });
+    $("[data-role='play']").click(function(){play()});
+    $("[data-role='instructions']").click(function(){showInstructions()});
 
     $("#instructions,#instructions li").click(function() {
       instruction++;
@@ -186,20 +182,26 @@ if (Meteor.isClient)
 
   Template.header.toggledCubes = function() {
     var num = Session.get("numToggledCubes") * 1;
+    var level = Session.get("level") * 1;
     var result = [];
-    for (var i = 0; i < 7; i++)
+    for (var i = 0; i < level; i++)
       result.push({active: i < num? "active" : ""});
     return result;
   }
 
   function nextLevel()
   {
-    var msg = Session.get("message")*1;
-    msg++;
-    alert(messages[msg]);
-    Session.set("message", msg);
-    Session.set("level", level);
-    makePuzzle(level);
+    Meteor.defer(function() {
+      var msg = Session.get("message")*1;
+      msg++;
+      alert(messages[msg]);
+      Session.set("message", msg);
+
+      Session.set("level", level);
+      Session.set("numToggledCubes", 0);
+
+      makePuzzle(level);
+    });
   }
 
   function getCube(x, y, z, type)
@@ -231,17 +233,22 @@ if (Meteor.isClient)
     }
   }
 
-  Template.totals.totalfront = function() { return Session.get("totalfront"); }
-  Template.totals.totalback = function() { return Session.get("totalback"); }
-  Template.totals.totalleft = function() { return Session.get("totalleft"); }
-  Template.totals.totalright = function() { return Session.get("totalright"); }
-  Template.totals.totaltop = function() { return Session.get("totaltop"); }
-  Template.totals.totalbottom = function() { return Session.get("totalbottom"); }
   Template.totals.events({
     'click .face': function(evt) {
       showFace(evt.target.className.split(" ")[1]);
     }
   });
+  Template.totals.faces = function() {
+    var results = [
+      {face: "front", total: Session.get("totalfront")},
+      {face: "back", total: Session.get("totalback")},
+      {face: "left", total: Session.get("totalleft")},
+      {face: "right", total: Session.get("totalright")},
+      {face: "top", total: Session.get("totaltop")},
+      {face: "bottom", total: Session.get("totalbottom")}
+    ];
+    return results;
+  }
 
   function play()
   {

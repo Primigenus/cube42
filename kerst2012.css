@@ -197,6 +197,9 @@ h2 {
   border-color: #fcc;
   color: #fcc;
 }
+.button:focus {
+  outline: solid 3px yellow;
+}
 
 #container {
   min-height: 100%;
@@ -315,7 +318,8 @@ h2 {
   margin-right: 4px;
   text-align: center;
   text-shadow: 0 -1px 1px rgba(0,0,0,.4);
-  -webkit-transition: box-shadow, .3s;
+  color: white;
+  -webkit-transition: color, box-shadow, .3s;
 }
 .face:nth-child(6) { margin: 0;}
 .face:hover {
@@ -323,4 +327,7 @@ h2 {
 }
 .face:active {
   box-shadow: inset 0 0 30px rgba(0,0,0,.5);
+}
+.face.loading {
+  color: yellow;
 }

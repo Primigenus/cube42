@@ -22,7 +22,7 @@
 
 <template name="header">
   <div id="level">Level {{currLevel}}</div>
-  <div id="toggledCubes">
+  <div id="toggledCubes" title="Displays how many cubes you've toggled off.">
     {{#each toggledCubes}}
       <div class="toggledCube {{active}}"></div>
     {{/each}}
@@ -37,10 +37,10 @@
       <span data-role="lettering" class="title">Cube</span>
     </h1>
     <h2>A 3d puzzle game</h2>
-    <div data-role="play" class="button">
+    <div data-role="play" class="button" tabindex="1">
       Play
     </div>
-    <div data-role="instructions" class="button">
+    <div data-role="instructions" class="button" tabindex="2">
       Instructions
     </div>
   </div>
@@ -107,12 +107,7 @@
 
 <template name="totals">
   <div id="total">
-    <span class="face front">{{totalfront}}</span><span
-    class="face back">{{totalback}}</span><span
-    class="face left">{{totalleft}}</span><span
-    class="face right">{{totalright}}</span><span
-    class="face top">{{totaltop}}</span><span
-    class="face bottom">{{totalbottom}}</span>
+    {{#each faces}}<span class="face {{face}}">{{total}}</span>{{/each}}
   </div>
 </template>
 
