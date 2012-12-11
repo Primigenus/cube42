@@ -14,6 +14,7 @@ if (Meteor.isClient)
   {
     Session.set("message", 0);
     Session.set("level", level);
+    Session.set("numToggledCubes", 0);
 
     $("[data-role='lettering']").lettering();
 
@@ -23,7 +24,7 @@ if (Meteor.isClient)
     });
 
     makePuzzle(level);
-    
+
     Meteor.setInterval(fixOrientation, 500);
 
     attachEventListeners();
@@ -62,22 +63,22 @@ if (Meteor.isClient)
       }
 
     });
-    
+
     var dragStartData = null;
-    $(document).mousedown(function(evt) { 
+    $(document).mousedown(function(evt) {
       dragStartData = {
         x: evt.pageX,
         y: evt.pageY,
         matrix: $("#master-cube").css("-webkit-transform"),
         transition: $("#master-cube").css("-webkit-transition")
-      }; 
+      };
       $("#master-cube").css("-webkit-transition", "none")
     });
-    $(document).mouseup(function() { 
+    $(document).mouseup(function() {
       $("#master-cube").css("-webkit-transition", dragStartData.transition);
-      dragStartData = null; 
+      dragStartData = null;
     });
-    $(document).mousemove(function(evt) { 
+    $(document).mousemove(function(evt) {
       if (dragStartData)
       {
         if (dragStartData.matrix == "none")
@@ -85,7 +86,7 @@ if (Meteor.isClient)
         var deltaX = evt.pageX - dragStartData.x;
         var deltaY = evt.pageY - dragStartData.y;
         var len = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-        $("#master-cube").css("-webkit-transform", 
+        $("#master-cube").css("-webkit-transform",
           "rotate3D(" + -deltaY + ", " + deltaX + ", 0, " + len/5 + "deg) " + dragStartData.matrix);
         currentMatrix = $("#master-cube").css("-webkit-transform");
       }
@@ -130,7 +131,7 @@ if (Meteor.isClient)
     currentMatrix = "none";
     $("#master-cube").css("-webkit-transform", "rotate3d(" + transform + ")");
   }
-  
+
   function fixOrientation()
   {
     var matrix = $("#master-cube").css("-webkit-transform");
@@ -138,7 +139,7 @@ if (Meteor.isClient)
     if (!m)
       return;
     matrix = m[1].split(", ");
-    
+
     var x = 1*matrix[1];
     var y = 1*matrix[5];
     var angle = Math.abs(y) > Math.abs(x) ? y > 0 ? 0 : 180 : x > 0 ? -90 : 90;
@@ -153,7 +154,7 @@ if (Meteor.isClient)
     $(".right span").css("-webkit-transform", "rotate(" + angle + "deg)");
 
     var x = 1*matrix[0];
-    var y = 1*matrix[1];    
+    var y = 1*matrix[1];
     var angle = Math.abs(y) > Math.abs(x) ? y > 0 ? -90 : 90 : x > 0 ? 0 : 180;
     $(".bottom span").css("-webkit-transform", "rotate(" + angle + "deg)");
     var angle = Math.abs(y) > Math.abs(x) ? y > 0 ? 90 : -90 : x > 0 ? 0 : 180;
@@ -166,13 +167,29 @@ if (Meteor.isClient)
       if (!$el.hasClass("removed"))
       {
         $el.toggleClass("clicked");
+
+        var num = Session.get("numToggledCubes")*1;
+        if ($el.hasClass("clicked"))
+          num++;
+        else
+          num--;
+        Session.set("numToggledCubes", num);
+
         calcFaces($(evt.target).text());
       }
     }
   });
 
-  Template.level.currLevel = function() {
+  Template.header.currLevel = function() {
     return Session.get("level");
+  }
+
+  Template.header.toggledCubes = function() {
+    var num = Session.get("numToggledCubes") * 1;
+    var result = [];
+    for (var i = 0; i < 7; i++)
+      result.push({active: i < num? "active" : ""});
+    return result;
   }
 
   function nextLevel()
@@ -258,7 +275,7 @@ if (Meteor.isClient)
     switch (i) {
       case 3:
         $($(".cube")[3]).addClass("clicked");
-        break;  
+        break;
       case 5:
         $($(".cube")[3]).removeClass("clicked");
         showFace("left");
@@ -276,11 +293,11 @@ if (Meteor.isClient)
   {
     if (difficulty == 1)
       $($(".cube")[centerCube]).addClass("clicked");
-    
+
     // Really remove the off cubes from the last puzzle
     for (var i = 0; i < offCubes.length; i++)
       $($(".cube")[offCubes[i]]).addClass("removed");
-        
+
     console.log("Make puzzle", difficulty, "...");
 
     // Choose new set of cubes to turn off
@@ -310,18 +327,19 @@ if (Meteor.isClient)
           cubeEffects[cubeid].push(id);
         }
       }
-      
+
       // set others to zero
       var shuffles = [];
       for (var i = 0; i < onCubes.length; i++)
         shuffles[i] = mkShuffled(1, 9);
-      
+
       var t0 = 1*new Date();
       try
       {
         if (!findSolution(0))
         {
-          alert("Kan geen puzzel maken.")
+          if (confirm("Kan geen puzzel maken. Reload?"))
+            window.location.reload();
           return;
         }
 
@@ -361,7 +379,7 @@ if (Meteor.isClient)
         }
         return false;
       }
-  
+
       function updateState(cubeid, value)
       {
         for (var i = 0; i < cubeEffects[cubeid].length; i++)
@@ -371,7 +389,7 @@ if (Meteor.isClient)
           s.emptyCount--;
         }
       }
-  
+
       function resetState(cubeid, value)
       {
         for (var i = 0; i < cubeEffects[cubeid].length; i++)
@@ -381,7 +399,7 @@ if (Meteor.isClient)
           s.emptyCount++;
         }
       }
-  
+
       function isStillPossible(state)
       {
         for (var id in state)

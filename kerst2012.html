@@ -7,7 +7,7 @@
 
 <body>
   <header>
-    {{> level}}
+    {{> header}}
   </header>
 
   {{#if currentUser}}
@@ -20,8 +20,13 @@
   {{> totals}}
 </body>
 
-<template name="level">
+<template name="header">
   <div id="level">Level {{currLevel}}</div>
+  <div id="toggledCubes">
+    {{#each toggledCubes}}
+      <div class="toggledCube {{active}}"></div>
+    {{/each}}
+  </div>
 </template>
 
 <template name="loading">
@@ -32,14 +37,12 @@
       <span data-role="lettering" class="title">Cube</span>
     </h1>
     <h2>A 3d puzzle game</h2>
-
     <div data-role="play" class="button">
       Play
     </div>
     <div data-role="instructions" class="button">
       Instructions
     </div>
-
   </div>
 </template>
 
