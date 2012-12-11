@@ -18,6 +18,7 @@
 
   {{> body}}
   {{> totals}}
+  {{> message}}
 </body>
 
 <template name="header">
@@ -29,6 +30,16 @@
   </div>
 </template>
 
+<template name="message">
+  {{#if hasMessage}}
+    <div id="messageContainer">
+      <div id="message">
+        <div class="message">{{text}}</div>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
 <template name="loading">
   <div id="loading">
     <h1>
@@ -37,10 +48,10 @@
       <span data-role="lettering" class="title">Cube</span>
     </h1>
     <h2>A 3d puzzle game</h2>
-    <div data-role="play" class="button" tabindex="1">
+    <div data-role="play" class="button">
       Play
     </div>
-    <div data-role="instructions" class="button" tabindex="2">
+    <div data-role="instructions" class="button">
       Instructions
     </div>
   </div>

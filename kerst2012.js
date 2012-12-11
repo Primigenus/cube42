@@ -4,7 +4,6 @@ if (Meteor.isClient)
   var instruction = 0;
   var currentMatrix = "";
   var messages = [
-    "Toggle a single cube to advance to the next level.",
     "Good job! Now toggle two cubes to make it to level 3.",
     "Is it getting harder yet? 3 cubes now!",
     "Wow, level 4! Bet you can't beat this one."
@@ -12,7 +11,7 @@ if (Meteor.isClient)
 
   Meteor.startup(function()
   {
-    Session.set("message", 0);
+    Session.set("message", undefined);
     Session.set("level", level);
     Session.set("numToggledCubes", 0);
 
@@ -193,16 +192,38 @@ if (Meteor.isClient)
   {
     Meteor.defer(function() {
       var msg = Session.get("message")*1;
+      if (msg == undefined) msg = -1;
       msg++;
-      alert(messages[msg]);
       Session.set("message", msg);
 
       Session.set("level", level);
       Session.set("numToggledCubes", 0);
 
       makePuzzle(level);
+
+      $("#master-cube").css("-webkit-transform", "");
     });
   }
+
+  Template.message.text = function() {
+    return messages[Session.get("message") * 1];
+  }
+  Template.message.rendered = function() {
+    $("#messageContainer").show();
+  }
+
+  Template.message.hasMessage = function() {
+    return !Session.equals("message", undefined);
+  }
+
+  Template.message.events({
+    'click #messageContainer': function() {
+      $("#messageContainer").hide();
+    },
+    'click .message': function() {
+      $("#messageContainer").hide();
+    }
+  })
 
   function getCube(x, y, z, type)
   {

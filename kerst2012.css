@@ -70,7 +70,7 @@ header:after {
   position: relative;
   width: 600px; height: 100%;
 }
-#instructions li {
+#instructions li, #message .message {
   position: absolute;
   display: none;
   color: white;
@@ -116,6 +116,30 @@ header:after {
 #instructions li:nth-child(8) { left: 150px; top: 250px; }
 #instructions li:nth-child(9) { left: 150px; top: 250px; }
 #instructions li:nth-child(10) { left: 150px; top: 250px; }
+
+#messageContainer {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.8);
+}
+#message {
+  position: relative;
+  width: 600px; height: 100px;
+  margin: 0 auto;
+}
+#message .message {
+  display: block;
+  top: 250px; left: 150px;
+}
+.message:after {
+  text-align: center;
+  display: block;
+  content: "Click to continue";
+  color: #999;
+  position: absolute;
+  bottom: -30px; left: 0;
+  width: 100%;
+}
 
 h1 {
   position: relative;
@@ -222,7 +246,7 @@ h2 {
   position: absolute;
   -webkit-user-select: none;
   -webkit-transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform, opacity 1s;
+  -webkit-transition: -webkit-transform, opacity .4s;
   -webkit-transform-origin: center center;
 }
 #top .cube { -webkit-transform: translateZ(-100px); }
@@ -250,7 +274,7 @@ h2 {
   opacity: .1;
 }
 .cube:active .front, .cube:active .back, .cube:active .left, .cube:active .right, .cube:active .top, .cube:active .bottom {
-  box-shadow: inset 0 0 30px rgba(0,0,0,.5);
+  box-shadow: inset 0 0 30px rgba(0,0,0,.9);
 }
 .cube.clicked figure {
   color: rgba(255,255,255,.1);
@@ -267,12 +291,12 @@ h2 {
   pointer-events: none;
 }
 
-.front  { background: -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) ); }
-.back  { background: -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1) ); }
-.right  { background: -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1) ); }
-.left  { background: -webkit-radial-gradient(center, hsla(180, 30%, 50%, 1), hsla(180, 30%, 50%, 1) 40%, hsla(180, 50%, 50%, 1) ); }
-.top  { background: -webkit-radial-gradient(center, hsla(240, 30%, 50%, 1), hsla(240, 30%, 50%, 1) 40%, hsla(240, 50%, 50%, 1) ); }
-.bottom  { background: -webkit-radial-gradient(center, hsla(300, 30%, 50%, 1), hsla(300, 30%, 50%, 1) 40%, hsla(300, 50%, 50%, 1) ); }
+.front  { background: hsla(0, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) ); }
+.back  { background: hsla(60, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1) ); }
+.right  { background: hsla(120, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1) ); }
+.left  { background: hsla(180, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(180, 30%, 50%, 1), hsla(180, 30%, 50%, 1) 40%, hsla(180, 50%, 50%, 1) ); }
+.top  { background: hsla(240, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(240, 30%, 50%, 1), hsla(240, 30%, 50%, 1) 40%, hsla(240, 50%, 50%, 1) ); }
+.bottom  { background: hsla(300, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(300, 30%, 50%, 1), hsla(300, 30%, 50%, 1) 40%, hsla(300, 50%, 50%, 1) ); }
 
 .cube .front  { -webkit-transform: rotateY(   0deg ) translateZ( 100px ); z-index: 300;}
 .cube .back   { -webkit-transform: rotateY( 180deg ) translateZ( 100px ); z-index: 100;}
@@ -328,7 +352,5 @@ h2 {
   box-shadow: inset 0 0 30px rgba(0,0,0,.5);
 }
 .face.total-42 {
-  color: white;
-  text-shadow: 0 0 10px yellow;
-  -webkit-text-stroke: yellow 1px;
+  opacity: .5;
 }
