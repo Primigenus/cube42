@@ -7,20 +7,16 @@ if (Meteor.isClient)
     "Toggle a single cube to advance to the next level.",
     "Good job! Now toggle two cubes to make it to level 3.",
     "Is it getting harder yet? 3 cubes now!",
-    "Your goal is to toggle cubes on and off until each face totals 42."
+    "Wow, level 4! Bet you can't beat this one."
   ];
 
   Meteor.startup(function()
   {
-    var toh;
-
-    //Session.set("loading", false);
     Session.set("message", 0);
     Session.set("level", level);
 
     $("[data-role='lettering']").lettering();
 
-    // add cubes
     $(".cube").each(function(i, el) {
       $(el).attr("data-nr", i);
       setCubeValue($(el), 1+ ~~(Math.random() * 9));
@@ -29,6 +25,13 @@ if (Meteor.isClient)
     makePuzzle(level);
     
     Meteor.setInterval(fixOrientation, 500);
+
+    attachEventListeners();
+  });
+
+  function attachEventListeners()
+  {
+    var toh;
 
     $(document).keyup(function(e) {
       Meteor.clearTimeout(toh);
@@ -99,7 +102,7 @@ if (Meteor.isClient)
       instruction++;
       showInstruction(instruction);
     });
-  });
+  }
 
   function showFace(face)
   {
@@ -168,13 +171,17 @@ if (Meteor.isClient)
     }
   });
 
+  Template.level.currLevel = function() {
+    return Session.get("level");
+  }
+
   function nextLevel()
   {
     var msg = Session.get("message")*1;
     msg++;
     alert(messages[msg]);
     Session.set("message", msg);
-    $("#level").text("Level " + level);
+    Session.set("level", level);
     makePuzzle(level);
   }
 

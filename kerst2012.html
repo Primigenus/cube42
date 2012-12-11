@@ -7,7 +7,7 @@
 
 <body>
   <header>
-    <div id="level">Level 1</div>
+    {{> level}}
   </header>
 
   {{#if currentUser}}
@@ -19,6 +19,10 @@
   {{> body}}
   {{> totals}}
 </body>
+
+<template name="level">
+  <div id="level">Level {{currLevel}}</div>
+</template>
 
 <template name="loading">
   <div id="loading">
