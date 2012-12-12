@@ -262,6 +262,7 @@ h2 {
 #container {
   min-height: 100%;
   -webkit-perspective: 1000px;
+  -webkit-transform: scale(0.7);
 }
 
 #master-cube {
@@ -271,7 +272,7 @@ h2 {
   margin: 0 auto 2px;
   -webkit-transform-style: preserve-3d;
   -webkit-transition: -webkit-transform 1s;
-  -webkit-transform-origin: center center -300px;
+  -webkit-transform-origin: center center 0px;
 }
 
 .cube {
@@ -283,9 +284,9 @@ h2 {
   -webkit-transition: -webkit-transform, opacity .4s;
   -webkit-transform-origin: center center;
 }
-#top .cube { -webkit-transform: translateZ(-100px); }
-#middle .cube { -webkit-transform: translateZ(-300px); }
-#bottom .cube { -webkit-transform: translateZ(-500px); }
+#top .cube { -webkit-transform: translateZ(-200px); }
+#middle .cube { -webkit-transform: translateZ(0px); }
+#bottom .cube { -webkit-transform: translateZ(200px); }
 
 .cube figure {
   margin: 0;
