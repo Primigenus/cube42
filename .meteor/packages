@@ -8,7 +8,5 @@ insecure
 preserve-inputs
 jquery
 accounts-facebook
-accounts-twitter
-accounts-google
 accounts-base
 accounts-ui
