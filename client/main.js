@@ -39,6 +39,9 @@ function attachEventListeners()
   $(document).keyup(function(e) {
     Meteor.clearTimeout(toh);
 
+    if (currentMatrix == "none")
+      currentMatrix = "";
+
     var dir = e.which;
 
     if (e.which == 37) {// left
@@ -59,8 +62,6 @@ function attachEventListeners()
 
       toh = Meteor.setTimeout(function() {
         currentMatrix = $("#master-cube").css("-webkit-transform");
-        if (currentMatrix == "none")
-          currentMatrix = "";
       }, 1050);
     }
   });
@@ -119,8 +120,8 @@ function showFace(face)
       transform = "1,0,0,90deg";
       break;
   }
-  currentMatrix = "none";
-  $("#master-cube").css("-webkit-transform", "rotate3d(" + transform + ")");
+  currentMatrix = "rotate3d(" + transform + ")";
+  $("#master-cube").css("-webkit-transform", currentMatrix);
 }
 
 function fixOrientation()
