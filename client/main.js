@@ -16,8 +16,6 @@ Meteor.startup(function()
   Session.set("level", level);
   Session.set("numToggledCubes", 0);
 
-  $("[data-role='lettering']").lettering();
-
   $(".cube").each(function(i, el) {
     $(el).attr("data-nr", i);
     setCubeValue($(el), 1+ ~~(Math.random() * 9));
@@ -33,6 +31,7 @@ Meteor.startup(function()
 function attachEventListeners()
 {
   var toh;
+  var dragStartData = null;
 
   $(document).keyup(function(e) {
     Meteor.clearTimeout(toh);
@@ -61,10 +60,8 @@ function attachEventListeners()
           currentMatrix = "";
       }, 1050);
     }
-
   });
 
-  var dragStartData = null;
   $(document).mousedown(function(evt) {
     dragStartData = {
       x: evt.pageX,
@@ -74,10 +71,12 @@ function attachEventListeners()
     };
     $("#master-cube").css("-webkit-transition", "none")
   });
+
   $(document).mouseup(function() {
     $("#master-cube").css("-webkit-transition", dragStartData.transition);
     dragStartData = null;
   });
+
   $(document).mousemove(function(evt) {
     if (dragStartData)
     {
@@ -92,13 +91,6 @@ function attachEventListeners()
     }
   });
 
-  $("[data-role='play']").click(function(){play()});
-  $("[data-role='instructions']").click(function(){showInstructions()});
-
-  $("#instructions,#instructions li").click(function() {
-    instruction++;
-    showInstruction(instruction);
-  });
 }
 
 function showFace(face)
@@ -271,7 +263,7 @@ function makePuzzle(difficulty)
     {
       if (!findSolution(0))
       {
-        if (confirm("Kan geen puzzel maken. Reload?"))
+        if (confirm("Can't create a puzzle. Reload?"))
           window.location.reload();
         return;
       }
@@ -284,7 +276,7 @@ function makePuzzle(difficulty)
     catch(e)
     {
       // took too long, retry
-      return setTimeout(tryPuzzle, 1);
+      return Meteor.defer(tryPuzzle);
     }
 
     function findSolution(depth)

@@ -1,23 +1,14 @@
-
-
-Template.body.events({
-  'click .cube': function(evt) {
-    var $el = $(evt.target).parents(".cube");
-    if (!$el.hasClass("removed"))
-    {
-      $el.toggleClass("clicked");
-
-      var num = Session.get("numToggledCubes")*1;
-      if ($el.hasClass("clicked"))
-        num++;
-      else
-        num--;
-      Session.set("numToggledCubes", num);
-
-      calcFaces($(evt.target).text());
-    }
+Template.loading.rendered = function() {
+  $("[data-role='lettering']").lettering();
+}
+Template.loading.events({
+  "click [data-role='play']": function() {
+    play();
+  },
+  "click [data-role='instructions']": function() {
+    showInstructions();
   }
-});
+})
 
 Template.header.currLevel = function() {
   return Session.get("level");
@@ -38,11 +29,9 @@ Template.message.text = function() {
 Template.message.rendered = function() {
   $("#messageContainer").show();
 }
-
 Template.message.hasMessage = function() {
   return !Session.equals("message", undefined);
 }
-
 Template.message.events({
   'click #messageContainer': function() {
     $("#messageContainer").hide();
@@ -52,11 +41,13 @@ Template.message.events({
   }
 });
 
-Template.totals.events({
-  'click .face': function(evt) {
-    showFace(evt.target.className.split(" ")[1]);
+Template.instructions.events({
+  "click #instructions, #instructions li": function() {
+    instruction++;
+    showInstruction(instruction);
   }
-});
+})
+
 Template.totals.faces = function() {
   var results = [
     {face: "front", total: Session.get("totalfront")},
@@ -68,3 +59,27 @@ Template.totals.faces = function() {
   ];
   return results;
 }
+Template.totals.events({
+  'click .face': function(evt) {
+    showFace(evt.target.className.split(" ")[1]);
+  }
+});
+
+Template.body.events({
+  'click .cube': function(evt) {
+    var $el = $(evt.target).parents(".cube");
+    if (!$el.hasClass("removed"))
+    {
+      $el.toggleClass("clicked");
+
+      var num = Session.get("numToggledCubes")*1;
+      if ($el.hasClass("clicked"))
+        num++;
+      else
+        num--;
+      Session.set("numToggledCubes", num);
+
+      calcFaces($(evt.target).text());
+    }
+  }
+});
