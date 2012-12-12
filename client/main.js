@@ -1,4 +1,5 @@
 var level = 1;
+var subLevel = 1;
 var instruction = 0;
 var currentMatrix = "";
 var messages = [
@@ -9,11 +10,13 @@ var messages = [
 var centerCube = 1 + 3 + 9;
 var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
 var offCubes = [centerCube];
+var triesEachLevel = 5;
 
 Meteor.startup(function()
 {
   Session.set("message", undefined);
   Session.set("level", level);
+  Session.set("subLevel", subLevel);
   Session.set("numToggledCubes", 0);
 
   $(".cube").each(function(i, el) {
@@ -152,12 +155,18 @@ function fixOrientation()
 function nextLevel()
 {
   Meteor.defer(function() {
-    var msg = Session.get("message")*1;
-    if (msg == undefined) msg = -1;
-    msg++;
-    Session.set("message", msg);
+    if (triesEachLevel == 0) {
+      var msg = Session.get("message")*1;
+      if (msg == undefined) msg = -1;
+      msg++;
+      Session.set("message", msg);
 
-    Session.set("level", level);
+      Session.set("level", level);
+
+      triesEachLevel = 5;
+    }
+
+    Session.set("subLevel", subLevel);
     Session.set("numToggledCubes", 0);
 
     makePuzzle(level);

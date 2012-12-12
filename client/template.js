@@ -13,6 +13,9 @@ Template.loading.events({
 Template.header.currLevel = function() {
   return Session.get("level");
 }
+Template.header.subLevel = function() {
+  return Session.get("subLevel");
+}
 
 Template.header.toggledCubes = function() {
   var num = Session.get("numToggledCubes") * 1;

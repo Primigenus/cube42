@@ -12,7 +12,17 @@ function calcFaces()
 
   if (count42 == 6)
   {
-    level++;
+    triesEachLevel--;
+    if (triesEachLevel == 0) {
+      level++;
+      subLevel = 1;
+    } else {
+      subLevel++;
+      for (var i = 0; i < offCubes.length; i++)
+        $($(".cube")[offCubes[i]]).removeClass("clicked");
+      onCubes = onCubes.concat(offCubes);
+      offCubes = [centerCube];
+    }
     nextLevel(level);
   }
 }
