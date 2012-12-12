@@ -284,9 +284,9 @@ h2 {
   -webkit-transition: -webkit-transform, opacity .4s;
   -webkit-transform-origin: center center;
 }
-#top .cube { -webkit-transform: translateZ(-200px); }
+#top .cube { -webkit-transform: translateZ(200px); }
 #middle .cube { -webkit-transform: translateZ(0px); }
-#bottom .cube { -webkit-transform: translateZ(200px); }
+#bottom .cube { -webkit-transform: translateZ(-200px); }
 
 .cube figure {
   margin: 0;
