@@ -1,3 +1,26 @@
+function calcFaces()
+{
+  var results = getFaces();
+  var str = "";
+  var count42 = 0;
+  for (var face in results) {
+    var total = _.reduce(results[face], function(x,y) { return x + 1*y.text();}, 0);
+    if (total == 42)
+      count42++;
+    Session.set("total" + face, total);
+  }
+
+  if (count42 == 6)
+  {
+    level++;
+    nextLevel(level);
+  }
+}
+
+function getFaces()
+{
+  return {front: calcFront(), back: calcBack(), left: calcLeft(), right: calcRight(), top: calcTop(), bottom: calcBottom()};
+}
 
 function isClicked(x, y, z) {
   return getCube(x, y, z, "cube").hasClass("clicked");
