@@ -42,8 +42,35 @@ header:after {
 }
 
 #login-buttons {
-  position: fixed;
-  top: 20px; right: 200px;
+  display: block;
+  width: 588px;
+  margin: 0 auto 3px auto;
+  padding: 4px;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: right;
+  background-color: #234;
+  background-image: -webkit-linear-gradient(top, #234, #123);
+}
+#loading #login-buttons {
+  color: #aaa;
+  margin-top: 6px;
+}
+#loading .login-display-name {
+  color: #fff;
+}
+#login-buttons .login-image {
+  top: 1px !important;
+}
+#login-buttons .login-button {
+  font-size: 100% !important;
+  padding: 0 8px !important;
+  color: #aaa !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }
 
 #loading, #instructions {
@@ -52,11 +79,19 @@ header:after {
   z-index: 99;
   background-color: #000;
   color: #E6E629;
-  padding: 100px 0 0 0;
+  padding: 2px 0 0 0;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
   -webkit-user-select: none;
+}
+
+#welcome-screen {
+  width: 596px;
+  margin: 0 auto;
+  padding: 100px 0;
+  background-color: #222;
+  background-image: -webkit-linear-gradient(top, #222, #111);
 }
 
 #instructions {
@@ -66,7 +101,7 @@ header:after {
 .instructions #instructions { display: block; }
 #instructions ol {
   list-style: none;
-  margin: 0 auto; padding: 0;
+  margin: 130px auto 0 auto; padding: 0;
   position: relative;
   width: 600px; height: 100%;
 }
@@ -145,14 +180,13 @@ h1 {
   position: relative;
   margin: 40px auto;
   text-transform: uppercase;
-  width: 600px;
   zoom: 1.4;
 }
 .the {
   position: absolute;
   font-size: 16px;
   top: -15px;
-  width: 600px;
+  width: 100%;
   left: 0;
   text-transform: lowercase;
   color: #CCC;
