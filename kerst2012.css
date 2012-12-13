@@ -41,7 +41,7 @@ header:after {
   background-color: #cce;
 }
 
-#login-buttons {
+#login {
   display: block;
   width: 588px;
   margin: 0 auto 3px auto;
@@ -52,11 +52,11 @@ header:after {
   background-color: #234;
   background-image: -webkit-linear-gradient(top, #234, #123);
 }
-#loading #login-buttons {
+#start #login {
   color: #aaa;
   margin-top: 6px;
 }
-#loading .login-display-name {
+#start .login-display-name {
   color: #fff;
 }
 #login-buttons .login-image {
@@ -73,7 +73,7 @@ header:after {
   -webkit-box-shadow: none !important;
 }
 
-#loading, #instructions {
+#start, #instructions {
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
   z-index: 99;
@@ -165,6 +165,7 @@ header:after {
 #message .message {
   display: block;
   top: 250px; left: 150px;
+  text-align: center;
 }
 .message:after {
   text-align: center;
@@ -174,6 +175,15 @@ header:after {
   position: absolute;
   bottom: -30px; left: 0;
   width: 100%;
+}
+.current-level {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  margin: -10px -10px 10px -10px;
+  padding: 10px;
+  background: #E6E629;
+  color: black;
 }
 
 h1 {

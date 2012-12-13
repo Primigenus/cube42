@@ -7,7 +7,7 @@
 
 <body>
 
-  {{loginButtons}}
+  {{> login}}
 
   <header>
     {{> header}}
@@ -21,7 +21,7 @@
 </body>
 
 <template name="header">
-  <div id="level">Level {{currLevel}}.{{subLevel}}</div>
+  <div id="level">Level {{currLevel}}-{{subLevel}}</div>
   <div id="toggledCubes" title="Displays how many cubes you've toggled off.">
     {{#each toggledCubes}}
       <div class="toggledCube {{active}}"></div>
@@ -33,15 +33,18 @@
   {{#if hasMessage}}
     <div id="messageContainer">
       <div id="message">
-        <div class="message">{{text}}</div>
+        <div class="message">
+          <div class="current-level">Level {{currLevel}}</div>
+          {{text}}
+        </div>
       </div>
     </div>
   {{/if}}
 </template>
 
-<template name="loading">
-  <div id="loading">
-    {{loginButtons}}
+<template name="start">
+  <div id="start">
+    {{> login}}
     <div id="welcome-screen">
       <h1>
         <span class="the">the</span>
@@ -56,6 +59,23 @@
         Instructions
       </div>
     </div>
+  </div>
+</template>
+
+<template name="gift">
+  <div id="gift">
+    <div class="button" data-role="unlock-gift">Claim your Christmas gift!</div>
+  </div>
+</template>
+
+<template name="login">
+  <div id="login">
+    {{#if currentUser}}
+      {{#if unlockGift}}
+        {{> gift}}
+      {{/if}}
+    {{/if}}
+    {{loginButtons}}
   </div>
 </template>
 
@@ -78,7 +98,7 @@
 </template>
 
 <template name="body">
-  {{> loading}}
+  {{> start}}
   <section id="container">
     <div id="master-cube">
       <div class="layer" id="top">

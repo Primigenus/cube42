@@ -1,7 +1,10 @@
-Template.loading.rendered = function() {
+Template.start.rendered = function() {
   $("[data-role='lettering']").lettering();
 }
-Template.loading.events({
+Template.start.unlockGift = function() {
+  return level > 2;
+}
+Template.start.events({
   "click [data-role='play']": function() {
     play();
   },
@@ -34,6 +37,9 @@ Template.message.rendered = function() {
 }
 Template.message.hasMessage = function() {
   return !Session.equals("message", undefined);
+}
+Template.message.currLevel = function() {
+  return Session.get("level");
 }
 Template.message.events({
   'click #messageContainer': function() {
