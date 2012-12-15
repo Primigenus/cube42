@@ -316,7 +316,10 @@ h2 {
   -webkit-transition: -webkit-transform, background .2s;
 }
 .cube:hover, .cube:active {
-  opacity: .1;
+  opacity: .4;
+}
+.cube:hover figure {
+  color: rgba(255,255,255,.5);
 }
 .cube:active .front, .cube:active .back, .cube:active .left, .cube:active .right, .cube:active .top, .cube:active .bottom {
   box-shadow: inset 0 0 30px rgba(0,0,0,.9);
