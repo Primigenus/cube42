@@ -3,15 +3,37 @@ var subLevel = 1;
 var instruction = 0;
 var currentMatrix = "";
 var messages = [
-  "Complete four puzzles by toggling a single cube."
-  ,"Good job! Now, complete four puzzles by toggling two cubes."
-  ,"Getting harder yet? Next up: three cubes at a time."
+  // 1
+  "Complete five puzzles by toggling a single cube."
+  ,"Nice work! 4 more to go."
+  ,"3 more! Tip: if only one square lights up, it's probably the center cube."
+  ,"Now you're thinking with cubes."
+  ,"Almost there, just one more!"
+  
+  // 2
+  ,"Good job! Now, complete three puzzles by toggling two cubes."
+  ,"You're pretty good at this! Now do 3 more."
+  ,"Have you ever considered becoming a professional puzzle solver? Keep going!"
+  ,"One more until you unlock your gifts!"
+  
+  // 3
+  ,"Getting harder yet? Next up: solve three puzzles using three cubes at a time."
+  ,"..."
   ,"Wow, level 4! Can you solve puzzles using four cubes?"
+
+  // 4
+  ,"The final level! Can you solve two puzzles using four cubes?"
+  ,"This is it! Solve 4-2 and you're entered for the bonus reward!"
 ];
 var centerCube = 1 + 3 + 9;
 var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
 var offCubes = [centerCube];
-var triesEachLevel = 4;
+var TRIES_LEVEL_1 = 5;
+var TRIES_LEVEL_2 = 4;
+var TRIES_LEVEL_3 = 3;
+var TRIES_LEVEL_4 = 2;
+var triesEachLevel = 1;
+var puzzleGenerationAttempts = 42;
 
 Meteor.startup(function()
 {
@@ -21,6 +43,7 @@ Meteor.startup(function()
   Session.set("level", level);
   Session.set("subLevel", subLevel);
   Session.set("numToggledCubes", 0);
+  Session.set("loading", false);
 
   $(".cube").each(function(i, el) {
     $(el).attr("data-nr", i);
@@ -168,19 +191,47 @@ function nextMessage()
 function nextLevel()
 {
   Meteor.defer(function() {
+    var startingNewLevel = false;
     if (triesEachLevel == 0) {
-      nextMessage();
       Session.set("level", level);
-      triesEachLevel = 4;
+      switch (level) {
+        case 1:
+          triesEachLevel = TRIES_LEVEL_1;
+          break;
+        case 2:
+          triesEachLevel = TRIES_LEVEL_2;
+          break;
+        case 3:
+          triesEachLevel = TRIES_LEVEL_3;
+          break;
+        case 4:
+          triesEachLevel = TRIES_LEVEL_4;
+          break;
+      }
+      startingNewLevel = true;
+      offCubes = [centerCube];
     }
+
+    nextMessage();
 
     Session.set("subLevel", subLevel);
     Session.set("numToggledCubes", 0);
+    Session.set("loading", true);
 
-    makePuzzle(level);
-
-    $("#master-cube").css("-webkit-transform", "");
+    Meteor.defer(function(){
+      if (startingNewLevel) {
+        $(".cube").removeClass("removed");
+        $(".cube").removeClass("clicked");
+      }
+      makePuzzle(level);
+      resetView();
+    });
   });
+}
+
+function resetView()
+{
+  $("#master-cube").css("-webkit-transform", "");
 }
 
 function getCube(x, y, z, type)
@@ -191,7 +242,7 @@ function getCube(x, y, z, type)
 function play()
 {
   $("#start").hide();
-  $("#master-cube").css("-webkit-transform", "");
+  resetView();
   $(document.body).removeClass('instructions');
   nextMessage();
   spinCube();
@@ -234,14 +285,14 @@ function showInstruction(i) {
 
 function makePuzzle(difficulty)
 {
+  console.log("Create level", difficulty, "puzzle");
+
   if (difficulty == 1)
     $($(".cube")[centerCube]).addClass("clicked");
 
   // Really remove the off cubes from the last puzzle
   for (var i = 0; i < offCubes.length; i++)
     $($(".cube")[offCubes[i]]).addClass("removed");
-
-  console.log("Create level", difficulty, "puzzle");
 
   // Choose new set of cubes to turn off
   offCubes = onCubes.splice(0, difficulty);
@@ -256,6 +307,15 @@ function makePuzzle(difficulty)
   function tryPuzzle()
   {
     console.log("Attempting to generate...")
+    puzzleGenerationAttempts--;
+
+    if (puzzleGenerationAttempts == 0) {
+      if (confirm("Can't create a puzzle. Reload?"))
+        window.location.reload();
+      puzzleGenerationAttempts = 42;
+      return;
+    }
+
     var faces = getFaces();
     var state = {};
     var cubeEffects = {};
@@ -291,7 +351,9 @@ function makePuzzle(difficulty)
 
       calcFaces();
 
-      console.log("Done.")
+      console.log("Done.");
+      puzzleGenerationAttempts = 42;
+      Session.set("loading", false);
     }
     catch(e)
     {
@@ -388,8 +450,8 @@ function spinCube()
       "-webkit-transition-duration": "0s",
       "-webkit-transform": "rotate3d(0, 1, 0, 0deg) " + currentMatrix
     });
-    Meteor.setTimeout(function() {
+    Meteor.defer(function() {
       $("#master-cube").css("-webkit-transition-duration", "1s");
-    }, 1);
+    });
   }, 3000);
 }

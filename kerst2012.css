@@ -167,7 +167,7 @@ header:after {
   top: 250px; left: 150px;
   text-align: center;
 }
-.message:after {
+body:not(.loading) .message:after {
   text-align: center;
   display: block;
   content: "Click to continue";

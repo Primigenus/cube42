@@ -41,12 +41,17 @@ Template.message.hasMessage = function() {
 Template.message.currLevel = function() {
   return Session.get("level");
 }
+Template.message.subLevel = function() {
+  return Session.get("subLevel");
+}
 Template.message.events({
   'click #messageContainer': function() {
-    $("#messageContainer").hide();
+    if (!Session.equals("loading", true))
+      $("#messageContainer").hide();
   },
   'click .message': function() {
-    $("#messageContainer").hide();
+    if (!Session.equals("loading", true))
+      $("#messageContainer").hide();
   }
 });
 
