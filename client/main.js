@@ -29,7 +29,7 @@ var centerCube = 1 + 3 + 9;
 var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
 var offCubes = [centerCube];
 var TRIES_LEVEL = [5,4,3,2];
-var triesEachLevel = 1;
+var triesEachLevel = TRIES_LEVEL[0];
 var puzzleGenerationAttempts = 42;
 
 Meteor.startup(function()
