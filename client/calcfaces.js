@@ -12,16 +12,7 @@ function calcFaces()
 
   // solved!
   if (count42 == 6)
-  {
-    triesEachLevel--;
-    if (triesEachLevel == 0) {
-      level++;
-      subLevel = 1;
-    } else {
-      subLevel++;
-    }
-    nextLevel(level);
-  }
+    nextLevel();
 }
 
 function getFaces()
