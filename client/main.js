@@ -1,5 +1,5 @@
-var level = 1;
-var subLevel = 1;
+var level = 0;
+var subLevel = 0;
 var instruction = 0;
 var currentMatrix = "";
 var messages = [
@@ -26,17 +26,16 @@ var messages = [
   ,"This is it! Solve 4-2 and you're entered for the bonus reward!"
 ];
 var centerCube = 1 + 3 + 9;
-var onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
-var offCubes = [centerCube];
-var TRIES_LEVEL = [5,4,3,2];
-var triesEachLevel = TRIES_LEVEL[0];
+var onCubes, offCubes;
+var TRIES_LEVEL = [5, 4, 3, 2];
+var triesEachLevel = 1;
 var puzzleGenerationAttempts = 42;
 
 Meteor.startup(function()
 {
   console.log("Initializing 42 cube...");
 
-  Session.set("message", undefined);
+  Session.set("message", -2);
   Session.set("level", level);
   Session.set("subLevel", subLevel);
   Session.set("numToggledCubes", 0);
@@ -47,7 +46,7 @@ Meteor.startup(function()
     setCubeValue($(el), 1+ ~~(Math.random() * 9));
   });
 
-  makePuzzle(level);
+  nextLevel();
 
   Meteor.setInterval(fixOrientation, 500);
 
@@ -179,21 +178,26 @@ function fixOrientation()
 
 function nextMessage()
 {
-  var msg = Session.get("message")*1;
-  if (msg == undefined) msg = -1;
-  msg++;
-  Session.set("message", msg);
+  Session.set("message", Session.get("message") + 1);
 }
 
 function nextLevel()
 {
   Meteor.defer(function() {
+    
+    triesEachLevel--;
+    
     var startingNewLevel = false;
     if (triesEachLevel == 0) {
+      level++;
+      subLevel = 1;      
       Session.set("level", level);
       triesEachLevel = TRIES_LEVEL[level - 1];
       startingNewLevel = true;
+      onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
       offCubes = [centerCube];
+    } else {
+      subLevel++;
     }
 
     nextMessage();
@@ -271,8 +275,7 @@ function makePuzzle(difficulty)
 {
   console.log("Create level", difficulty, "puzzle");
 
-  if (difficulty == 1)
-    $($(".cube")[centerCube]).addClass("clicked");
+  $($(".cube")[centerCube]).addClass("clicked");
 
   // Really remove the off cubes from the last puzzle
   for (var i = 0; i < offCubes.length; i++)
