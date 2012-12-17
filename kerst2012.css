@@ -106,7 +106,7 @@ header:after {
   border-radius: 10px;
   border: inset 1px #345;
   padding: 1px 10px;
-  color: #456;
+  color: #678;
   cursor: default;
   text-align: center;
   box-shadow: inset 0 0 4px rgba(0,0,0,.7);
@@ -189,15 +189,30 @@ header:after {
   left: 50%;
   margin-left: -14px;
 }
+.arrow-top:after, .arrow-top:before {
+  top: -30px;
+}
+.arrow-top:before {
+  border-top-color: transparent;
+  border-bottom-color: #E6E629;
+}
+.arrow-top:after {
+  margin-top: 10px;
+  border-top-color: transparent;
+  border-bottom-color: black;
+}
 #instructions li:nth-child(1) { left: 150px; top: 50px; }
 #instructions li:nth-child(2) { left: 150px; top: 100px; }
 #instructions li:nth-child(3) { left: 150px; top: 500px; }
 #instructions li:nth-child(4) { left: 190px; top: 280px; }
-#instructions li:nth-child(5) { left: 0; top: 500px; }
+#instructions li:nth-child(5) { left: 0; top: 480px; }
+#instructions li:nth-child(5):before, #instructions li:nth-child(5):after { left: 20%;}
 #instructions li:nth-child(6) { left: 150px; top: 250px; }
 #instructions li:nth-child(7) { left: 150px; top: 500px; }
-#instructions li:nth-child(8) { left: 150px; top: 250px; }
-#instructions li:nth-child(9) { left: 150px; top: 250px; }
+#instructions li:nth-child(8) { left: 290px; top: -30px; }
+#instructions li:nth-child(8):before, #instructions li:nth-child(8):after { left: 90%;}
+#instructions li:nth-child(9) { left: 0px; top: -30px; }
+#instructions li:nth-child(9):before, #instructions li:nth-child(9):after { left: 45%;}
 #instructions li:nth-child(10) { left: 150px; top: 250px; }
 
 #messageContainer {

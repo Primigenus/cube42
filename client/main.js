@@ -4,14 +4,14 @@ var instruction = 0;
 var currentMatrix = "";
 var messages = [
   // 1
-  "Complete five puzzles by toggling a single cube."
-  ,"Nice work! 4 more to go."
+  "Level 1 has five puzzles. Complete each one by hiding a single cube."
+  ,"Nice work. 4 more puzzles to go until level 2!"
   ,"3 more! Tip: if only one square lights up, it's probably the center cube."
   ,"Now you're thinking with cubes."
   ,"Almost there, just one more!"
 
   // 2
-  ,"Good job! Now, complete three puzzles by toggling two cubes."
+  ,"Good job! Now, complete four puzzles by hiding two cubes."
   ,"You're pretty good at this! Now do 3 more."
   ,"Have you ever considered becoming a professional puzzle solver? Keep going!"
   ,"One more until you unlock your gifts!"
@@ -284,6 +284,11 @@ function showInstruction(i) {
         showFace("front");
       }, 1800);
       break;
+    case 7:
+      Session.set("numToggledCubes", 1);
+      Meteor.setTimeout(function() {
+        Session.set("numToggledCubes", 0);
+      }, 1000);
   }
 }
 
