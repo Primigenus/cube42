@@ -18,6 +18,7 @@
   {{> body}}
   {{> totals}}
   {{> message}}
+  {{> rankings}}
 </body>
 
 <template name="header">
@@ -61,11 +62,13 @@
 </template>
 
 <template name="rankings">
-  <ol>
-    {{#each rankings}}
-    <li>{{username}} reached level {{level}}!</li>
-    {{/each}}
-  </ol>
+  <div id="rankings">
+    <ol>
+      {{#each users}}
+      <li>{{profile.name}} reached level {{maxLevelReached}}!</li>
+      {{/each}}
+    </ol>
+  </div>
 </template>
 
 <template name="gift">

@@ -35,6 +35,8 @@ Meteor.startup(function()
 {
   console.log("Initializing 42 cube...");
 
+  Meteor.subscribe("maxLevelReached");
+
   Session.set("message", -2);
   Session.set("level", level);
   Session.set("subLevel", subLevel);
@@ -247,6 +249,14 @@ function play()
   $(document.body).removeClass('instructions');
   nextMessage();
   spinCube();
+}
+
+function showRankings()
+{
+  $("#start").hide();
+  $("#messageContainer").hide();
+  $("#rankings").show();
+  $(document.body).addClass('rankings');
 }
 
 function showInstructions()

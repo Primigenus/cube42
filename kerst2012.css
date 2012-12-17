@@ -121,7 +121,23 @@ header:after {
   color: white;
 }
 
-#start, #instructions {
+#rankings { display: none; }
+.rankings #rankings { display: block; }
+
+#rankings ol {
+  list-style: none;
+}
+#rankings li {
+  counter-increment: par-num;
+  margin: 0 0 20px 0;
+}
+#rankings li:before {
+  display: block;
+  text-align: center;
+  content: counter(par-num, decimal) ". ";
+}
+
+#start, #instructions, #rankings {
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
   z-index: 99;
@@ -134,7 +150,7 @@ header:after {
   -webkit-user-select: none;
 }
 
-#welcome-screen {
+#welcome-screen, #rankings ol {
   width: 596px;
   margin: 0 auto;
   padding: 100px 0;
