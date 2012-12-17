@@ -53,14 +53,19 @@
         <span data-role="lettering" class="title">Cube</span>
       </h1>
       <h2>A 3d puzzle game</h2>
-      <div data-role="play" class="button">
-        Play
-      </div>
-      <div data-role="instructions" class="button">
-        Instructions
-      </div>
+      <div data-role="play" class="button">Play</div>
+      <div data-role="instructions" class="button">Instructions</div>
+      <div data-role="rankings" class="button">Rankings</div>
     </div>
   </div>
+</template>
+
+<template name="rankings">
+  <ol>
+    {{#each rankings}}
+    <li>{{username}} reached level {{level}}!</li>
+    {{/each}}
+  </ol>
 </template>
 
 <template name="gift">

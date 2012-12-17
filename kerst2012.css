@@ -397,7 +397,7 @@ h2 {
   color: rgba(255,255,255,.1);
   text-shadow: none;
   background: none;
-  border-color: rgba(0,0,0,.3);
+  border-color: #E6E629;
 }
 .cube.clicked:hover figure, .cube.clicked:active figure {
   border-color: yellow !important;
