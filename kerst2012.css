@@ -175,7 +175,7 @@ header:after {
 #instructions li:nth-child(4) { left: 190px; top: 280px; }
 #instructions li:nth-child(5) { left: 0; top: 500px; }
 #instructions li:nth-child(6) { left: 150px; top: 250px; }
-#instructions li:nth-child(7) { left: 150px; top: 250px; }
+#instructions li:nth-child(7) { left: 150px; top: 500px; }
 #instructions li:nth-child(8) { left: 150px; top: 250px; }
 #instructions li:nth-child(9) { left: 150px; top: 250px; }
 #instructions li:nth-child(10) { left: 150px; top: 250px; }
@@ -195,7 +195,7 @@ header:after {
   top: 250px; left: 150px;
   text-align: center;
 }
-body:not(.loading) .message:after {
+#messageContainer:not(.loading) .message:after {
   text-align: center;
   display: block;
   content: "Click to continue";

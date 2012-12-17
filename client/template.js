@@ -40,6 +40,9 @@ Template.gift.events({
   }
 })
 
+Template.message.loading = function() {
+  return Session.equals("loading", true) ? "loading" : "";
+}
 Template.message.text = function() {
   return messages[Session.get("message") * 1];
 }
