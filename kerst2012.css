@@ -72,6 +72,34 @@ header:after {
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
 }
+#login-buttons .login-button:hover {
+  color: white !important;
+}
+
+#gift {
+  float: left;
+}
+
+#gift .button {
+  display: inline-block;
+  width: 200px;
+  border-radius: 10px;
+  border: inset 1px #345;
+  padding: 1px 10px;
+  color: #456;
+  cursor: default;
+  text-align: center;
+  box-shadow: inset 0 0 4px rgba(0,0,0,.7);
+  background: -webkit-linear-gradient(bottom, #234, #123);
+}
+#gift .button:hover {
+  color: #aaa;
+}
+#gift .button.active {
+  background: -webkit-linear-gradient(top, #234, #123);
+  box-shadow: 0 0 4px #ffa;
+  color: white;
+}
 
 #start, #instructions {
   position: fixed;
@@ -249,7 +277,7 @@ h2 {
   margin: -218px 0 200px 0;
 }
 
-.button {
+#welcome-screen .button {
   padding: 10px;
   border: solid 4px #E6E629;
   margin: 20px auto;
@@ -257,15 +285,15 @@ h2 {
   font-size: 24px;
   cursor: pointer;
 }
-.button:hover {
+#welcome-screen .button:hover {
   border-color: white;
   color: white;
 }
-.button:active {
+#welcome-screen .button:active {
   border-color: #fcc;
   color: #fcc;
 }
-.button:focus {
+#welcome-screen .button:focus {
   outline: solid 3px yellow;
 }
 

@@ -1,9 +1,6 @@
 Template.start.rendered = function() {
   $("[data-role='lettering']").lettering();
 }
-Template.start.unlockGift = function() {
-  return level > 2;
-}
 Template.start.events({
   "click [data-role='play']": function() {
     play();
@@ -28,6 +25,20 @@ Template.header.toggledCubes = function() {
     result.push({active: i < num? "active" : ""});
   return result;
 }
+
+Template.gift.active = function() {
+  return Session.get("level") > 2;
+}
+Template.gift.events({
+  'mouseenter .button': function(evt) {
+    if (level < 3)
+      $(evt.target).text("Reach level 3 to unlock!");
+  },
+  'mouseleave .button': function(evt) {
+    if (level < 3)
+      $(evt.target).text("Claim your Christmas gift!");
+  }
+})
 
 Template.message.text = function() {
   return messages[Session.get("message") * 1];

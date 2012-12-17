@@ -64,17 +64,18 @@
 
 <template name="gift">
   <div id="gift">
-    <div class="button" data-role="unlock-gift">Claim your Christmas gift!</div>
+    <div class="button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
   </div>
 </template>
 
 <template name="login">
   <div id="login">
     {{#if currentUser}}
-      {{#if unlockGift}}
-        {{> gift}}
-      {{/if}}
+      {{> gift}}
     {{/if}}
+    {{#unless currentUser}}
+      <div id="gift"><div class="button">Sign in to claim your gift</div></div>
+    {{/unless}}
     {{loginButtons}}
   </div>
 </template>
