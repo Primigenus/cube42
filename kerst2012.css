@@ -16,9 +16,8 @@ header {
   padding: 10px;
   text-shadow: 0 -1px 0 rgba(0,0,0,.4);
   margin: 0 auto 2px auto;
-}
-header {
   background: -webkit-linear-gradient(top, #222, #333, #222 );
+  -webkit-font-smoothing: antialiased;
 }
 header:after {
   display: block;
@@ -39,6 +38,27 @@ header:after {
 }
 .toggledCube.active {
   background-color: #cce;
+}
+
+#reload {
+  margin-left: 10px;
+  font-size: 22px;
+  line-height: 24px;
+  display: inline-block;
+  float: left;
+  padding: 2px 4px 0 4px;
+  border-radius: 20px;
+  border: inset 1px #345;
+  cursor: pointer;
+  color: #888;
+}
+#reload:hover {
+  color: #fff;
+  background-color: #444;
+}
+#reload:active {
+  color: #555;
+  background-color: #111;
 }
 
 #login {
@@ -195,14 +215,20 @@ header:after {
   top: 250px; left: 150px;
   text-align: center;
 }
-#messageContainer:not(.loading) .message:after {
+#messageContainer .message:after {
   text-align: center;
   display: block;
-  content: "Click to continue";
-  color: #999;
   position: absolute;
   bottom: -30px; left: 0;
   width: 100%;
+  content: "";
+}
+#messageContainer:not(.loading) .message:after {
+  content: "Click to continue";
+  color: #999;
+}
+#messageContainer.loading .message:after {
+  background: url(/loading.gif) center center no-repeat;
 }
 .current-level {
   text-align: center;

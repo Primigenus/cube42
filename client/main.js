@@ -18,12 +18,12 @@ var messages = [
 
   // 3
   ,"Getting harder yet? Next up: solve three puzzles using three cubes at a time."
-  ,"..."
-  ,"Wow, level 4! Can you solve puzzles using four cubes?"
+  ,"PROTIP: To defeat the Cyberdemon, shoot at it until it dies."
+  ,"Yes! You're nearly to level 4! Only hardcore people who really want the bonus reward go there."
 
   // 4
   ,"The final level! Can you solve two puzzles using four cubes?"
-  ,"This is it! Solve 4-2 and you're entered for the bonus reward!"
+  ,"This is it! Solve this one and you're entered for the bonus reward!"
 ];
 var centerCube = 1 + 3 + 9;
 var onCubes, offCubes;
@@ -100,7 +100,8 @@ function attachEventListeners()
 
   $(document).mouseup(function(evt) {
     evt.stopPropagation(); // prevent click from activating
-    $("#master-cube").css("-webkit-transition", dragStartData.transition);
+    if (dragStartData)
+      $("#master-cube").css("-webkit-transition", dragStartData.transition);
     dragStartData = null;
   });
 
@@ -225,6 +226,18 @@ function resetView()
 function getCube(x, y, z, type)
 {
   return $($("." + type)[x + 3*y + 9*z]);
+}
+
+function reloadLevel() {
+  $(".cube").removeClass("clicked");
+  Session.set("numToggledCubes", 0);
+  Session.set("loading", true);
+  onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
+  offCubes = [centerCube];
+  Meteor.defer(function() {
+    makePuzzle(level);
+    resetView();
+  });
 }
 
 function play()

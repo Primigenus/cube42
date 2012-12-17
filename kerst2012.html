@@ -22,6 +22,7 @@
 
 <template name="header">
   <div id="level">Level {{currLevel}}-{{subLevel}}</div>
+  <div id="reload" class="button" data-role="reload-level" title="Reload the level if you get stuck."><i class="icon-refresh"></i></div>
   <div id="toggledCubes" title="Displays how many cubes you've toggled off.">
     {{#each toggledCubes}}
       <div class="toggledCube {{active}}"></div>
