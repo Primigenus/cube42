@@ -22,6 +22,7 @@
 
 <template name="header">
   <div id="level">Level {{currLevel}}-{{subLevel}}</div>
+  <div id="reload" class="button" data-role="reload-level" title="Reload the level if you get stuck."><i class="icon-refresh"></i></div>
   <div id="toggledCubes" title="Displays how many cubes you've toggled off.">
     {{#each toggledCubes}}
       <div class="toggledCube {{active}}"></div>
@@ -31,7 +32,7 @@
 
 <template name="message">
   {{#if hasMessage}}
-    <div id="messageContainer">
+    <div id="messageContainer" class="{{loading}}">
       <div id="message">
         <div class="message">
           <div class="current-level">Level {{currLevel}}-{{subLevel}}</div>
@@ -64,17 +65,18 @@
 
 <template name="gift">
   <div id="gift">
-    <div class="button" data-role="unlock-gift">Claim your Christmas gift!</div>
+    <div class="button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
   </div>
 </template>
 
 <template name="login">
   <div id="login">
     {{#if currentUser}}
-      {{#if unlockGift}}
-        {{> gift}}
-      {{/if}}
+      {{> gift}}
     {{/if}}
+    {{#unless currentUser}}
+      <div id="gift"><div class="button">Sign in to claim your gift</div></div>
+    {{/unless}}
     {{loginButtons}}
   </div>
 </template>
@@ -83,16 +85,16 @@
   <div id="instructions">
     <ol>
       <li>The 42 Cube is a large cube made of smaller cubes.</li>
-      <li class="with-arrow">Each smaller cube has a number. When looking at one side of the larger cube, the sum of all visible numbers is shown at the bottom...</li>
+      <li class="with-arrow">Each smaller cube has a number. The sum of the numbers you can see on each side is shown at the bottom...</li>
       <li class="with-arrow">...here. The goal is to get these numbers to 42.</li>
       <li>Clicking or touching a small cube hides it, revealing the cube behind it, and...</li>
-      <li class="with-arrow">...altering the total.</li>
+      <li class="with-arrow">...altering the total. For instance, if you hide a 2 cube to reveal a 5 cube, the total will increase by 3.</li>
 
-      <li>Look at different sides of the cube by dragging, clicking numbers below or with the arrow keys. Toggle smaller cubes on and off until each number reads 42.</li>
-      <li>In the first level, you only need to toggle one cube to solve the puzzle.</li>
-      <li>After you successfully complete a level, cubes toggled during the previous level are permanently removed.</li>
-      <li>Each level, you must toggle one more cube to solve the puzzle! So in level 2, you toggle two cubes, in level 3, three cubes, etc.</li>
-      <li>The game keeps getting harder. Can you clean out all the cubes? Good luck!</li>
+      <li>Drag or use the arrow keys to rotate the cube...</li>
+      <li class="with-arrow">...or click these buttons to switch to the corresponding side.</li>
+      <li class="with-arrow arrow-top">These indicators light up to show you how many cubes you've hidden in this puzzle.</li>
+      <li class="with-arrow arrow-top">Stuck? Try the level again by clicking this button.</li>
+      <li>Christmas gifts unlock in level 3, and a bonus gift is available if you can beat level 4-2. Good luck!</li>
     </ol>
   </div>
 </template>

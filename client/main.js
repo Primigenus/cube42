@@ -4,26 +4,26 @@ var instruction = 0;
 var currentMatrix = "";
 var messages = [
   // 1
-  "Complete five puzzles by toggling a single cube."
-  ,"Nice work! 4 more to go."
+  "Level 1 has five puzzles. Complete each one by hiding a single cube."
+  ,"Nice work. 4 more puzzles to go until level 2!"
   ,"3 more! Tip: if only one square lights up, it's probably the center cube."
   ,"Now you're thinking with cubes."
   ,"Almost there, just one more!"
-  
+
   // 2
-  ,"Good job! Now, complete three puzzles by toggling two cubes."
+  ,"Good job! Now, complete four puzzles by hiding two cubes."
   ,"You're pretty good at this! Now do 3 more."
   ,"Have you ever considered becoming a professional puzzle solver? Keep going!"
   ,"One more until you unlock your gifts!"
-  
+
   // 3
   ,"Getting harder yet? Next up: solve three puzzles using three cubes at a time."
-  ,"..."
-  ,"Wow, level 4! Can you solve puzzles using four cubes?"
+  ,"PROTIP: To defeat the Cyberdemon, shoot at it until it dies."
+  ,"Yes! You're nearly to level 4! Only hardcore people who really want the bonus reward go there."
 
   // 4
   ,"The final level! Can you solve two puzzles using four cubes?"
-  ,"This is it! Solve 4-2 and you're entered for the bonus reward!"
+  ,"This is it! Solve this one and you're entered for the bonus reward!"
 ];
 var centerCube = 1 + 3 + 9;
 var onCubes, offCubes;
@@ -100,7 +100,8 @@ function attachEventListeners()
 
   $(document).mouseup(function(evt) {
     evt.stopPropagation(); // prevent click from activating
-    $("#master-cube").css("-webkit-transition", dragStartData.transition);
+    if (dragStartData)
+      $("#master-cube").css("-webkit-transition", dragStartData.transition);
     dragStartData = null;
   });
 
@@ -184,13 +185,13 @@ function nextMessage()
 function nextLevel()
 {
   Meteor.defer(function() {
-    
+
     triesEachLevel--;
-    
+
     var startingNewLevel = false;
     if (triesEachLevel == 0) {
       level++;
-      subLevel = 1;      
+      subLevel = 1;
       Session.set("level", level);
       triesEachLevel = TRIES_LEVEL[level - 1];
       startingNewLevel = true;
@@ -227,6 +228,18 @@ function getCube(x, y, z, type)
   return $($("." + type)[x + 3*y + 9*z]);
 }
 
+function reloadLevel() {
+  $(".cube").removeClass("clicked");
+  Session.set("numToggledCubes", 0);
+  Session.set("loading", true);
+  onCubes = mkShuffled(0, 3 * 3 * 3 - 1, centerCube);
+  offCubes = [centerCube];
+  Meteor.defer(function() {
+    makePuzzle(level);
+    resetView();
+  });
+}
+
 function play()
 {
   $("#start").hide();
@@ -238,7 +251,10 @@ function play()
 
 function showInstructions()
 {
-  play();
+  $("#start").hide();
+  $("#messageContainer").hide();
+  resetView();
+  spinCube();
   $(document.body).addClass('instructions');
   instruction = 0;
   showInstruction(instruction);
@@ -268,6 +284,11 @@ function showInstruction(i) {
         showFace("front");
       }, 1800);
       break;
+    case 7:
+      Session.set("numToggledCubes", 1);
+      Meteor.setTimeout(function() {
+        Session.set("numToggledCubes", 0);
+      }, 1000);
   }
 }
 

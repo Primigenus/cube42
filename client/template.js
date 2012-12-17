@@ -1,9 +1,6 @@
 Template.start.rendered = function() {
   $("[data-role='lettering']").lettering();
 }
-Template.start.unlockGift = function() {
-  return level > 2;
-}
 Template.start.events({
   "click [data-role='play']": function() {
     play();
@@ -20,6 +17,11 @@ Template.header.subLevel = function() {
   return Session.get("subLevel");
 }
 
+Template.header.events({
+  "click [data-role='reload-level']": function() {
+    reloadLevel();
+  }
+});
 Template.header.toggledCubes = function() {
   var num = Session.get("numToggledCubes") * 1;
   var level = Session.get("level") * 1;
@@ -29,6 +31,23 @@ Template.header.toggledCubes = function() {
   return result;
 }
 
+Template.gift.active = function() {
+  return Session.get("level") > 2;
+}
+Template.gift.events({
+  'mouseenter .button': function(evt) {
+    if (level < 3)
+      $(evt.target).text("Reach level 3 to unlock!");
+  },
+  'mouseleave .button': function(evt) {
+    if (level < 3)
+      $(evt.target).text("Claim your Christmas gift!");
+  }
+})
+
+Template.message.loading = function() {
+  return Session.equals("loading", true) ? "loading" : "";
+}
 Template.message.text = function() {
   return messages[Session.get("message") * 1];
 }
