@@ -12,6 +12,11 @@ Template.body.events({
         num--;
       Session.set("numToggledCubes", num);
 
+      if (num > level) {
+        $el.toggleClass("clicked");
+        Session.set("numToggledCubes", num - 1);
+      }
+
       calcFaces($(evt.target).text());
     }
   }
