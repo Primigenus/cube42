@@ -213,6 +213,7 @@ function nextLevel()
 
     Meteor.defer(function(){
       if (startingNewLevel) {
+        Meteor.call("setMaxLevel", level);
         $(".cube").removeClass("removed");
         $(".cube").removeClass("clicked");
       }
