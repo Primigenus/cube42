@@ -37,6 +37,7 @@ Meteor.startup(function()
   console.log("Initializing 42 cube...");
 
   Meteor.subscribe("maxLevelReached");
+  Meteor.subscribe("email");
 
   Session.set("message", -2);
   Session.set("level", level);
