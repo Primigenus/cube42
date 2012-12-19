@@ -296,15 +296,15 @@ h1 {
   line-height: 81px;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, .4);
   text-align: center;
-  margin: 0 3px 0 -70px;
-  -webkit-transform: skewY(20deg);
+  margin: 0 3px 0 70px;
+  -webkit-transform: skewY(-20deg);
 }
 .title {
   position: relative;
   display: inline-block;
-  top: -43px;
-  left: -12px;
-  -webkit-transform: skewY(-20deg);
+  top: -74px;
+  left: -7px;
+  -webkit-transform: skewY(20deg);
 }
 .title span {
   display: inline-block;
