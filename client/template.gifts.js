@@ -11,11 +11,12 @@ Template.gifts.events({
     else {
       Gifts.update({}, {$pull: {recipients: Meteor.user().profile.name}}, {multi: true});
       Gifts.update(this._id, {$inc: {count: 1}, $push: {recipients: Meteor.user().profile.name}});
-      /*Email.send({
+      Email.send({
         from: "rahul@q42.nl",
-        to: Meteor.user().email,
-
-      })*/
+        to: ["chris@q42.nl", "rahul@q42.nl"],
+        subject: "You picked a gift with Cube42!",
+        text: "This is a notification to let you know that " + Meteor.user().profile.name + " just picked '" + this.name + "'. Alright, excellent! Party on, Wayne!"
+      })
     }
     $(evt.target).toggleClass("selected");
   }
