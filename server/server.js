@@ -1,7 +1,19 @@
 
 Meteor.startup(function() {
 
-  var gifts = new Meteor.Collection("gifts");
+  var Gifts = new Meteor.Collection("gifts");
+
+  // no docs? add some.
+  console.log("gifts: " + Gifts.find().fetch().count);
+  if (Gifts.find().fetch().count == 0) {
+    Gifts.insert({name: "Whisky", count: 0, recipients: []});
+    Gifts.insert({name: "Donation to the VSN", count: 0, recipients: []});
+    Gifts.insert({name: "Staatsloterij lottery ticket", count: 0, recipients: []});
+    Gifts.insert({name: "2 tickets to the Stedelijk museum", count: 0, recipients: []});
+    Gifts.insert({name: "1 month subscription to Pepper", count: 0, recipients: []});
+    Gifts.insert({name: "2 tickets to the Rijksmuseum", count: 0, recipients: []});
+    Gifts.insert({name: "MENDO book", count: 0, recipients: []});
+  }
 
   // publish maxLevelReached property for all users
   Meteor.publish("maxLevelReached", function () {
@@ -27,6 +39,17 @@ Meteor.startup(function() {
       Meteor.users.update(this.userId, {$set: {maxLevelReached: maxLevel}});
 
       return true;
+    },
+    sendGiftEmail: function(username, giftname) {
+      if (Meteor.user().profile.username != username)
+        return;
+
+      Email.send({
+        from: "rahul@q42.nl",
+        to: ["chris@q42.nl", "rahul@q42.nl"],
+        subject: username + " picked a gift with Cube42!",
+        text: "This is a notification to let you know that " + username + " just picked '" + giftname + "'. Alright, excellent! Party on, Wayne!"
+      })
     }
   });
 
