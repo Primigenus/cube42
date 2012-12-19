@@ -93,11 +93,14 @@
     <h2>You win! Go ahead and pick something out.</h2>
     <ul>
       {{#each items}}
-        <li>{{name}}</li>
+        {{> giftItem}}
       {{/each}}
       <li>Mystery gift</li>
     </ul>
   </div>
+</template>
+<template name="giftItem">
+  <li class="{{#if isSelected}}selected{{/if}}">{{name}}</li>
 </template>
 
 <template name="login">

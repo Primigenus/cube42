@@ -175,6 +175,12 @@ header:after {
 #gifts li:hover {
   border-color: white;
 }
+#gifts li:active {
+  opacity: .7;
+}
+#gifts li.selected {
+  border-color: white;
+}
 
 #start, #instructions, #rankings, #gifts {
   position: fixed;
