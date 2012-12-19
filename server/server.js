@@ -11,6 +11,10 @@ Meteor.startup(function() {
     );
   });
 
+  Meteor.publish("email", function() {
+    return Meteor.users.find({}, {fields: {'services.facebook.email': 1}});
+  })
+
   Meteor.methods({
     // update maxlevel from the client, but only allow it to update the value +1 higher than it already has (for security purposes)
     setMaxLevel: function(maxLevel) {
