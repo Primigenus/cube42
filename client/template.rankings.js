@@ -11,5 +11,5 @@ Template.rankings.users = function() {
 }
 
 Template.rankings.isUser = function() {
-  return this.profile.name == Meteor.user().profile.name;
+  return this._id == Meteor.user()._id;
 }
