@@ -30,6 +30,7 @@ var onCubes, offCubes;
 var TRIES_LEVEL = [5, 4, 3, 2];
 var triesEachLevel = 1;
 var puzzleGenerationAttempts = 42;
+var Gifts = new Meteor.Collection("gifts");
 
 Meteor.startup(function()
 {
@@ -257,6 +258,14 @@ function showRankings()
   $("#messageContainer").hide();
   $("#rankings").show();
   $(document.body).addClass('rankings');
+}
+
+function showGifts()
+{
+  $("#start").hide();
+  $("#messageContainer").hide();
+  $("#gifts").show();
+  $(document.body).addClass('gifts');
 }
 
 function showInstructions()

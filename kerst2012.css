@@ -8,6 +8,7 @@ body {
   background-color: #000;
   color: #efefef;
   min-height: 100%;
+  cursor: default;
 }
 
 header {
@@ -96,11 +97,11 @@ header:after {
   color: white !important;
 }
 
-#gift {
+#unlock-gift {
   float: left;
 }
 
-#gift .button {
+#unlock-gift .button {
   display: inline-block;
   width: 200px;
   border-radius: 10px;
@@ -112,13 +113,20 @@ header:after {
   box-shadow: inset 0 0 4px rgba(0,0,0,.7);
   background: -webkit-linear-gradient(bottom, #234, #123);
 }
-#gift .button:hover {
+#unlock-gift .button:hover {
   color: #aaa;
 }
-#gift .button.active {
-  background: -webkit-linear-gradient(top, #234, #123);
-  box-shadow: 0 0 4px #ffa;
+#unlock-gift .button.active {
+  background: -webkit-linear-gradient(top, lightSlateGray, #456);
+  border: solid 1px #333;
   color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .7);
+  box-shadow: inset 0 0 14px rgba(255, 255, 200, .5);
+  font-weight: bold;
+  cursor: pointer;
+}
+#unlock-gift .button:active {
+  box-shadow: inset 0 0 14px rgba(0,0,0,.5);
 }
 
 #rankings { display: none; }
@@ -126,18 +134,49 @@ header:after {
 
 #rankings ol {
   list-style: none;
+  margin-bottom: 140px;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 #rankings li {
   counter-increment: par-num;
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
+  color: orange;
+  font-weight: normal;
 }
 #rankings li:before {
-  display: block;
-  text-align: center;
   content: counter(par-num, decimal) ". ";
+  color: orange;
+}
+#rankings span {
+  font-weight: bold;
+  color: #E6E629;
 }
 
-#start, #instructions, #rankings {
+#gifts { display: none;}
+.gifts #gifts { display: block;}
+
+#gifts ul {
+  list-style: none;
+  margin: 0 auto; padding: 0;
+  width: 420px;
+}
+#gifts li {
+  float: left;
+  margin: 0 20px 20px 0;
+  border: solid 3px #e6e629;
+  width: 120px; height: 120px;
+  font-size: 16px;
+  cursor: pointer;
+}
+#gifts li:nth-child(3n) {
+  margin-right: 0;
+}
+#gifts li:hover {
+  border-color: white;
+}
+
+#start, #instructions, #rankings, #gifts {
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
   z-index: 99;
@@ -150,7 +189,7 @@ header:after {
   -webkit-user-select: none;
 }
 
-#welcome-screen, #rankings ol {
+#welcome-screen, #rankings, #gifts {
   width: 596px;
   margin: 0 auto;
   padding: 100px 0;
@@ -326,7 +365,7 @@ h1 {
 .title .char3 {background: -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1) );}
 .title .char4 {background: -webkit-radial-gradient(center, hsla(180, 30%, 50%, 1), hsla(180, 30%, 50%, 1) 40%, hsla(180, 50%, 50%, 1) );}
 
-h2 {
+#start h2 {
   color: #999;
   text-transform: lowercase;
   font-weight: normal;
@@ -334,23 +373,32 @@ h2 {
   margin: -218px 0 200px 0;
 }
 
-#welcome-screen .button {
+#welcome-screen .button, #rankings .button {
   padding: 10px;
   border: solid 4px #E6E629;
   margin: 20px auto;
   width: 250px;
   font-size: 24px;
   cursor: pointer;
+  box-shadow: 0 0 10px #e6e629;
 }
-#welcome-screen .button:hover {
+#welcome-screen .button.secondary, #rankings .button.secondary {
+  box-shadow: none;
+  font-size: 20px;
+  border-width: 3px;
+  border-color: #efac36;
+  color: #efac36;
+  padding: 6px 10px;
+}
+#welcome-screen .button:hover, #rankings .button:hover {
   border-color: white;
   color: white;
 }
-#welcome-screen .button:active {
+#welcome-screen .button:active, #rankings .button:active {
   border-color: #fcc;
   color: #fcc;
 }
-#welcome-screen .button:focus {
+#welcome-screen .button:focus, #rankings .button:focus {
   outline: solid 3px yellow;
 }
 
