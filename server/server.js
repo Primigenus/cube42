@@ -4,14 +4,22 @@ Meteor.startup(function() {
   var Gifts = new Meteor.Collection("gifts");
 
   // no docs? add some.
-  if (Gifts.find().fetch().count == 0) {
-    Gifts.insert({name: "Whisky", count: 0, recipients: []});
-    Gifts.insert({name: "Donation to the VSN", count: 0, recipients: []});
-    Gifts.insert({name: "Staatsloterij lottery ticket", count: 0, recipients: []});
-    Gifts.insert({name: "2 tickets to the Stedelijk museum", count: 0, recipients: []});
-    Gifts.insert({name: "1 month subscription to Pepper", count: 0, recipients: []});
-    Gifts.insert({name: "2 tickets to the Rijksmuseum", count: 0, recipients: []});
-    Gifts.insert({name: "MENDO book", count: 0, recipients: []});
+  if (Gifts.find().fetch().length == 0) {
+    var gifts = [
+      "Whisky",
+      "Donation to the VSN",
+      "2 Staatsloterij lottery tickets",
+      "2 tickets to the Stedelijk museum",
+      "1 month subscription to Pepper",
+      "2 tickets to the Rijksmuseum",
+      "MENDO.nl book",
+      "Schaatsen.nl snow cap",
+      "Surprise me"
+    ];
+
+    _.each(gifts, function(gift) {
+      Gifts.insert({name: gift, recipients: []});
+    })
   }
 
   // publish maxLevelReached property for all users
@@ -23,7 +31,7 @@ Meteor.startup(function() {
   });
 
   Meteor.publish("extra_fields", function() {
-    console.log(Meteor.users.findOne({_id: this.userId}));
+    //console.log(Meteor.users.findOne({_id: this.userId}));
     return Meteor.users.find(
       {_id: this.userId},
       {fields: {'services.facebook.email': 1, 'services.facebook.username': 1}}
