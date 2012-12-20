@@ -1,4 +1,4 @@
-var hails = ["Great", "Awesome", "Excellent", "Wicked", "Wizard", "Cool", "Dope", "Nice", "OK", "Fantastic", "Alright", "Thanks", "Dude"];
+var hails = ["Great", "Awesome", "Excellent", "Wicked", "Wizard", "Cool", "Dope", "Nice", "OK", "Fantastic", "Alright", "Thanks", "Dude", "Sweet", "Tubular", "Heavy"];
 function getHail() {
   return hails[~~(Math.random() * hails.length)] + "! ";
 }
@@ -71,9 +71,10 @@ Template.giftTitle.text = function() {
 
   var str = "We'll send you " + type + " " + name;
 
-  if (name.match(/VSN/)) {
+  if (name.match(/VSN/))
     str = "We'll make a donation to the VSN on your behalf";
-  }
+  if (name.match(/surprise/i))
+    str = "We'll surprise you"
 
   return str;
 }

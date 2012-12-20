@@ -156,6 +156,9 @@ header:after {
 #gifts { display: none;}
 .gifts #gifts { display: block;}
 
+#gifts h2 {
+  padding: 0 20px;
+}
 #gifts ul {
   list-style: none;
   margin: 0 auto; padding: 0;
@@ -347,14 +350,14 @@ h1 {
   line-height: 81px;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, .4);
   text-align: center;
-  margin: 0 3px 0 70px;
+  margin: 0 3px 0 82px;
   -webkit-transform: skewY(-20deg);
 }
 .title {
   position: relative;
   display: inline-block;
   top: -74px;
-  left: -7px;
+  left: 5px;
   -webkit-transform: skewY(20deg);
 }
 .title span {
@@ -546,4 +549,10 @@ h1 {
 }
 .face.total-42 {
   opacity: .5;
+}
+
+#credits {
+  margin: 70px 0 0 0;
+  font-size: 16px;
+  color: #444;
 }
