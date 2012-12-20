@@ -167,8 +167,8 @@ header:after {
 }
 #gifts li {
   float: left;
-  border: solid 1px #000;
-  width: 138px; height: 138px;
+  border: solid 2px #000;
+  width: 136px; height: 136px;
   font-size: 16px;
   cursor: pointer;
   display: table;
@@ -189,6 +189,7 @@ header:after {
 }
 #gifts li.selected {
   border-color: white;
+  color: white;
 }
 
 #start, #instructions, #rankings, #gifts {
@@ -205,7 +206,7 @@ header:after {
 }
 
 #welcome-screen, #rankings, #gifts {
-  width: 596px;
+  width: 596px; height: 100%;
   margin: 0 auto;
   padding: 100px 0;
   background-color: #222;
@@ -487,7 +488,7 @@ h1 {
   pointer-events: none;
 }
 
-.front  { background: hsla(0, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) ); }
+.front { background: hsla(0, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1) ); }
 .back  { background: hsla(60, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1) ); }
 .right  { background: hsla(120, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1) ); }
 .left  { background: hsla(180, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(180, 30%, 50%, 1), hsla(180, 30%, 50%, 1) 40%, hsla(180, 50%, 50%, 1) ); }
