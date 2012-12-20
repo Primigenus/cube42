@@ -1,4 +1,6 @@
 
+// deploy pass: whatarewedoing
+
 Meteor.startup(function() {
 
   var Gifts = new Meteor.Collection("gifts");
