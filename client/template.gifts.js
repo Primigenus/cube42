@@ -1,16 +1,20 @@
 
 Template.gifts.events({
   'click #gifts li': function(evt) {
+    var user = Meteor.user();
+    if (!user)
+      return false;
+
     var gift = Gifts.findOne({_id: this._id});
 
     // remove the user from this gift
-    if (_.contains(gift.recipients, Meteor.user().profile.name))
-      Gifts.update(this._id, {$inc: {count: -1}, $pull: {recipients: Meteor.user().profile.name}});
+    if (_.contains(gift.recipients, user.profile.name))
+      Gifts.update(this._id, {$inc: {count: -1}, $pull: {recipients: user.profile.name}});
 
     // add the user to this gift, but remove the user from all other gifts
     else {
-      Gifts.update({}, {$pull: {recipients: Meteor.user().profile.name}}, {multi: true});
-      Gifts.update(this._id, {$inc: {count: 1}, $push: {recipients: Meteor.user().profile.name}});
+      Gifts.update({}, {$pull: {recipients: user.profile.name}}, {multi: true});
+      Gifts.update(this._id, {$inc: {count: 1}, $push: {recipients: user.profile.name}});
       //Meteor.call("sendGiftEmail", Meteor.user().profile.name, this.name);
     }
     $(evt.target).toggleClass("selected");
@@ -24,10 +28,14 @@ Template.gifts.items = function() {
 // did this user already select this gift?
 Template.giftItem.isSelected = function() {
   if (!this.recipients) return false;
-  return _.contains(this.recipients, Meteor.user().profile.name);
+  var user = Meteor.user();
+  if (!user) return false;
+  return _.contains(this.recipients, user.profile.name);
 }
 Template.giftItem.rendered = function() {
-  var gift = Gifts.findOne({recipients: Meteor.user().profile.name});
+  var user = Meteor.user();
+  if (!user) return;
+  var gift = Gifts.findOne({recipients: user.profile.name});
   if (!gift) return;
 
   var hails = ["Great", "Awesome", "Excellent", "Wicked", "Wizard", "Cool", "Dope", "Nice", "OK", "Fantastic", "Alright", "Thanks", "Dude"];
