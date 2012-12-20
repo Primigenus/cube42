@@ -36,12 +36,6 @@ Meteor.startup(function()
 {
   console.log("Initializing 42 cube...");
 
-  Accounts.ui.config({
-    requestPermissions: {
-      facebook: ['username']
-    }
-  });
-
   Meteor.subscribe("maxLevelReached");
   Meteor.subscribe("extra_fields");
 
