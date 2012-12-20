@@ -48,7 +48,7 @@ Meteor.startup(function() {
       if (!maxLevel || parseInt(maxLevel) === NaN)
         throw new Error("Invalid argument.");
 
-      if (Meteor.user() && (Meteor.user().maxLevelReached + 1 != maxLevel || maxLevel >= 5))
+      if (Meteor.user() && (Meteor.user().maxLevelReached + 1 != maxLevel || maxLevel > 5))
         return false;
 
       Meteor.users.update(this.userId, {$set: {maxLevelReached: maxLevel}});

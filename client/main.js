@@ -209,6 +209,7 @@ function nextLevel()
 
       // there is no level 5. restart the game
       if (level == 5) {
+        Meteor.call("setMaxLevel", level);
         level = 1;
         Session.set("message", 0);
       }

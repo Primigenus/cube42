@@ -75,8 +75,10 @@
           {{else}}
             <span class="username">{{profile.name}}</span>
         {{/if}}
-        reached level
-        <span class="max-level">{{maxLevelReached}}</span>
+        {{reachedText}}
+        {{#unless beatGame}}
+        <span class="max-level">level {{maxLevelReached}}</span>
+        {{/unless}}
       </li>
       {{/each}}
     </ol>
