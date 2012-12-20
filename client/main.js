@@ -33,7 +33,7 @@ var puzzleGenerationAttempts = 42;
 
 Meteor.startup(function()
 {
-  console.log("Initializing 42 cube...");
+  console.log("Initializing cube 42...");
 
   Meteor.subscribe("maxLevelReached");
 
