@@ -11,8 +11,8 @@ Template.header.events({
   }
 });
 Template.header.toggledCubes = function() {
-  var num = Session.get("numToggledCubes") * 1;
-  var level = Session.get("level") * 1;
+  var num = Session.get("numToggledCubes");
+  var level = Session.get("level");
   var result = [];
   for (var i = 0; i < level; i++)
     result.push({active: i < num? "active" : ""});
