@@ -34,7 +34,7 @@ var Gifts = new Meteor.Collection("gifts");
 
 Meteor.startup(function()
 {
-  console.log("Initializing 42 cube...");
+  console.log("Initializing cube 42...");
 
   Meteor.subscribe("maxLevelReached");
   Meteor.subscribe("extra_fields");
