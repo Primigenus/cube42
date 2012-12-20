@@ -1,3 +1,16 @@
+var hails = ["Great", "Awesome", "Excellent", "Wicked", "Wizard", "Cool", "Dope", "Nice", "OK", "Fantastic", "Alright", "Thanks", "Dude"];
+function hail() {
+  return hails[~~(Math.random() * hails.length)] + "! ";
+}
+function userHasGift() {
+  var user = Meteor.user();
+  if (!user || !user.profile) return false;
+
+  var gift = Gifts.findOne({recipients: user.profile.name});
+  if (!gift) return false;
+
+  return true;
+}
 
 Template.gifts.events({
   'click #gifts li': function(evt) {
@@ -32,14 +45,16 @@ Template.giftItem.isSelected = function() {
   if (!user) return false;
   return _.contains(this.recipients, user.profile.name);
 }
-Template.giftItem.rendered = function() {
-  var user = Meteor.user();
-  if (!user) return;
-  var gift = Gifts.findOne({recipients: user.profile.name});
-  if (!gift) return;
+Template.giftTitle.hail = function() {
+  if (!userHasGift()) return "";
+  return hail();
+}
+Template.giftTitle.text = function() {
+  var str = "You win! Go ahead and pick something out.";
 
-  var hails = ["Great", "Awesome", "Excellent", "Wicked", "Wizard", "Cool", "Dope", "Nice", "OK", "Fantastic", "Alright", "Thanks", "Dude"];
-  var hail = hails[~~(Math.random() * hails.length)];
+  if (!userHasGift()) return str;
+
+  var gift = Gifts.findOne({recipients: Meteor.user().profile.name});
 
   var name = gift.name;
   if (name[0] != "M") name[0].toLowerCase() + name.substring(1);
@@ -47,5 +62,11 @@ Template.giftItem.rendered = function() {
   if (name.indexOf("2") > -1)
     type = "";
 
-  $("#gifts h2").text(hail + "! We'll send you " + type + " " + name);
+  var str = "We'll send you " + type + " " + name;
+
+  if (name.match(/VSN/)) {
+    str = "We'll make a donation to the VSN on your behalf";
+  }
+
+  return str;
 }

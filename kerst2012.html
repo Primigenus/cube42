@@ -84,17 +84,19 @@
 
 <template name="gifts">
   <div id="gifts">
-    <h2>You win! Go ahead and pick something out.</h2>
+    <h2>{{> giftTitle}}</h2>
     <ul>
       {{#each items}}
         {{> giftItem}}
       {{/each}}
-      <li>Mystery gift</li>
     </ul>
   </div>
 </template>
+<template name="giftTitle">
+  {{hail}}{{text}}
+</template>
 <template name="giftItem">
-  <li class="{{#if isSelected}}selected{{/if}}">{{name}}</li>
+  <li class="{{#if isSelected}}selected{{/if}}"><p>{{name}}</p></li>
 </template>
 
 <template name="login">

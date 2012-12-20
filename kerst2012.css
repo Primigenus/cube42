@@ -159,20 +159,26 @@ header:after {
 #gifts ul {
   list-style: none;
   margin: 0 auto; padding: 0;
-  width: 420px;
+  width: 420px; height: 420px;
+  border: solid 3px #e6e629;
 }
 #gifts li {
   float: left;
-  margin: 0 20px 20px 0;
-  border: solid 3px #e6e629;
-  width: 120px; height: 120px;
+  border: solid 1px #000;
+  width: 138px; height: 138px;
   font-size: 16px;
   cursor: pointer;
+  display: table;
+  -webkit-transition: linear .1s;
 }
-#gifts li:nth-child(3n) {
-  margin-right: 0;
+#gifts li p {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%; height: 100%;
+  padding: 0 10px;
 }
 #gifts li:hover {
+  box-shadow: inset 0 0 10px #e6e629;
   border-color: white;
 }
 #gifts li:active {
