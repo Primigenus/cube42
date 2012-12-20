@@ -101,7 +101,7 @@ header:after {
   float: left;
 }
 
-#unlock-gift .button {
+.unlock-button {
   display: inline-block;
   width: 200px;
   border-radius: 10px;
@@ -113,10 +113,10 @@ header:after {
   box-shadow: inset 0 0 4px rgba(0,0,0,.7);
   background: -webkit-linear-gradient(bottom, #234, #123);
 }
-#unlock-gift .button:hover {
+.unlock-button:hover {
   color: #aaa;
 }
-#unlock-gift .button.active {
+.unlock-button.active {
   background: -webkit-linear-gradient(top, lightSlateGray, #456);
   border: solid 1px #333;
   color: white;
@@ -125,7 +125,7 @@ header:after {
   font-weight: bold;
   cursor: pointer;
 }
-#unlock-gift .button:active {
+.unlock-button:active {
   box-shadow: inset 0 0 14px rgba(0,0,0,.5);
 }
 
@@ -385,7 +385,7 @@ h1 {
   margin: -218px 0 200px 0;
 }
 
-#welcome-screen .button, #rankings .button {
+.button {
   padding: 10px;
   border: solid 4px #E6E629;
   margin: 20px auto;
@@ -394,7 +394,7 @@ h1 {
   cursor: pointer;
   box-shadow: 0 0 10px #e6e629;
 }
-#welcome-screen .button.secondary, #rankings .button.secondary {
+.button.secondary {
   box-shadow: none;
   font-size: 20px;
   border-width: 3px;
@@ -402,15 +402,15 @@ h1 {
   color: #efac36;
   padding: 6px 10px;
 }
-#welcome-screen .button:hover, #rankings .button:hover {
+.button:hover {
   border-color: white;
   color: white;
 }
-#welcome-screen .button:active, #rankings .button:active {
+.button:active {
   border-color: #fcc;
   color: #fcc;
 }
-#welcome-screen .button:focus, #rankings .button:focus {
+.button:focus {
   outline: solid 3px yellow;
 }
 

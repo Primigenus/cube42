@@ -15,6 +15,10 @@ function userHasGift() {
 }
 
 Template.gifts.events({
+  "click [data-role='welcome']": function() {
+    $("#start").show();
+    $("#gifts").hide();
+  },
   'click #gifts li': function(evt) {
     var user = Meteor.user();
     if (!user)

@@ -90,6 +90,7 @@
         {{> giftItem}}
       {{/each}}
     </ul>
+    <div data-role="welcome" class="button secondary">Back</div>
   </div>
 </template>
 <template name="giftTitle">
@@ -105,14 +106,14 @@
       {{> unlockGift}}
     {{/if}}
     {{#unless currentUser}}
-      <div id="unlock-gift"><div class="button">Sign in to claim your gift</div></div>
+      <div id="unlock-gift"><div class="unlock-button">Sign in to claim your gift</div></div>
     {{/unless}}
     {{loginButtons}}
   </div>
 </template>
 <template name="unlockGift">
   <div id="unlock-gift">
-    <div class="button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
+    <div class="unlock-button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
   </div>
 </template>
 

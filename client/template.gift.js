@@ -4,15 +4,15 @@ Template.unlockGift.active = function() {
   return user.maxLevelReached > 1 ? "active" : "";
 }
 Template.unlockGift.events({
-  'mouseenter .button': function(evt) {
+  'mouseenter .unlock-button': function(evt) {
     if (Meteor.user() && Meteor.user().maxLevelReached < 2)
       $(evt.target).text("Reach level 2 to unlock!");
   },
-  'mouseleave .button': function(evt) {
+  'mouseleave .unlock-button': function(evt) {
     if (Meteor.user() && Meteor.user().maxLevelReached < 2)
       $(evt.target).text("Claim your Christmas gift!");
   },
-  'click .button.active': function() {
+  'click .unlock-button.active': function() {
     showGifts();
   }
 })
