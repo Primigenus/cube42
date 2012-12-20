@@ -39,13 +39,21 @@ Meteor.startup(function()
 {
   console.log("Initializing cube 42...");
 
+  if (Meteor.user()) {
+    Session.set("level", Meteor.user().lastLevel.split("-")[0]);
+    Session.set("subLevel", Meteor.user().lastLevel.split("-")[1]);
+  }
+  else {
+    Session.set("level", level);
+    Session.set("subLevel", subLevel);
+  }
+
   Meteor.subscribe("gifts");
   Meteor.subscribe("all_users");
   Meteor.subscribe("extra_fields");
 
   Session.set("message", -2);
-  Session.set("level", level);
-  Session.set("subLevel", subLevel);
+
   Session.set("numToggledCubes", 0);
   Session.set("loading", false);
 
@@ -67,7 +75,8 @@ function attachEventListeners()
   var dragStartData = null;
 
   window.onbeforeunload = function() {
-    return "Are you sure you want to leave the page? You'll have to start over from 1-1!";
+    if (!Meteor.user())
+      return "Are you sure you want to leave the page? You'll have to start over from 1-1!";
   };
 
   $(document).keyup(function(e) {
@@ -223,6 +232,7 @@ function nextLevel()
       subLevel++;
     }
 
+    Meteor.call("saveLastLevel", level, subLevel);
 
     Session.set("subLevel", subLevel);
     Session.set("numToggledCubes", 0);

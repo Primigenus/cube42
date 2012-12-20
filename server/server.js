@@ -49,11 +49,13 @@ Meteor.startup(function() {
         throw new Error("Invalid argument.");
 
       if (Meteor.user() && (Meteor.user().maxLevelReached + 1 != maxLevel || maxLevel > 5))
-        return false;
+        return;
 
       Meteor.users.update(this.userId, {$set: {maxLevelReached: maxLevel}});
-
-      return true;
+    },
+    saveLastLevel: function(level, sublevel) {
+      if (!Meteor.user()) return;
+      Meteor.users.update(this.userId, {$set: {lastLevel: level + "-" + sublevel}});
     },
     sendGiftEmail: function(username, giftname) {
       if (Meteor.user().profile.username != username)
