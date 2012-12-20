@@ -22,16 +22,18 @@ Meteor.startup(function() {
     })
   }
 
-  // publish maxLevelReached property for all users
-  Meteor.publish("maxLevelReached", function () {
+  Meteor.publish("gifts", function() {
+    return Gifts.find();
+  })
+
+  Meteor.publish("all_users", function () {
     return Meteor.users.find(
       {},
-      {fields: {maxLevelReached: 1}}
+      {fields: {'profile.name': 1, maxLevelReached: 1}}
     );
   });
 
   Meteor.publish("extra_fields", function() {
-    //console.log(Meteor.users.findOne({_id: this.userId}));
     return Meteor.users.find(
       {_id: this.userId},
       {fields: {'services.facebook.email': 1, 'services.facebook.username': 1}}
