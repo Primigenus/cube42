@@ -62,6 +62,10 @@ function attachEventListeners()
   var toh;
   var dragStartData = null;
 
+  window.onunload = function() {
+    return "Are you sure you want to reload the page? You'll have to start over from 1-1!";
+  };
+
   $(document).keyup(function(e) {
     Meteor.clearTimeout(toh);
 
