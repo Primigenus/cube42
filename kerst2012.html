@@ -67,24 +67,18 @@
     <ol>
       {{#each users}}
       <li>
+        <img src="https://graph.facebook.com/{{services.facebook.username}}/picture" alt="" />
         {{#if isUser}}
           <span class="you">You</span>
           {{else}}
             <span class="username">{{profile.name}}</span>
         {{/if}}
-
         reached level
         <span class="max-level">{{maxLevelReached}}</span>
       </li>
       {{/each}}
     </ol>
     <div data-role="welcome" class="button secondary">Back</div>
-  </div>
-</template>
-
-<template name="unlockGift">
-  <div id="unlock-gift">
-    <div class="button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
   </div>
 </template>
 
@@ -109,9 +103,14 @@
       {{> unlockGift}}
     {{/if}}
     {{#unless currentUser}}
-      <div id="gift"><div class="button">Sign in to claim your gift</div></div>
+      <div id="unlock-gift"><div class="button">Sign in to claim your gift</div></div>
     {{/unless}}
     {{loginButtons}}
+  </div>
+</template>
+<template name="unlockGift">
+  <div id="unlock-gift">
+    <div class="button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
   </div>
 </template>
 
