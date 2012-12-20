@@ -28,13 +28,13 @@ Template.gifts.events({
 
     // remove the user from this gift
     if (_.contains(gift.recipients, user.profile.name))
-      Gifts.update(this._id, {$inc: {count: -1}, $pull: {recipients: user.profile.name}});
+      Gifts.update(this._id, {$pull: {recipients: user.profile.name}});
 
     // add the user to this gift, but remove the user from all other gifts
     else {
       hail = getHail();
       Gifts.update({}, {$pull: {recipients: user.profile.name}}, {multi: true});
-      Gifts.update(this._id, {$inc: {count: 1}, $push: {recipients: user.profile.name}});
+      Gifts.update(this._id, {$push: {recipients: user.profile.name}});
       //Meteor.call("sendGiftEmail", Meteor.user().profile.name, this.name);
     }
     $(evt.target).toggleClass("selected");
@@ -75,6 +75,8 @@ Template.giftTitle.text = function() {
     str = "We'll make a donation to the VSN on your behalf";
   if (name.match(/surprise/i))
     str = "We'll surprise you"
+  if (name.match(/whisky/i))
+    str = "We'll send you a bottle of whisky"
 
   return str;
 }
