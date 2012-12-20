@@ -1,7 +1,9 @@
 var hails = ["Great", "Awesome", "Excellent", "Wicked", "Wizard", "Cool", "Dope", "Nice", "OK", "Fantastic", "Alright", "Thanks", "Dude"];
-function hail() {
+function getHail() {
   return hails[~~(Math.random() * hails.length)] + "! ";
 }
+var hail = getHail();
+
 function userHasGift() {
   var user = Meteor.user();
   if (!user || !user.profile) return false;
@@ -26,6 +28,7 @@ Template.gifts.events({
 
     // add the user to this gift, but remove the user from all other gifts
     else {
+      hail = getHail();
       Gifts.update({}, {$pull: {recipients: user.profile.name}}, {multi: true});
       Gifts.update(this._id, {$inc: {count: 1}, $push: {recipients: user.profile.name}});
       //Meteor.call("sendGiftEmail", Meteor.user().profile.name, this.name);
@@ -47,7 +50,7 @@ Template.giftItem.isSelected = function() {
 }
 Template.giftTitle.hail = function() {
   if (!userHasGift()) return "";
-  return hail();
+  return hail;
 }
 Template.giftTitle.text = function() {
   var str = "You win! Go ahead and pick something out.";
