@@ -24,7 +24,7 @@
 
 <template name="header">
   <div id="level">Level {{currLevel}}-{{subLevel}}</div>
-  <div id="reload" class="button" data-role="reload-level" title="Reload the level if you get stuck."><i class="icon-refresh"></i></div>
+  <div id="reload" data-role="reload-level" title="Reload the level if you get stuck."><i class="icon-refresh"></i></div>
   <div id="toggledCubes" title="Displays how many cubes you've toggled off.">
     {{#each toggledCubes}}
       <div class="toggledCube {{active}}"></div>
@@ -70,7 +70,6 @@
     <ol>
       {{#each users}}
       <li>
-        <img src="https://graph.facebook.com/{{services.facebook.username}}/picture" alt="" />
         {{#if isUser}}
           <span class="you">You</span>
           {{else}}
@@ -116,7 +115,7 @@
 </template>
 <template name="unlockGift">
   <div id="unlock-gift">
-    <div class="unlock-button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
+    <div class="unlock-button {{active}}" data-role="unlock-gift">{{label}}</div>
   </div>
 </template>
 
