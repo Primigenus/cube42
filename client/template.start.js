@@ -10,5 +10,11 @@ Template.start.events({
   },
   "click [data-role='rankings']": function() {
     showRankings();
+  },
+  "mouseenter .char1": function(evt) {
+    $(evt.target).text("Q");
+  },
+  "mouseleave .char1": function(evt) {
+    $(evt.target).text("C");
   }
 });

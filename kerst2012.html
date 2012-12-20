@@ -19,6 +19,7 @@
   {{> totals}}
   {{> message}}
   {{> rankings}}
+  {{> gifts}}
 </body>
 
 <template name="header">
@@ -54,37 +55,62 @@
       </h1>
       <h2>A 3d puzzle game</h2>
       <div data-role="play" class="button">Play</div>
-      <div data-role="instructions" class="button">Instructions</div>
-      <div data-role="rankings" class="button">Rankings</div>
+      <div data-role="instructions" class="button secondary">Instructions</div>
+      <div data-role="rankings" class="button secondary">Rankings</div>
     </div>
   </div>
 </template>
 
 <template name="rankings">
   <div id="rankings">
+    <h2>Rankings</h2>
     <ol>
       {{#each users}}
-      <li>{{profile.name}} reached level {{maxLevelReached}}!</li>
+      <li>
+        <img src="https://graph.facebook.com/{{services.facebook.username}}/picture" alt="" />
+        {{#if isUser}}
+          <span class="you">You</span>
+          {{else}}
+            <span class="username">{{profile.name}}</span>
+        {{/if}}
+        reached level
+        <span class="max-level">{{maxLevelReached}}</span>
+      </li>
       {{/each}}
     </ol>
+    <div data-role="welcome" class="button secondary">Back</div>
   </div>
 </template>
 
-<template name="gift">
-  <div id="gift">
-    <div class="button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
+<template name="gifts">
+  <div id="gifts">
+    <h2>You win! Go ahead and pick something out.</h2>
+    <ul>
+      {{#each items}}
+        {{> giftItem}}
+      {{/each}}
+      <li>Mystery gift</li>
+    </ul>
   </div>
+</template>
+<template name="giftItem">
+  <li class="{{#if isSelected}}selected{{/if}}">{{name}}</li>
 </template>
 
 <template name="login">
   <div id="login">
     {{#if currentUser}}
-      {{> gift}}
+      {{> unlockGift}}
     {{/if}}
     {{#unless currentUser}}
-      <div id="gift"><div class="button">Sign in to claim your gift</div></div>
+      <div id="unlock-gift"><div class="button">Sign in to claim your gift</div></div>
     {{/unless}}
     {{loginButtons}}
+  </div>
+</template>
+<template name="unlockGift">
+  <div id="unlock-gift">
+    <div class="button {{active}}" data-role="unlock-gift">Claim your Christmas gift!</div>
   </div>
 </template>
 
