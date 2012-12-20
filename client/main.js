@@ -24,6 +24,9 @@ var messages = [
   // 4
   ,"The final level! Can you solve two puzzles using four cubes?"
   ,"This is it! Solve this one and you're entered for the bonus reward!"
+
+  // beat the game!
+  ,"Wow! You beat the game! You've been entered to win the bonus prize, great job!"
 ];
 var centerCube = 1 + 3 + 9;
 var onCubes, offCubes;
@@ -197,10 +200,19 @@ function nextLevel()
 
     triesEachLevel--;
 
+    nextMessage();
+
     var startingNewLevel = false;
     if (triesEachLevel == 0) {
       level++;
       subLevel = 1;
+
+      // there is no level 5. restart the game
+      if (level == 5) {
+        level = 1;
+        Session.set("message", 0);
+      }
+
       Session.set("level", level);
       triesEachLevel = TRIES_LEVEL[level - 1];
       startingNewLevel = true;
@@ -210,7 +222,6 @@ function nextLevel()
       subLevel++;
     }
 
-    nextMessage();
 
     Session.set("subLevel", subLevel);
     Session.set("numToggledCubes", 0);

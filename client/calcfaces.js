@@ -11,6 +11,7 @@ function calcFaces()
   }
 
   // solved!
+  // if we disable this line, we've successfully hacked the game
   if (count42 == 6)
     nextLevel();
 }
