@@ -39,6 +39,11 @@ Meteor.startup(function()
 {
   console.log("Initializing cube 42...");
 
+  if (!navigator.userAgent.match(/chrome/i)) {
+    showBrowserMessage();
+    return;
+  }
+
   if (Meteor.user()) {
     Session.set("level", Meteor.user().lastLevel.split("-")[0]);
     Session.set("subLevel", Meteor.user().lastLevel.split("-")[1]);
@@ -510,4 +515,10 @@ function spinCube()
       $("#master-cube").css("-webkit-transition-duration", "1s");
     });
   }, 3000);
+}
+
+function showBrowserMessage()
+{
+  $("#browser-message").show();
+  $("#start").hide();
 }
