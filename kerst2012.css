@@ -192,7 +192,13 @@ header:after {
   color: white;
 }
 
-#start, #instructions, #rankings, #gifts {
+#browser-message { display: none;}
+#browser-message a {
+  color: #e6e629;
+  text-decoration: none;
+}
+
+#start, #instructions, #rankings, #gifts, #browser-message {
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
   z-index: 99;
@@ -205,7 +211,7 @@ header:after {
   -webkit-user-select: none;
 }
 
-#welcome-screen, #rankings, #gifts {
+#welcome-screen, #rankings, #gifts, #browser-message {
   width: 596px; height: 100%;
   margin: 0 auto;
   padding: 100px 0;

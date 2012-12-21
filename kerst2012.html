@@ -20,6 +20,8 @@
   {{> message}}
   {{> rankings}}
   {{> gifts}}
+
+  {{> browserMessage}}
 </body>
 
 <template name="header">
@@ -194,5 +196,13 @@
     <figure class="left"><span></span></figure>
     <figure class="top"><span></span></figure>
     <figure class="bottom"><span></span></figure>
+  </div>
+</template>
+
+<template name="browserMessage">
+  <div id="browser-message">
+    <h2>Cube42 only works in Chrome!</h2>
+    <p>Don't have Chrome? Download it:</p>
+    <p><a href="https://www.google.com/intl/en/chrome/browser/" class="button">Download Chrome</a></p>
   </div>
 </template>
