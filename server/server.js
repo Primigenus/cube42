@@ -57,6 +57,13 @@ Meteor.startup(function() {
       if (!Meteor.user()) return;
       Meteor.users.update(this.userId, {$set: {lastLevel: level + "-" + sublevel}});
     },
+    removeMeFromGift: function(giftId, username) {
+      Gifts.update(giftId, {$pull: {recipients: username}});
+    },
+    addMeToGift: function(giftId, username) {
+      Gifts.update({}, {$pull: {recipients: username}}, {multi: true});
+      Gifts.update(giftId, {$push: {recipients: username}});
+    },
     sendGiftEmail: function(username, giftname) {
       if (Meteor.user().profile.username != username)
         return;

@@ -28,13 +28,12 @@ Template.gifts.events({
 
     // remove the user from this gift
     if (_.contains(gift.recipients, user.profile.name))
-      Gifts.update(this._id, {$pull: {recipients: user.profile.name}});
+      Meteor.call("removeMeFromGift", this._id, user.profile.name);
 
     // add the user to this gift, but remove the user from all other gifts
     else {
       hail = getHail();
-      Gifts.update({}, {$pull: {recipients: user.profile.name}}, {multi: true});
-      Gifts.update(this._id, {$push: {recipients: user.profile.name}});
+      Meteor.call("addMeToGift", this._id, user.profile.name);
       //Meteor.call("sendGiftEmail", Meteor.user().profile.name, this.name);
     }
     $(evt.target).toggleClass("selected");
