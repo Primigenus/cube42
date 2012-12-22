@@ -45,8 +45,11 @@ Meteor.startup(function()
   }
 
   if (Meteor.user()) {
-    Session.set("level", Meteor.user().lastLevel.split("-")[0]);
-    Session.set("subLevel", Meteor.user().lastLevel.split("-")[1]);
+    var lastLevel = Meteor.user().lastLevel;
+    if (lastLevel) {
+      Session.set("level", lastLevel.split("-")[0]);
+      Session.set("subLevel", lastLevel.split("-")[1]);
+    }
   }
   else {
     Session.set("level", level);
