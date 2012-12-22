@@ -9,3 +9,5 @@ accounts-facebook
 accounts-base
 accounts-ui
 email
+stylus
+coffeescript
