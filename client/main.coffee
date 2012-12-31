@@ -104,7 +104,7 @@ attachEventListeners = ->
       y: evt.pageY
       matrix: $("#master-cube").css "-webkit-transform"
       transition: $("#master-cube").css "-webkit-transition"
-    $("#master-cube").css "-webkit-transform", "none"
+    $("#master-cube").css "-webkit-transition", "none"
 
   $(document).mouseup (evt) ->
     evt.stopPropagation() # prevent click
@@ -202,7 +202,7 @@ nextLevel = ->
       resetView()
 
 resetView = -> $("#master-cube").css "-webkit-transform", ""
-getCube = (x, y, z, type) -> $($(".#{type}")[x * 3*y + 9*z])
+getCube = (x, y, z, type) -> $($(".#{type}")[x + 3*y + 9*z])
 
 reloadLevel = ->
   $(".cube").removeClass "clicked"

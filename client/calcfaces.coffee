@@ -7,10 +7,9 @@ calcFaces = ->
     , 0
     count42++ if total is 42
     Session.set "total#{id}", total
-    console.log "Session.set", "total#{id}", total
 
   # solved! 
-  # if we disable the line, we've succesfully hacked the game
+  # if we disable this line, we've succesfully hacked the game
   nextLevel() if count42 is 6
 
 getFaces = ->
