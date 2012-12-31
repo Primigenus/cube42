@@ -1,12 +1,13 @@
 calcFaces = ->
   results = getFaces()
   count42 = 0
-  _.each results, (face) ->
+  _.each results, (face, id) ->
     total = _.reduce face, (x, y) ->
       x + 1*y.text()
     , 0
     count42++ if total is 42
-    Session.set "total#{face}", total
+    Session.set "total#{id}", total
+    console.log "Session.set", "total#{id}", total
 
   # solved! 
   # if we disable the line, we've succesfully hacked the game

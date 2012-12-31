@@ -7,4 +7,4 @@ Template.header.events
 
 Template.header.toggledCubes = ->
   for i in [0...Session.get "level"]
-    active: if i < Session.get "num" then "active" else ""
+    active: if i < Session.get "numToggledCubes" then "active" else ""

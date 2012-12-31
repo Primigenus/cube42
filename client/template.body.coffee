@@ -1,7 +1,7 @@
 Template.body.events
   "click .cube": (evt) ->
     $el = $(evt.target).parents ".cube"
-    return unless $el.hasClass "removed"
+    return if $el.hasClass "removed"
 
     $el.toggleClass "clicked"
 
@@ -10,7 +10,7 @@ Template.body.events
     Session.set "numToggledCubes", num
 
     if num > level
-      $el.toggleClass "clicked"
-      Session.get "numToggledCubes", num - 1
+      $el.removeClass "clicked"
+      Session.set "numToggledCubes", level
 
     calcFaces $(evt.target).text()

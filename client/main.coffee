@@ -87,8 +87,8 @@ attachEventListeners = ->
     dir = e.which
 
     if dir is 37 then currentMatrix = "rotate3d(0,1,0,-90deg) #{currentMatrix}"
-    if dir is 39 then currentMatrix = "rotate3d(0,1,0,90deg) #{currentMatrix}"
-    if dir is 38 then currentMatrix = "rotate3d(1,0,0,90deg) #{currentMatrix}"
+    if dir is 39 then currentMatrix = "rotate3d(0,1,0,90deg)  #{currentMatrix}"
+    if dir is 38 then currentMatrix = "rotate3d(1,0,0,90deg)  #{currentMatrix}"
     if dir is 40 then currentMatrix = "rotate3d(1,0,0,-90deg) #{currentMatrix}"
 
     if dir in [37, 39, 38, 40]
@@ -103,12 +103,13 @@ attachEventListeners = ->
       x: evt.pageX
       y: evt.pageY
       matrix: $("#master-cube").css "-webkit-transform"
-      transition: $("#master-cube").css "-webkit-transform"
+      transition: $("#master-cube").css "-webkit-transition"
     $("#master-cube").css "-webkit-transform", "none"
 
   $(document).mouseup (evt) ->
     evt.stopPropagation() # prevent click
-    $("#master-cube").css "-webkit-transition", dragStartData?.transition
+    if dragStartData
+      $("#master-cube").css "-webkit-transition", dragStartData.transition
     dragStartData = null
 
   $(document).mousemove (evt) ->
@@ -271,9 +272,16 @@ showInstruction = (i) ->
 makePuzzle = (difficulty) ->
   console.log "Create level", difficulty, "puzzle"
 
+  # remove center cube
   $($(".cube")[centerCube]).addClass "clicked"
 
   # Really remove the off cubes from the last puzzle
+  $($(".cube")[offCubes[i]]).addClass "removed" for i in [0...offCubes.length]
+
+  # Choose new set of cubes to turn off
+  offCubes = onCubes.splice 0, difficulty
+
+  # and turn those off
   $($(".cube")[offCubes[i]]).toggleClass "clicked" for i in [0...offCubes.length]
 
   return tryPuzzle()
@@ -294,7 +302,7 @@ tryPuzzle = ->
     state[id] = sum: 0, emptyCount: face.length
     for i in [0...face.length]
       cubeid = face[i].parent().attr "data-nr"
-      cubeEffects[cubeid] ?= []
+      cubeEffects[cubeid] = cubeEffects[cubeid] || []
       cubeEffects[cubeid].push id
 
   # set others to zero
@@ -307,7 +315,7 @@ tryPuzzle = ->
       window.location.reload() if confirm "Can't create a puzzle. Reload?"
       return
 
-    $($(".cube")[i]).toggleClass "clicked" for i in [0...offCubes.length]
+    $($(".cube")[offCubes[i]]).toggleClass "clicked" for i in [0...offCubes.length]
 
     calcFaces()
 
@@ -325,7 +333,7 @@ findSolution = (depth) ->
   cubeid = onCubes[depth]
   shuffled = shuffles[depth]
 
-  for [0...9]
+  for i in [0...9]
     # try a value
     updateState cubeid, shuffled[i]
     if findSolution depth + 1
