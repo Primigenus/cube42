@@ -4,13 +4,13 @@ messages = [
   "Nice work. 4 more puzzles to go until level 2!"
   "3 more! Tip: if only one square lights up it's probably the center cube."
   "Now you're thinking with cubes."
-  "Almost there just one more!"
+  "One more until you can choose a gift!"
 
   # 2
   "Good job! Now complete four puzzles by hiding two cubes."
   "You're pretty good at this! Now do 3 more."
   "Have you ever considered becoming a professional puzzle solver? Keep going!"
-  "One more until you unlock your gifts!"
+  "Almost there, just one more!"
 
   # 3
   "Getting harder yet? Next up: solve three puzzles using three cubes at a time."
