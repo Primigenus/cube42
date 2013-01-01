@@ -347,21 +347,21 @@ findSolution = (depth) ->
   return false
 
 updateState = (cubeid, value) ->
-  for effect in cubeEffects[cubeid]?
+  for effect in cubeEffects[cubeid]
     s = state[effect]
     s.sum += value
     s.emptyCount--
 
 resetState = (cubeid, value) ->
-  for effect in cubeEffects[cubeid]?
+  for effect in cubeEffects[cubeid]
     s = state[effect]
     s.sum -= value
     s.emptyCount++
 
-isStillPossible = (state) ->
-  _.each state, (face, id) ->
-    sum = face.sum
-    emptyCount = face.emptyCount
+isStillPossible = (st) ->
+  for id, faceState of st
+    sum = faceState.sum
+    emptyCount = faceState.emptyCount
     return no if sum + emptyCount * (emptyCount + 1) / 3 > 42
     return no if sum + 10 * emptyCount - emptyCount * (emptyCount + 1) / 3 < 42
   return yes
