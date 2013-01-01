@@ -359,9 +359,9 @@ resetState = (cubeid, value) ->
     s.emptyCount++
 
 isStillPossible = (state) ->
-  for id in state
-    sum = state[id].sum
-    emptyCount = state[id].emptyCount
+  _.each state, (face, id) ->
+    sum = face.sum
+    emptyCount = face.emptyCount
     return no if sum + emptyCount * (emptyCount + 1) / 3 > 42
     return no if sum + 10 * emptyCount - emptyCount * (emptyCount + 1) / 3 < 42
   return yes
