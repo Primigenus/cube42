@@ -16,5 +16,5 @@ Template.unlockGift.events
     hasGift = Gifts.find(recipients: Meteor.user()?.profile?.name).count() > 0
     if hasGift then $(evt.target).text("Gift selected! Thanks!") else $(evt.target).text("Claim your Christmas gift!")
 
-  "click .unlock-button:active": ->
+  "click .unlock-button.active": ->
     showGifts()

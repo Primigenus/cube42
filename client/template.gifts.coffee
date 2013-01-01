@@ -4,12 +4,13 @@ hail = getHail()
 
 userHasGift = ->
   gift = Gifts.findOne recipients: Meteor.user()?.profile?.name
-  return if gift then true else false
+  gift?
 
 Template.gifts.events
   "click [data-role='welcome']": ->
     $("#start").show()
     $("#gifts").hide()
+
   "click #gifts li": (evt) ->
     user = Meteor.user()
     return unless user
@@ -30,7 +31,7 @@ Template.gifts.events
 Template.gifts.items = -> Gifts.find()
 
 Template.giftItem.isSelected = ->
-  _.contains @recipients?, Meteor.user()?.profile.name
+  _.contains @recipients, Meteor.user()?.profile.name
 
 Template.giftTitle.hail = ->
   str = "You win! Go ahead and pick something out."
