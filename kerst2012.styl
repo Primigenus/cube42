@@ -8,6 +8,7 @@ body
   color #efefef
   min-height 100%
   cursor default
+  -webkit-font-smoothing antialiased
 
 header
   font-size 24px
@@ -22,6 +23,9 @@ header
     display block
     clear both
     content ""
+
+a
+  color #555
 
 #level
   float left
@@ -153,7 +157,7 @@ header
     color #E6E629
 
 .rankings #rankings
-  display block 
+  display block
 
 #gifts
   display none
@@ -262,35 +266,35 @@ header
 
   &:nth-child(1)
     left 150px
-    top 50px 
+    top 50px
   &:nth-child(2)
     left 150px
-    top 100px 
+    top 100px
   &:nth-child(3)
     left 150px
-    top 500px 
+    top 500px
   &:nth-child(4)
     left 190px
-    top 280px 
+    top 280px
   &:nth-child(5)
     left 0
-    top 480px 
+    top 480px
     &:before, &:after
       left 20%
   &:nth-child(6)
     left 150px
-    top 250px 
+    top 250px
   &:nth-child(7)
     left 150px
-    top 500px 
+    top 500px
   &:nth-child(8)
     left 290px
-    top -30px 
+    top -30px
     &:before, &:after
       left 90%
   &:nth-child(9)
     left 0px
-    top -30px 
+    top -30px
     &:before, &:after
       left 45%
   &:nth-child(10)
@@ -437,7 +441,7 @@ h1
       left 0
       background -webkit-radial-gradient(center, hsla(120, 30%, 50%, 1), hsla(120, 30%, 50%, 1) 40%, hsla(120, 50%, 50%, 1))
     .char4
-      top 42px 
+      top 42px
       left 45px
       background -webkit-radial-gradient(center, hsla(180, 30%, 50%, 1), hsla(180, 30%, 50%, 1) 40%, hsla(180, 50%, 50%, 1))
 
@@ -456,6 +460,7 @@ h1
   font-size 24px
   cursor pointer
   box-shadow 0 0 10px #e6e629
+  -webkit-font-smoothing antialiased
 
   &.secondary
     box-shadow none
@@ -564,23 +569,23 @@ h1
       &.front
         -webkit-transform rotateY(   0deg ) translateZ( 100px )
         z-index 300
-      
+
       &.back
         -webkit-transform rotateY( 180deg ) translateZ( 100px )
         z-index 100
-      
+
       &.right
         -webkit-transform rotateY(  90deg ) translateZ( 100px )
         z-index 200
-      
+
       &.left
          -webkit-transform rotateY( -90deg ) translateZ( 100px )
         z-index 100
-      
+
       &.top
         -webkit-transform rotateX(  90deg ) translateZ( 100px )
         z-index 200
-      
+
       &.bottom
         -webkit-transform rotateX( -90deg ) translateZ( 100px )
         z-index 100
@@ -616,7 +621,7 @@ h1
 .front
   background hsla(0, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(0, 30%, 50%, 1), hsla(0, 30%, 50%, 1) 40%, hsla(0, 50%, 50%, 1))
 
-.back 
+.back
   background hsla(60, 30%, 50%, 1) -webkit-radial-gradient(center, hsla(60, 30%, 50%, 1), hsla(60, 30%, 50%, 1) 40%, hsla(60, 50%, 50%, 1))
 
 .right
