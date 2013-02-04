@@ -19,7 +19,7 @@ messages = [
 
   # 4
   "The final level! Can you solve two puzzles using four cubes?"
-  "This is it! Solve this one and you're entered for the bonus reward!"
+  "This is it! Solve this one and you've beaten the game!"
 
   # beat the game!
   "Wow! You beat the game! But... can you do it again?"
