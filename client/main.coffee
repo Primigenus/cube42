@@ -4,7 +4,7 @@ messages = [
   "Nice work. 4 more puzzles to go until level 2!"
   "3 more! Tip: if only one square lights up it's probably the center cube."
   "Now you're thinking with cubes."
-  "One more until you can choose a gift!"
+  "Just one more and you've reached level 2!"
 
   # 2
   "Good job! Now complete four puzzles by hiding two cubes."
@@ -15,14 +15,14 @@ messages = [
   # 3
   "Getting harder yet? Next up: solve three puzzles using three cubes at a time."
   "PROTIP: To defeat the Cyberdemon shoot at it until it dies."
-  "Yes! You're nearly to level 4! Only hardcore people who really want the bonus reward go there."
+  "Yes! You're nearly to level 4! Only truly hardcore puzzle solvers go there."
 
   # 4
   "The final level! Can you solve two puzzles using four cubes?"
   "This is it! Solve this one and you're entered for the bonus reward!"
 
   # beat the game!
-  "Wow! You beat the game! You've been entered to win the bonus prize great job!"
+  "Wow! You beat the game! But... can you do it again?"
 ]
 level = 0
 subLevel = 0
