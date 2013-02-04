@@ -39,7 +39,6 @@ t0 = 1 * new Date()
 state = {}
 shuffles = []
 cubeEffects = {}
-Gifts = new Meteor.Collection "gifts"
 
 Meteor.startup ->
   console.log "Initializing cube 42..."
@@ -57,7 +56,6 @@ Meteor.startup ->
     Session.set "level", level
     Session.set "subLevel", subLevel
 
-  Meteor.subscribe "gifts"
   Meteor.subscribe "all_users"
   Meteor.subscribe "extra_fields"
 
@@ -225,11 +223,6 @@ showRankings = ->
   $("#start, #messageContainer").hide()
   $("#rankings").show()
   $(document.body).addClass "rankings"
-
-showGifts = ->
-  $("#start, #messageContainer").hide()
-  $("#gifts").show()
-  $(document.body).addClass "gifts"
 
 showBrowserMessage = ->
   $("#browser-message").show()
