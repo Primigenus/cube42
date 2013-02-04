@@ -5,9 +5,9 @@
 
 preserve-inputs
 jquery
-accounts-facebook
 accounts-base
-accounts-ui
 email
 stylus
 coffeescript
+accounts-google
+accounts-ui-unstyled

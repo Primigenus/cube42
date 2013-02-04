@@ -2,13 +2,9 @@
   <meta charset="utf-8">
   <title>Cube42</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-
-  {{> login}}
-
   <header>
     {{> header}}
   </header>
@@ -19,7 +15,6 @@
   {{> totals}}
   {{> message}}
   {{> rankings}}
-  {{> gifts}}
 
   {{> browserMessage}}
 </body>
@@ -49,16 +44,16 @@
 
 <template name="start">
   <div id="start">
-    {{> login}}
     <div id="welcome-screen">
       <h1>
         <span data-role="lettering" class="title">Cube</span>
         <span class="cube-42">42</span>
       </h1>
       <h2>A 3d puzzle game</h2>
-      <div data-role="play" class="button">Play</div>
+      {{> login}}
       <div data-role="instructions" class="button secondary">Instructions</div>
       <div data-role="rankings" class="button secondary">Rankings</div>
+      <div data-role="feedback" class="button tertiary">Feedback</div>
       <div id="credits">
         &copy; <a href="http://q42.com">Q42</a> 2013
       </div>
@@ -88,39 +83,16 @@
   </div>
 </template>
 
-<template name="gifts">
-  <div id="gifts">
-    <h2>{{> giftTitle}}</h2>
-    <ul>
-      {{#each items}}
-        {{> giftItem}}
-      {{/each}}
-    </ul>
-    <div data-role="welcome" class="button secondary">Back</div>
-  </div>
-</template>
-<template name="giftTitle">
-  {{hail}}{{text}}
-</template>
-<template name="giftItem">
-  <li{{#if isSelected}} class="selected"{{/if}}><p>{{name}}</p></li>
-</template>
-
 <template name="login">
-  <div id="login">
-    {{#if currentUser}}
-      {{> unlockGift}}
-    {{/if}}
-    {{#unless currentUser}}
-      <div id="unlock-gift"><div class="unlock-button">Sign in to claim your gift</div></div>
-    {{/unless}}
-    {{loginButtons}}
-  </div>
-</template>
-<template name="unlockGift">
-  <div id="unlock-gift">
-    <div class="unlock-button {{active}}" data-role="unlock-gift">{{label}}</div>
-  </div>
+  {{#unless currentUser}}
+    <div id="login" class="button">
+      {{loginButtons}}
+    </div>
+    {{else}}
+    <div data-role="play" class="button">
+      Play
+    </div>
+  {{/unless}}
 </template>
 
 <template name="instructions">
