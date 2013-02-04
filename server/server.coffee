@@ -2,28 +2,6 @@
 # deploy pass: whatarewedoing
 
 Meteor.startup ->
-  Gifts = new Meteor.Collection "gifts"
-
-  # no docs? add some
-  if Gifts.find().count() is 0
-    gifts = [
-      "Whisky"
-      "Donation to the VSN"
-      "2 Staatsloterij lottery tickets"
-      "2 tickets to the Stedelijk museum"
-      "1 month subscription to Pepper"
-      "2 tickets to the Rijksmuseum"
-      "MENDO.nl book"
-      "Schaatsen.nl snow cap"
-      "Surprise me"
-    ]
-
-  _.each gifts, (gift) -> Gifts.insert
-    name: gift
-    recipients: []
-
-  Meteor.publish "gifts", -> Gifts.find()
-
   Meteor.publish "all_users", ->
     Meteor.users.find {}, fields:
       'profile.name': 1
@@ -47,12 +25,13 @@ Meteor.startup ->
       return unless Meteor.user()
       Meteor.users.update this.userId, $set: maxLevelReached: maxLevel
 
-    removeMeFromGift: (giftId, username) ->
-      Gifts.update giftId, $pull: recipients: username
-
-    addMeToGift: (giftId, username) ->
-      Gifts.update {}, {$pull: recipients: username}, multi: true
-      Gifts.update giftId, $push: recipients: username
+    sendFeedbackEmail: (text) ->
+      return unless Meteor.user()
+      Email.send
+        from: Meteor.user().email
+        to: "rahul@q42.nl"
+        subject: "Cube42 feedback"
+        text: text
 
   Accounts.onCreateUser (options, user) ->
     user.maxLevelReached = 1
