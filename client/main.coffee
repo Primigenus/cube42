@@ -74,9 +74,9 @@ Meteor.startup ->
   attachEventListeners()
 
 attachEventListeners = ->
-  window.onbeforeunload = ->
-    unless Meteor.user()
-      return "Are you sure you want to leave the page? You'll have to start over from 1-1!"
+  #window.onbeforeunload = ->
+  #  unless Meteor.user()
+  #   return "Are you sure you want to leave the page? You'll have to start over from 1-1!"
 
   $(document).keyup (e) ->
     Meteor.clearTimeout toh
