@@ -87,6 +87,9 @@
   {{#unless currentUser}}
     <div id="login" class="button">
       {{loginButtons}}
+      {{#if loggingIn}}
+        ...
+      {{/if}}
     </div>
     {{else}}
     <div data-role="play" class="button">
