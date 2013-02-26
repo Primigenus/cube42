@@ -48,14 +48,8 @@ Meteor.startup ->
     showBrowserMessage()
     return
 
-  if Meteor.user()
-    lastLevel = Meteor.user().lastLevel
-    if lastLevel
-      Session.set "level", lastLevel.split("-")[0]
-      Session.set "subLevel", lastLevel.split("-")[1]
-  else
-    Session.set "level", level
-    Session.set "subLevel", subLevel
+  Session.set "level", level
+  Session.set "subLevel", subLevel
 
   Meteor.subscribe "all_users"
   Meteor.subscribe "extra_fields"
@@ -185,8 +179,6 @@ nextLevel = ->
 
     else
       subLevel++
-
-    Meteor.call "saveLastLevel", level, subLevel
 
     Session.set "subLevel", subLevel
     Session.set "numToggledCubes", 0

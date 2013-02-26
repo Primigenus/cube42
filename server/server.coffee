@@ -6,7 +6,6 @@ Meteor.startup ->
     Meteor.users.find {}, fields:
       'profile.name': 1
       maxLevelReached: 1
-      lastLevel: 1
 
   Meteor.publish "extra_fields", ->
     Meteor.users.find _id: this.userId, fields:
@@ -22,10 +21,6 @@ Meteor.startup ->
         throw new Error "Invalid argument."
       return if Meteor.user() and (Meteor.user().maxLevelReached + 1 isnt maxLevel or maxLevel > 5)
       Meteor.users.update this.userId, $set: maxLevelReached: maxLevel
-
-    saveLastLevel: (level, sublevel) ->
-      return unless Meteor.user()
-      Meteor.users.update this.userId, $set: lastLevel: level
 
     sendFeedbackEmail: (text) ->
       return unless Meteor.user()
