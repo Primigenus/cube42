@@ -15,6 +15,7 @@
   {{> totals}}
   {{> message}}
   {{> rankings}}
+  {{> complete}}
 
   {{> browserMessage}}
 </body>
@@ -185,5 +186,15 @@
     <h2>Cube42 only works in Chrome!</h2>
     <p>Don't have Chrome? Download it:</p>
     <p><a href="https://www.google.com/intl/en/chrome/browser/" class="button">Download Chrome</a></p>
+  </div>
+</template>
+
+<template name="complete">
+  <div id="complete">
+    <h2>You beat the game!</h2>
+    <p>Good job!</p>
+    <p>You've been entered to win<br/>one of three Philips Hue sets.</p>
+    <p>Now, go back and beat the game again!</p>
+    <div data-role="welcome" class="button secondary">Back</div>
   </div>
 </template>

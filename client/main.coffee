@@ -170,6 +170,8 @@ nextLevel = ->
         Meteor.call "setMaxLevel", level
         level = 1
         Session.set "message", 0
+        $("#complete").show()
+        return
 
       Session.set "level", level
       triesEachLevel = TRIES_LEVEL[level - 1]
