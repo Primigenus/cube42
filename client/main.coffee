@@ -22,7 +22,8 @@ messages = [
   "This is it! Solve this one and you've beaten the game!"
 
   # beat the game!
-  "Wow! You beat the game! But... can you do it again?"
+  "Congrats on beating the game! You've been entered to win a set of Philips Hue lights."
+  # "Wow! You beat the game! But... can you do it again?"
 ]
 level = 0
 subLevel = 0
