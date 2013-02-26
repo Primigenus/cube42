@@ -279,7 +279,8 @@ tryPuzzle = ->
   puzzleGenerationAttempts--
 
   if puzzleGenerationAttempts is 0
-    window.location.reload() if confirm "Can't create a puzzle. Reload?"
+    # can't generate a workable puzzle with this configuration... try a new config
+    reloadLevel()
     puzzleGenerationAttempts = 42
     return
 
