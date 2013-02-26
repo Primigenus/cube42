@@ -2,7 +2,7 @@ messages = [
   # 1
   "Level 1 has five puzzles. Complete each one by hiding a single cube."
   "Nice work. 4 more puzzles to go until level 2!"
-  "3 more! Tip: if only one square lights up it's probably the center cube."
+  "3 more! Tip: if only one number lights up, you can probably solve with the center cube."
   "Now you're thinking with cubes."
   "Just one more and you've reached level 2!"
 
