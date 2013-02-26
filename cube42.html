@@ -81,9 +81,11 @@
         <span class="max-level">level {{maxLevelReached}}</span>
         {{/unless}}
       </li>
+      {{else}}
+        <li><span class="username">No one</span> has played yet :(</li>
       {{/each}}
     </ol>
-    <div data-role="welcome" class="button secondary">Back</div>
+    <div data-role="welcome" class="button tertiary">Back</div>
   </div>
 </template>
 
