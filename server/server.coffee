@@ -7,11 +7,6 @@ Meteor.startup ->
       'profile.name': 1
       maxLevelReached: 1
 
-  Meteor.publish "extra_fields", ->
-    Meteor.users.find _id: this.userId, fields:
-      'services.facebook.email': 1
-      'services.facebook.username': 1
-
   Meteor.methods
     # update maxlevel from the client, but only allow it to
     # update the value +1 higher than it already has

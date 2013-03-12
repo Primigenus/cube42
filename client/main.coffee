@@ -52,7 +52,6 @@ Meteor.startup ->
   Session.set "subLevel", subLevel
 
   Meteor.subscribe "all_users"
-  Meteor.subscribe "extra_fields"
 
   Session.set "message", -2
   Session.set "numToggledCubes", 0
